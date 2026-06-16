@@ -6,7 +6,7 @@ import Faq from '../components/Faq.astro';
 import { faqCategories } from '../lib/pages';
 
 const models = [
-  { t: 'Fixed-scope', d: 'For well-defined work — a website, a landing page — a clear scope and a clear price, agreed after the call.' },
+  { t: 'Fixed-scope', d: 'For well-defined work — a website, a landing page — a clear scope and a clear price, agreed up front.' },
   { t: 'Estimate, then build', d: 'For apps and custom systems, we estimate honestly, then build in stages so you stay in control.' },
   { t: 'Ongoing care', d: 'Hosting, updates, security and support — a real partnership long after launch.' },
 ];
@@ -59,5 +59,5 @@ const pricingFaq = faqCategories.find((c) => c.category === 'Pricing & ownership
     </div>
   </section>
 
-  <FinalCta title="Tell us what you're building." sub="The first call is free — we'll map out the right way to do it." />
+  <FinalCta title="Tell us what you're building." sub="Apply for a build and we'll map out the right way to do it." />
 </BaseLayout>
