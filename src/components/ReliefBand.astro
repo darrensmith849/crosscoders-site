@@ -1,13 +1,13 @@
 ---
 // A slim, centered "relief" band between busier sections — eyebrow + a balanced
-// headline (+ optional body), flanked by faint botanical line-art.
+// headline (+ optional body), flanked by faint Christian / botanical line-art.
 import Botanical from './Botanical.astro';
-interface Props { eyebrow?: string; title: string; body?: string }
-const { eyebrow = 'The promise', title, body } = Astro.props;
+interface Props { eyebrow?: string; title: string; body?: string; left?: string; right?: string }
+const { eyebrow = 'The promise', title, body, left = 'olive', right = 'dove' } = Astro.props;
 ---
 <section class="relief">
-  <Botanical kind="branch" class="bot-l" />
-  <Botanical kind="branch" class="bot-r" />
+  <Botanical kind={left as any} class="bot-l" />
+  <Botanical kind={right as any} class="bot-r" />
   <div class="wrap relief-in">
     <span class="eyebrow center">{eyebrow}</span>
     <h2 class="serif" set:html={title}></h2>
