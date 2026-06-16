@@ -1,9 +1,9 @@
 // Cloudflare Pages middleware — soft password gate for the investor preview.
-// Scoped ONLY to /invest/* : it does not touch any public page or the /api functions.
+// Scoped ONLY to /fund/* : it does not touch any public page or the /api functions.
 // Password: "Crosscoders" (matched case-insensitively, trimmed).
 const PASSWORD = 'crosscoders';
-const COOKIE = 'kc_invest';
-const TOKEN = 'kc-invest-ok';
+const COOKIE = 'kc_fund';
+const TOKEN = 'kc-fund-ok';
 
 export async function onRequest(context) {
   const { request, next } = context;
@@ -18,7 +18,7 @@ export async function onRequest(context) {
         status: 303,
         headers: {
           Location: url.pathname,
-          'Set-Cookie': `${COOKIE}=${TOKEN}; Path=/invest; HttpOnly; Secure; SameSite=Lax; Max-Age=43200`,
+          'Set-Cookie': `${COOKIE}=${TOKEN}; Path=/fund; HttpOnly; Secure; SameSite=Lax; Max-Age=43200`,
         },
       });
     }
