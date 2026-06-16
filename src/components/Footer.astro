@@ -7,7 +7,7 @@ import Mark from './Mark.astro';
   <div class="wrap">
     <div class="f-top">
       <div class="f-brand">
-        <a class="brand" href="/"><Mark />{brand.name}</a>
+        <a class="brand" href="/"><Mark /><span class="brand-tx"><span class="brand-name">{brand.name}</span><span class="brand-sub">{brand.org}</span></span></a>
         <p>A Christian nonprofit — we build apps, websites and AI, and give them free to churches and Christian organisations.</p>
         <span class="f-badge">A Christian nonprofit · Christ, code &amp; coffee</span>
         <a class="f-email" href={`mailto:${brand.email}`}>{brand.email}</a>

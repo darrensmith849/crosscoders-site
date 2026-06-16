@@ -49,7 +49,7 @@ const groups: { label: string; items: Item[] }[] = [
 <header>
   <div class="wrap">
     <nav>
-      <a class="brand" href="/"><Mark />{brand.name}</a>
+      <a class="brand" href="/"><Mark /><span class="brand-tx"><span class="brand-name">{brand.name}</span><span class="brand-sub">{brand.org}</span></span></a>
       <div class="nav-links">
         {groups.map((g) => (
           <div class="nav-item">

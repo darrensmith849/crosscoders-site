@@ -5,6 +5,7 @@ import PhotoBand from '../components/demos/PhotoBand.astro';
 import PhoneDuo from '../components/demos/PhoneDuo.astro';
 import Dashboard from '../components/demos/Dashboard.astro';
 import AgentChat from '../components/demos/AgentChat.astro';
+import ReliefBand from '../components/ReliefBand.astro';
 import { ctas, products } from '../lib/content';
 
 const icons: Record<string, string> = {
@@ -76,6 +77,12 @@ const appsProduct = products.find((p) => p.slug === 'web-mobile-apps');
       </div>
     </div>
   </section>
+
+  <ReliefBand
+    eyebrow="Why we exist"
+    title={"The people doing the most important work <span class='hl'>shouldn't have the worst tools.</span>"}
+    body="So we build world-class software and give it away — funded by supporters and paid work, multiplied by AI."
+  />
 
   <PhotoBand />
 

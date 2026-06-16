@@ -1,5 +1,6 @@
 export const brand = {
   name: 'CrossCoders',
+  org: 'Kingdom Come Foundation',
   tagline: 'Software worth believing in.',
   ethos: 'Christ, code & coffee.',
   email: 'hello@crosscoders.dev',

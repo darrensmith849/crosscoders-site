@@ -1,0 +1,21 @@
+---
+// Botanical line-art accents (coffee branch / leaf / bean / fern). Stroke uses
+// currentColor so a parent color + opacity controls how it reads. Decorative only.
+interface Props { kind?: 'branch' | 'fern' | 'leaf' | 'bean'; class?: string }
+const { kind = 'branch', class: cls = '' } = Astro.props;
+
+const fern = (() => {
+  const leaflets = [[230, 28], [200, 26], [170, 24], [140, 21], [110, 18], [84, 14], [60, 10], [40, 6]];
+  return '<path d="M40 258 Q 38 200, 40 130 Q 42 70, 40 26"/>' +
+    leaflets.map(([y, l]) => `<path d="M40 ${y} Q ${40 - l * 0.6} ${y - 4}, ${40 - l} ${y - 10}"/><path d="M40 ${y} Q ${40 + l * 0.6} ${y - 4}, ${40 + l} ${y - 10}"/>`).join('');
+})();
+
+const paths: Record<string, string> = {
+  branch: '<path d="M60 258 Q 58 180, 60 100 Q 62 60, 60 30"/><path d="M60 215 Q 35 218, 12 200 Q 30 215, 60 215 Z"/><path d="M60 215 L 18 205"/><path d="M60 215 Q 85 218, 108 200 Q 90 215, 60 215 Z"/><path d="M60 215 L 102 205"/><path d="M60 165 Q 38 170, 18 155 Q 35 165, 60 165 Z"/><path d="M60 165 L 24 158"/><path d="M60 165 Q 82 170, 102 155 Q 85 165, 60 165 Z"/><path d="M60 165 L 96 158"/><path d="M60 115 Q 42 118, 26 108 Q 40 115, 60 115 Z"/><path d="M60 115 L 30 110"/><path d="M60 115 Q 78 118, 94 108 Q 80 115, 60 115 Z"/><path d="M60 115 L 90 110"/><circle cx="55" cy="56" r="6"/><circle cx="65" cy="48" r="5.5"/><circle cx="60" cy="68" r="5.5"/><path d="M55 50 L 53 42"/><path d="M65 42 L 64 35"/><path d="M60 62 L 62 54"/>',
+  fern,
+  leaf: '<path d="M20 4 Q 36 22, 36 50 Q 32 70, 20 76 Q 8 70, 4 50 Q 4 22, 20 4 Z"/><path d="M20 6 L 20 74"/><path d="M20 22 L 11 28"/><path d="M20 22 L 29 28"/><path d="M20 38 L 8 46"/><path d="M20 38 L 32 46"/><path d="M20 54 L 11 60"/><path d="M20 54 L 29 60"/>',
+  bean: '<ellipse cx="12" cy="18" rx="9" ry="14"/><path d="M12 5 Q 14 10, 11 18 Q 10 26, 12 31"/>',
+};
+const vb: Record<string, string> = { branch: '0 0 120 260', fern: '0 0 80 260', leaf: '0 0 40 80', bean: '0 0 24 36' };
+---
+<svg class:list={['botanical', cls]} viewBox={vb[kind]} fill="none" stroke="currentColor" stroke-width={kind === 'bean' ? 1.4 : 0.9} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={paths[kind]}></svg>
