@@ -193,3 +193,135 @@ export const products: Product[] = [
 ];
 
 export const productBySlug = (slug: string) => products.find((p) => p.slug === slug);
+
+// ======================== THE QUEUE — churches in the pipeline ========================
+// Public, consented list of approved builds people can read about and fund.
+// Figures are ILLUSTRATIVE while the Foundation registers; real churches replace
+// these seed entries once they've consented to be listed.
+export const journey: { k: QueueStage | 'applied' | 'verified'; t: string; d: string }[] = [
+  { k: 'applied', t: 'Applied', d: 'A church tells us what they need.' },
+  { k: 'verified', t: 'Verified', d: 'We confirm a real, under-resourced ministry.' },
+  { k: 'approved', t: 'Approved', d: 'Accepted into the public queue.' },
+  { k: 'funding', t: 'Funding', d: 'Supporters pledge toward the build.' },
+  { k: 'building', t: 'Building', d: 'We design, build and train the team.' },
+  { k: 'shipped', t: 'Shipped', d: 'Live — and theirs to keep.' },
+];
+
+export const stageMeta: Record<QueueStage, { label: string; tone: string }> = {
+  approved: { label: 'Approved', tone: 'brass' },
+  funding: { label: 'Funding', tone: 'forest' },
+  building: { label: 'In build', tone: 'forest' },
+  shipped: { label: 'Shipped', tone: 'ink' },
+};
+
+export type QueueStage = 'approved' | 'funding' | 'building' | 'shipped';
+export type QueueChurch = {
+  slug: string;
+  name: string;
+  kind: string; // Church / Ministry / Christian nonprofit
+  region: string;
+  art: string; // ChurchArt illustration kind
+  image?: string; // optional real photo (overrides illustration)
+  stage: QueueStage;
+  tagline: string;
+  need: string[];
+  goal: number; // Rand to fund the build
+  raised: number; // pledged so far (illustrative)
+  story: string[];
+  outcome: string;
+};
+
+export const queue: QueueChurch[] = [
+  {
+    slug: 'grace-chapel',
+    name: 'Grace Chapel',
+    kind: 'Church',
+    region: 'Mdantsane, Eastern Cape',
+    art: 'steeple',
+    stage: 'building',
+    tagline: 'A 300-strong township church with no way to be found online.',
+    need: ['Website with sermons & events', 'Online giving', 'A “plan your visit” page'],
+    goal: 2500,
+    raised: 1850,
+    story: [
+      'Grace Chapel has served Mdantsane for over twenty years, but until now you couldn’t find them anywhere online — no website, no way to give, no way for a newcomer to know when services start.',
+      'Their pastor runs everything from a personal phone. Every week, visitors who searched for “church near me” simply never found them.',
+      'We’re building Grace a fast, beautiful site they can run themselves — sermons, events, and online giving — so the next person looking for a church home actually finds one.',
+    ],
+    outcome: 'Found on Google, giving online, and a team that can update it all themselves.',
+  },
+  {
+    slug: 'hope-community',
+    name: 'Hope Community Church',
+    kind: 'Church',
+    region: 'Khayelitsha, Western Cape',
+    art: 'modern',
+    stage: 'funding',
+    tagline: 'A growing congregation that lives on WhatsApp and needs a real home.',
+    need: ['A branded church app', 'Push notifications & events', 'Check-in for kids & volunteers'],
+    goal: 4000,
+    raised: 980,
+    story: [
+      'Hope Community has grown faster than its admin can keep up. Announcements, rosters and prayer requests all live in a tangle of WhatsApp groups.',
+      'They need a single home: a simple app for their people, with events, giving, and safe check-in for children and volunteers.',
+      'Fund this build and you give an overstretched team their evenings back — and give their congregation one place that just works.',
+    ],
+    outcome: 'One app for the whole church — events, giving and check-in, instead of fifteen WhatsApp groups.',
+  },
+  {
+    slug: 'lighthouse-youth',
+    name: 'Lighthouse Youth',
+    kind: 'Youth ministry',
+    region: 'Soweto, Gauteng',
+    art: 'lighthouse',
+    stage: 'approved',
+    tagline: 'A youth ministry turning hundreds away because sign-ups are chaos.',
+    need: ['Event & camp sign-ups', 'A simple website', 'An after-hours questions chatbot'],
+    goal: 3000,
+    raised: 0,
+    story: [
+      'Lighthouse runs camps and outreach for hundreds of young people across Soweto — and every event sign-up is a paper-and-pen scramble that loses kids in the gaps.',
+      'They’ve just been approved into the queue. They need online sign-ups, a site parents trust, and a chatbot to answer the after-hours questions that flood their leaders’ phones.',
+      'Be the first to pledge toward Lighthouse and help get this build funded.',
+    ],
+    outcome: 'Every young person signed up in seconds — and no leader answering DMs at midnight.',
+  },
+  {
+    slug: 'new-life-mission',
+    name: 'New Life Mission',
+    kind: 'Christian nonprofit',
+    region: 'Polokwane, Limpopo',
+    art: 'hands',
+    stage: 'funding',
+    tagline: 'A feeding-and-discipleship mission drowning in spreadsheets.',
+    need: ['A donor & supporter platform', 'Automated thank-yous & receipts', 'Impact reporting'],
+    goal: 6000,
+    raised: 2200,
+    story: [
+      'New Life feeds and disciples families across Limpopo, funded entirely by a faithful base of small donors — tracked, painfully, in a dozen spreadsheets.',
+      'They lose hours every week to manual receipts and reporting, and donors rarely hear what their giving achieved.',
+      'This build gives them a proper supporter platform with automated receipts and impact reports — so they can spend their time on people, not paperwork.',
+    ],
+    outcome: 'Hours back every week, donors who feel the impact, and reporting that builds itself.',
+  },
+  {
+    slug: 'cornerstone-fellowship',
+    name: 'Cornerstone Fellowship',
+    kind: 'Church',
+    region: 'Pietermaritzburg, KwaZulu-Natal',
+    art: 'chapel',
+    stage: 'shipped',
+    tagline: 'Our first free build — live, and theirs to keep.',
+    need: ['Website with media & giving', 'Self-serve CMS', 'SEO foundations'],
+    goal: 2500,
+    raised: 2500,
+    story: [
+      'Cornerstone was the proof that this works. A small fellowship with a big heart and a budget that never stretched to a website.',
+      'In a matter of weeks we built and launched their site — sermons, events and online giving — and trained their team to run it themselves.',
+      'It’s live today, fully funded by supporters like you. This is what every entry in this queue becomes.',
+    ],
+    outcome: 'Live, found, giving online — and run entirely by their own team.',
+  },
+];
+
+export const queueBySlug = (slug: string) => queue.find((c) => c.slug === slug);

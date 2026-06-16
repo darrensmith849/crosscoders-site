@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ChurchArt from '../../../components/ChurchArt.astro';
+import JourneyStrip from '../../../components/JourneyStrip.astro';
+import QueueGrid from '../../../components/QueueGrid.astro';
+import { queue, stageMeta, type QueueChurch } from '../../../lib/content';
+
+export function getStaticPaths() {
+  return queue.map((c) => ({ params: { slug: c.slug }, props: { church: c } }));
+}
+interface Props { church: QueueChurch }
+const { church: c } = Astro.props;
+const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
+const pct = Math.min(100, Math.round((c.raised / c.goal) * 100));
+const remaining = Math.max(0, c.goal - c.raised);
+const shipped = c.stage === 'shipped';
+const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
+---
+<BaseLayout
+  title={`${c.name} — ${c.kind} in our queue | CrossCoders Foundation`}
+  description={c.tagline}
+>
+  <section class="qhero">
+    <div class="wrap qhero-in">
+      <div class="qhero-art">
+        {c.image ? <img src={c.image} alt={c.name} /> : <ChurchArt kind={c.art} />}
+      </div>
+      <div class="qhero-tx">
+        <a class="qback" href="/foundation/queue">← The queue</a>
+        <span class={`qpill qpill-${stageMeta[c.stage].tone}`}>{stageMeta[c.stage].label}</span>
+        <h1 class="serif">{c.name}</h1>
+        <p class="qhero-meta">{c.kind} · {c.region}</p>
+        <p class="qhero-tag">{c.tagline}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap qdetail">
+      <article class="qstory">
+        <span class="eyebrow">Their story</span>
+        {c.story.map((p) => <p>{p}</p>)}
+        <div class="colh" style="margin-top:26px">What this build gives them</div>
+        <ul class="ulist">{c.need.map((n) => <li>{n}</li>)}</ul>
+        <div class="qoutcome"><b>Where it gets them —</b> {c.outcome}</div>
+      </article>
+
+      <aside class="qpanel" data-slug={c.slug} data-name={c.name}>
+        <div class="qpanel-fund">
+          <div class="qpanel-amt"><b>{R(c.raised)}</b> <span>of {R(c.goal)} {shipped ? 'funded' : 'pledged'}</span></div>
+          <div class="qbar lg"><span style={`width:${pct}%`}></span></div>
+          <div class="qpanel-sub">{shipped ? 'Fully funded — live and theirs to keep.' : `${R(remaining)} to go · ${pct}% of the way there`}</div>
+        </div>
+
+        {!shipped && (
+          <form class="qpledge" data-pledgeform>
+            <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+            <div class="colh">Pledge toward this build</div>
+            <div class="qchips" role="group" aria-label="Pledge amount">
+              <button type="button" class="qchip" data-v="50">R50</button>
+              <button type="button" class="qchip on" data-v="100">R100</button>
+              <button type="button" class="qchip" data-v="250">R250</button>
+              <button type="button" class="qchip" data-v="500">R500</button>
+            </div>
+            <input type="hidden" name="amount" value="100" />
+            <div class="field"><label>Your name *</label><input name="name" required /></div>
+            <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
+            <div class="field"><label>A message for them (optional)</label><textarea name="message" rows="2"></textarea></div>
+            <button class="btn btn-primary" type="submit">Pledge <span class="qbtnamt">R100</span> <span class="arrow">→</span></button>
+            <p class="qfine">Pledges register your intent — no money moves yet. Giving opens once the Foundation is registered, and we'll email you to complete it.</p>
+          </form>
+        )}
+
+        <form class="qfollow" data-followform>
+          <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+          <div class="colh">Follow this build</div>
+          <p class="qfollow-p">Get an email as {c.name} moves from funded → building → launched.</p>
+          <div class="qfollow-row">
+            <input name="email" type="email" placeholder="you@email.com" required />
+            <button class="btn btn-ghost" type="submit">Follow</button>
+          </div>
+        </form>
+      </aside>
+    </div>
+  </section>
+
+  <section class="psec oak">
+    <div class="wrap">
+      <span class="eyebrow center">Where {c.name} is on the journey</span>
+      <h2 class="serif jhead">The path of this build.</h2>
+      <JourneyStrip current={c.stage} onWood={true} />
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">More in the queue</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.7rem,3vw,2.2rem)">Other churches you could help.</h2>
+      <QueueGrid items={others} />
+    </div>
+  </section>
+
+  <script>
+    function wire(form, intent) {
+      if (!form) return;
+      const panel = form.closest('.qpanel');
+      const slug = panel?.getAttribute('data-slug') || '';
+      const name = panel?.getAttribute('data-name') || '';
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type=submit]');
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.intent = intent; data.church = slug; data.churchName = name;
+        data.source = `Queue ${intent} — ${name}`;
+        const orig = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sending…';
+        try {
+          const r = await fetch('/api/pledge', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok || !j.ok) throw new Error();
+          const msg = intent === 'pledge'
+            ? `<div class="apply-done"><h3 class="serif">Thank you — that means a lot.</h3><p>We’ve logged your pledge of ${data.amount ? 'R' + data.amount : 'support'} toward ${name}. We’ll email you the moment giving opens so you can complete it.</p></div>`
+            : `<div class="apply-done"><h3 class="serif">You’re following ${name}.</h3><p>We’ll email you as this build moves forward — funded, building, launched.</p></div>`;
+          form.outerHTML = msg;
+        } catch {
+          btn.disabled = false; btn.innerHTML = orig;
+          let m = form.querySelector('.apply-err');
+          if (!m) { m = document.createElement('p'); m.className = 'apply-err'; btn.insertAdjacentElement('afterend', m); }
+          m.textContent = 'Sorry — something went wrong. Please email hello@crosscoders.dev and we’ll sort it out.';
+        }
+      });
+    }
+    const pf = document.querySelector('[data-pledgeform]');
+    if (pf) {
+      const amt = pf.querySelector('input[name=amount]');
+      const lbl = pf.querySelector('.qbtnamt');
+      pf.querySelectorAll('.qchip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          pf.querySelectorAll('.qchip').forEach((c) => c.classList.remove('on'));
+          chip.classList.add('on');
+          const v = chip.getAttribute('data-v');
+          if (amt) amt.value = v; if (lbl) lbl.textContent = 'R' + v;
+        });
+      });
+    }
+    wire(pf, 'pledge');
+    wire(document.querySelector('[data-followform]'), 'follow');
+  </script>
+</BaseLayout>

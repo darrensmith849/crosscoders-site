@@ -1,0 +1,26 @@
+---
+import { queue, stageMeta, type QueueChurch } from '../lib/content';
+import ChurchArt from './ChurchArt.astro';
+interface Props { items?: QueueChurch[] }
+const { items = queue } = Astro.props;
+const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
+const pct = (c: QueueChurch) => Math.min(100, Math.round((c.raised / c.goal) * 100));
+---
+<div class="qgrid">
+  {items.map((c) => (
+    <a class="qcard" href={`/foundation/queue/${c.slug}`}>
+      <div class={`qcover ca-bg-${c.art}`}>
+        {c.image ? <img src={c.image} alt={c.name} loading="lazy" /> : <ChurchArt kind={c.art} />}
+        <span class={`qpill qpill-${stageMeta[c.stage].tone}`}>{stageMeta[c.stage].label}</span>
+      </div>
+      <div class="qbody">
+        <div class="qmeta">{c.kind} · {c.region}</div>
+        <h3 class="serif">{c.name}</h3>
+        <p class="qtag">{c.tagline}</p>
+        <div class="qbar"><span style={`width:${pct(c)}%`}></span></div>
+        <div class="qfund"><b>{R(c.raised)}</b> of {R(c.goal)} {c.stage === 'shipped' ? 'funded' : 'pledged'} · <span class="qpct">{pct(c)}%</span></div>
+        <span class="qlink">{c.stage === 'shipped' ? 'Read their story' : 'Read their story & pledge'} <span class="arrow">→</span></span>
+      </div>
+    </a>
+  ))}
+</div>

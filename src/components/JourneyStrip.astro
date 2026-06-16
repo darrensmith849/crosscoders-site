@@ -1,0 +1,17 @@
+---
+// The path a build takes through the Foundation. Pass `current` (a QueueStage)
+// to highlight where a specific church is.
+import { journey } from '../lib/content';
+interface Props { current?: string; onWood?: boolean }
+const { current, onWood = false } = Astro.props;
+const order = journey.map((j) => j.k);
+const curIdx = current ? order.indexOf(current as any) : -1;
+---
+<ol class:list={['journey', { wood: onWood }]}>
+  {journey.map((s, i) => (
+    <li class:list={['jstep', { done: curIdx >= 0 && i <= curIdx, now: curIdx === i }]}>
+      <span class="jdot">{curIdx >= 0 && i < curIdx ? '✓' : i + 1}</span>
+      <div class="jtx"><b>{s.t}</b><i>{s.d}</i></div>
+    </li>
+  ))}
+</ol>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import QueueGrid from '../../../components/QueueGrid.astro';
+import JourneyStrip from '../../../components/JourneyStrip.astro';
+import FinalCta from '../../../components/FinalCta.astro';
+---
+<BaseLayout
+  title="The queue — churches we're building for | CrossCoders Foundation"
+  description="Meet the churches and ministries in the CrossCoders Foundation queue. Read their story, see what their build needs, and pledge toward the one closest to your heart."
+>
+  <PageHero
+    eyebrow="The Foundation · the queue"
+    title={"The churches we're <em class='us-forest'>building for.</em>"}
+    sub="Every church here has applied, been verified, and approved into our queue. Read their story, see what their build needs — and pledge toward the one closest to your heart."
+    cta={false}
+  />
+
+  <section class="psec oak">
+    <div class="wrap">
+      <span class="eyebrow center">How a build happens</span>
+      <h2 class="serif jhead">From a quiet need to a launched build.</h2>
+      <p class="jsub">Everyone follows the same path. Funding is what moves a church from approved to building — so a pledge here genuinely brings a launch closer.</p>
+      <JourneyStrip onWood={true} />
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <div class="qnote-band">
+        <span class="eyebrow">In the queue now</span>
+        <p>These are illustrative examples while the Foundation completes registration — real, consented churches replace them as they're approved. Pledges register your intent to give; no money moves yet.</p>
+      </div>
+      <QueueGrid />
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">Lead a church?</span>
+        <h2 class="serif" style="margin:16px 0 14px;font-size:clamp(1.8rem,3.2vw,2.4rem)">Get your church into the queue.</h2>
+        <p style="color:var(--ink-soft);line-height:1.7">If you're an under-resourced church, ministry or Christian nonprofit, tell us what you need. Every application is read and reviewed — and approved ones land right here.</p>
+        <a class="btn btn-primary" href="/foundation/apply" style="margin-top:22px">Apply for a build <span class="arrow">→</span></a>
+      </div>
+      <div>
+        <span class="eyebrow">Want to give broadly?</span>
+        <h2 class="serif" style="margin:16px 0 14px;font-size:clamp(1.8rem,3.2vw,2.4rem)">Fuel whoever's next.</h2>
+        <p style="color:var(--ink-soft);line-height:1.7">Not sure which to choose? Give to the general fund and we'll direct it to the church nearest the front of the queue.</p>
+        <a class="btn btn-ghost" href="/foundation" style="margin-top:22px">The giving hub <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <FinalCta title="Bring a launch closer." sub="Pledge toward a church in the queue, or apply to get your own build added. No pressure, no catch." />
+</BaseLayout>

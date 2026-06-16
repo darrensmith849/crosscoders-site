@@ -1,0 +1,52 @@
+---
+// On-brand SVG "cover" illustrations for queue entries that don't have a real
+// photo yet. Pass a real image via the card's `image` field to override.
+interface Props { kind?: string; class?: string }
+const { kind = 'chapel', class: cls = '' } = Astro.props;
+
+const L = '#3A2C20'; // line
+const buildings: Record<string, string> = {
+  chapel:
+    '<rect x="116" y="112" width="92" height="78" rx="2" fill="#FBF6EA" stroke="#3A2C20" stroke-width="3"/>' +
+    '<path d="M108 114 L162 74 L216 114 Z" fill="#13B24A" stroke="#3A2C20" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M162 74 V50 M152 60 H172" stroke="#C9A961" stroke-width="4.5" stroke-linecap="round"/>' +
+    '<path d="M150 190 V162 a12 12 0 0 1 24 0 V190 Z" fill="#0E8A38" stroke="#3A2C20" stroke-width="2.5"/>' +
+    '<circle cx="132" cy="140" r="7" fill="#E5C685" stroke="#3A2C20" stroke-width="2"/>' +
+    '<circle cx="192" cy="140" r="7" fill="#E5C685" stroke="#3A2C20" stroke-width="2"/>',
+  steeple:
+    '<rect x="150" y="120" width="86" height="70" fill="#FBF6EA" stroke="#3A2C20" stroke-width="3"/>' +
+    '<path d="M144 122 L193 92 L242 122 Z" fill="#13B24A" stroke="#3A2C20" stroke-width="3" stroke-linejoin="round"/>' +
+    '<rect x="96" y="96" width="44" height="94" fill="#FBF6EA" stroke="#3A2C20" stroke-width="3"/>' +
+    '<path d="M92 96 L118 56 L144 96 Z" fill="#13B24A" stroke="#3A2C20" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M118 56 V34 M108 44 H128" stroke="#C9A961" stroke-width="4.5" stroke-linecap="round"/>' +
+    '<rect x="110" y="112" width="16" height="22" rx="8" fill="#E5C685" stroke="#3A2C20" stroke-width="2"/>' +
+    '<path d="M180 190 V158 a13 13 0 0 1 26 0 V190 Z" fill="#0E8A38" stroke="#3A2C20" stroke-width="2.5"/>',
+  modern:
+    '<path d="M86 190 L160 62 L234 190 Z" fill="#FBF6EA" stroke="#3A2C20" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M160 62 L160 190 L86 190 Z" fill="#13B24A" opacity="0.12"/>' +
+    '<path d="M160 62 V190" stroke="#3A2C20" stroke-width="2" opacity="0.4"/>' +
+    '<rect x="140" y="138" width="40" height="52" fill="#E5C685" stroke="#3A2C20" stroke-width="2.5"/>' +
+    '<path d="M160 138 V190 M140 158 H180" stroke="#3A2C20" stroke-width="1.5" opacity="0.5"/>' +
+    '<path d="M160 56 V34 M150 44 H170" stroke="#C9A961" stroke-width="4.5" stroke-linecap="round"/>',
+  lighthouse:
+    '<path d="M138 190 L146 84 L174 84 L182 190 Z" fill="#FBF6EA" stroke="#3A2C20" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M147 118 H173 M144 150 H176" stroke="#13B24A" stroke-width="11" opacity="0.55"/>' +
+    '<rect x="146" y="66" width="28" height="20" fill="#E5C685" stroke="#3A2C20" stroke-width="2.5"/>' +
+    '<path d="M142 66 L160 48 L178 66 Z" fill="#13B24A" stroke="#3A2C20" stroke-width="2.5" stroke-linejoin="round"/>' +
+    '<path d="M176 72 L240 54 M176 80 L240 96" stroke="#C9A961" stroke-width="3" stroke-linecap="round" opacity="0.6"/>' +
+    '<circle cx="160" cy="76" r="3.5" fill="#C9A961"/>',
+  hands:
+    '<circle cx="160" cy="130" r="34" fill="#E5C685" opacity="0.3"/>' +
+    '<path d="M78 150 Q 80 178 100 190 Q 130 206 160 206 Q 190 206 220 190 Q 240 178 242 150 Q 232 144 224 150 Q 226 168 210 178 Q 188 192 160 192 Q 132 192 110 178 Q 94 168 96 150 Q 88 144 78 150 Z" fill="#FBF6EA" stroke="#3A2C20" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M96 150 Q 103 137 117 141 M224 150 Q 217 137 203 141" fill="none" stroke="#3A2C20" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M132 189 V173 M160 192 V174 M188 189 V173" stroke="#3A2C20" stroke-width="2" opacity="0.35" stroke-linecap="round"/>' +
+    '<path d="M160 121 C 150 107, 129 111, 131 130 C 133 144, 160 158, 160 158 C 160 158, 187 144, 189 130 C 191 111, 170 107, 160 121 Z" fill="#13B24A" stroke="#3A2C20" stroke-width="2.5" stroke-linejoin="round"/>',
+};
+const inner = buildings[kind] || buildings.chapel;
+---
+<svg class:list={['churchart', `ca-${kind}`, cls]} viewBox="0 0 320 220" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <circle cx="256" cy="56" r="24" fill="#E5C685" opacity="0.45" />
+  <path d="M0 190 Q 90 162 200 184 T 320 178" fill="#13B24A" opacity="0.08" />
+  <Fragment set:html={inner} />
+  <path d="M40 190 H280" stroke={L} stroke-width="2.5" stroke-linecap="round" opacity="0.45" />
+</svg>
