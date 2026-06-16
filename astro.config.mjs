@@ -3,5 +3,5 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://crosscoders.dev',
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/invest') })],
 });

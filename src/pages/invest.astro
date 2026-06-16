@@ -1,0 +1,262 @@
+---
+// CONFIDENTIAL — gated investor / partner preview. Password-protected at the edge by
+// functions/invest/_middleware.js (password: "Crosscoders"). Standalone page: it does
+// NOT use the public Header/Footer or appear in the public nav or sitemap.
+// Kingdom Come Foundation is the umbrella; CrossCoders is the first venture under it.
+import '../styles/global.css';
+import KingdomMark from '../components/KingdomMark.astro';
+import Mark from '../components/Mark.astro';
+import { brand, give } from '../lib/content';
+
+const r = (n: number) => 'R' + n.toLocaleString('en-ZA');
+const title = 'Kingdom Come Foundation — Investor Preview';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#161310" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content="Confidential investor preview — Kingdom Come Foundation." />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class="pitch">
+    <div class="conf"><span class="cdot"></span> Confidential · Investor preview · Please don't share</div>
+
+    <!-- ============ HERO ============ -->
+    <header class="p-hero">
+      <div class="p-hero-glow"></div>
+      <div class="wrap p-hero-in">
+        <div class="p-logo"><KingdomMark size={92} /></div>
+        <span class="eyebrow center p-eye">Kingdom Come Foundation</span>
+        <h1 class="serif p-title">Until His Kingdom<br /><em>comes</em>.</h1>
+        <p class="p-lead">A gospel foundation built to empower the Church across the board — pairing
+          technology, mercy, and the work of willing hands. <strong>CrossCoders is where it
+          starts. It is not where it ends.</strong></p>
+        <div class="p-slogan mono">“Equip the Church · serve the least · advance the gospel”</div>
+      </div>
+      <div class="p-scroll">scroll ↓</div>
+    </header>
+
+    <!-- ============ WHY WE EXIST ============ -->
+    <section class="p-sec">
+      <div class="wrap p-narrow">
+        <span class="eyebrow">Why we exist</span>
+        <h2 class="serif p-h2">The Church is rich in heart, and thin on resources.</h2>
+        <p class="p-body">A small church can carry a whole community — and still can't afford the
+          website, the app, the giving tools or the helping hands that a corner shop takes for
+          granted. Kingdom Come Foundation exists to close that gap. We pair the best of modern
+          technology with the oldest of callings: to love God, serve people, and make the gospel
+          tangible — for the church that can't pay for it, and the people the world overlooks.</p>
+      </div>
+    </section>
+
+    <!-- ============ THE UMBRELLA ============ -->
+    <section class="p-sec p-dark">
+      <div class="wrap">
+        <span class="eyebrow center">The model</span>
+        <h2 class="serif p-h2 center">One foundation. Many hands.</h2>
+        <p class="p-body center p-narrow" style="margin-inline:auto">Kingdom Come Foundation is the
+          umbrella. Every venture beneath it serves the same end — the Church, the least of these,
+          and the gospel. CrossCoders is the first and the engine; more will follow.</p>
+
+        <div class="umbrella">
+          <div class="u-top">
+            <div class="u-crown"><KingdomMark size={64} /></div>
+            <div class="u-name serif">Kingdom Come Foundation</div>
+            <div class="u-tag">the umbrella · everything gospel-related</div>
+          </div>
+          <div class="u-stem"></div>
+          <div class="u-grid">
+            <div class="u-card u-live">
+              <div class="u-card-h"><Mark size={26} /> <b>CrossCoders</b> <span class="u-badge">Live</span></div>
+              <p>Free, world-class software for under-resourced churches — funded by paid work, multiplied by AI.</p>
+            </div>
+            <div class="u-card"><div class="u-card-h">🕊️ <b>Orphan &amp; family care</b> <span class="u-badge soon">Next</span></div><p>Supporting homes and carers who raise the children no one else will.</p></div>
+            <div class="u-card"><div class="u-card-h">🧶 <b>The Makers</b> <span class="u-badge soon">Next</span></div><p>Backing the women who knit and sew for churches, the cold and the homeless in their spare time.</p></div>
+            <div class="u-card"><div class="u-card-h">🤝 <b>Giving &amp; relief</b> <span class="u-badge soon">Next</span></div><p>Infrastructure for generosity — feeding, shelter, and getting help where the gospel is already at work.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CROSSCODERS — THE FIRST FRUIT ============ -->
+    <section class="p-sec">
+      <div class="wrap">
+        <span class="eyebrow">The first venture</span>
+        <h2 class="serif p-h2">CrossCoders — the engine under the roof.</h2>
+        <div class="p-two">
+          <div>
+            <p class="p-body">A Christian software studio that designs and builds apps, websites,
+              AI agents and automation — then gives them <strong>free</strong> to under-resourced
+              churches and Christian organisations. It's funded by paid client work and by
+              supporters, and its output is multiplied by AI, so a small senior team can serve
+              many. Paid work doesn't distract from the mission — it <em>funds</em> it.</p>
+            <ul class="p-list">
+              <li>Apps &amp; websites that let a tiny church look and operate like a big one.</li>
+              <li>Giving tools, member care, and a public build queue the community can fund.</li>
+              <li>AI agents &amp; automation that do the work of a back office no church can afford.</li>
+            </ul>
+          </div>
+          <div class="p-stats">
+            <div class="p-stat"><div class="n serif">10×</div><div class="l">leverage — every <b>R1</b> does about <b>R10</b> of work, through AI</div></div>
+            <div class="p-stat"><div class="n serif">{r(give.costPerBuild)}</div><div class="l">to put one church online — a full build</div></div>
+            <div class="p-stat"><div class="n serif">~{give.peoplePerBuild}</div><div class="l">people reached per church we equip</div></div>
+            <div class="p-stat"><div class="n serif">{r(give.goal)}</div><div class="l">first goal — {Math.floor(give.goal / give.costPerBuild)} churches online</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IMPACT ON THE CHURCH ============ -->
+    <section class="p-sec p-paper">
+      <div class="wrap">
+        <span class="eyebrow">The impact</span>
+        <h2 class="serif p-h2">How this empowers the Church — across the board.</h2>
+        <div class="p-cards">
+          <div class="p-card"><h3 class="serif">Presence</h3><p>Every church online with a site and app worth being proud of — found on Google, easy to join, alive on a phone.</p></div>
+          <div class="p-card"><h3 class="serif">Provision</h3><p>Modern giving and the public build queue, so the wider body of Christ funds the next church to come online.</p></div>
+          <div class="p-card"><h3 class="serif">People</h3><p>Member care, follow-up and check-in tools that help shepherds actually shepherd — no one falls through the cracks.</p></div>
+          <div class="p-card"><h3 class="serif">Power</h3><p>AI agents that answer, schedule and serve 24/7 — giving the smallest ministry the back office of a large one.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE BIGGER VISION ============ -->
+    <section class="p-sec p-dark">
+      <div class="wrap p-narrow">
+        <span class="eyebrow center">The bigger vision</span>
+        <h2 class="serif p-h2 center">If it serves the Church and the gospel, it belongs under this roof.</h2>
+        <p class="p-body center">Software is only the beginning. The same foundation that puts a church
+          online can fund the home that raises an orphan, back the woman who knits blankets for the
+          homeless, and move generosity to where the gospel is already at work. Different hands, one
+          Kingdom. We build the engine first — CrossCoders — and let it fund the rest.</p>
+      </div>
+    </section>
+
+    <!-- ============ WHY INVEST ============ -->
+    <section class="p-sec">
+      <div class="wrap">
+        <span class="eyebrow">Why partner with us</span>
+        <h2 class="serif p-h2">A Kingdom return — and a model that scales.</h2>
+        <div class="p-cards p-cards-3">
+          <div class="p-card"><h3 class="serif">Leverage</h3><p>AI multiplies every rand. A team of a few does the work of many, so your investment goes <b>~10× further</b> than traditional giving.</p></div>
+          <div class="p-card"><h3 class="serif">A self-funding engine</h3><p>Paid client work pays the bills and funds the free builds. It's a mission with a business under it — not a bucket with a hole in it.</p></div>
+          <div class="p-card"><h3 class="serif">A brand people believe in</h3><p>Excellent, modern, unashamedly Christian. The kind of work churches show off and partners are proud to stand behind.</p></div>
+        </div>
+        <div class="p-ask">
+          <h3 class="serif">The ask</h3>
+          <p>We're inviting founding partners and investors to fuel the foundation — to scale CrossCoders,
+            register the Foundation, and launch the next gospel venture beneath it. Whether you give,
+            invest, or open a door, you're helping put the Church where it should be: at the front.</p>
+          <a class="btn btn-primary" href={`mailto:${brand.email}?subject=Kingdom%20Come%20Foundation%20—%20partnering`}>Start a conversation <span class="arrow">→</span></a>
+          <p class="p-note">In formation — not yet a registered nonprofit, so nothing here is an offer of
+            securities or a claim of tax-deductibility. Figures are early and illustrative until real
+            build costs and the Foundation's registration are confirmed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="p-foot">
+      <div class="wrap">
+        <div class="p-foot-mark"><KingdomMark size={40} animated={false} /></div>
+        <div class="p-foot-name serif">Kingdom Come Foundation</div>
+        <div class="p-verse">{brand.verse}</div>
+        <div class="p-foot-meta">Confidential investor preview · CrossCoders is a venture of Kingdom Come Foundation · {brand.email}</div>
+      </div>
+    </footer>
+
+    <style>
+      .pitch { background: var(--bone); }
+      .pitch main, .pitch { overflow-x: hidden; }
+      .conf { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: center; gap: 8px;
+        background: var(--charcoal); color: var(--cream-muted); font-size: .74rem; letter-spacing: .04em; padding: 7px 16px; text-align: center; }
+      .cdot { width: 7px; height: 7px; border-radius: 50%; background: var(--forest-bright); box-shadow: 0 0 0 0 rgba(63,209,116,.6); animation: cpulse 2s infinite; }
+      @keyframes cpulse { 0% { box-shadow: 0 0 0 0 rgba(63,209,116,.5); } 70% { box-shadow: 0 0 0 7px rgba(63,209,116,0); } 100% { box-shadow: 0 0 0 0 rgba(63,209,116,0); } }
+
+      .p-hero { position: relative; background: var(--charcoal); color: var(--cream-d); padding: clamp(3.5rem,9vw,7rem) 0 clamp(3rem,7vw,5.5rem); text-align: center; overflow: hidden; }
+      .p-hero-glow { position: absolute; inset: 0; background:
+        radial-gradient(ellipse 700px 460px at 50% 8%, rgba(201,169,97,.20), transparent 62%),
+        radial-gradient(ellipse 800px 520px at 50% 100%, rgba(19,178,74,.10), transparent 60%); }
+      .p-hero-in { position: relative; z-index: 1; }
+      .p-logo { display: flex; justify-content: center; margin-bottom: 26px; }
+      .p-eye { color: var(--brass-bright) !important; }
+      .p-eye::before { background: var(--brass-bright) !important; }
+      .p-title { font-size: clamp(2.8rem,7vw,5.2rem); line-height: 1; margin: 14px 0 0; color: var(--cream-d); }
+      .p-title em { color: var(--brass-bright); }
+      .p-lead { max-width: 620px; margin: 26px auto 0; font-size: clamp(1.05rem,1.7vw,1.32rem); line-height: 1.6; color: var(--cream-muted); }
+      .p-lead strong { color: var(--cream-d); font-weight: 600; }
+      .p-slogan { margin-top: 28px; font-size: .82rem; color: var(--brass); letter-spacing: .02em; }
+      .p-scroll { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--cream-dim); }
+
+      .p-sec { padding: clamp(3.5rem,7vw,6rem) 0; }
+      .p-paper { background: var(--paper); border-block: 1px solid var(--line); }
+      .p-dark { background: var(--espresso); color: var(--cream-d); }
+      .p-dark .eyebrow { color: var(--forest-bright); } .p-dark .eyebrow::before { background: var(--forest-bright); }
+      .p-narrow { max-width: 760px; }
+      .p-h2 { font-size: clamp(1.9rem,3.8vw,2.9rem); line-height: 1.08; margin: 16px 0 20px; }
+      .p-dark .p-h2 { color: var(--cream-d); }
+      .center { text-align: center; }
+      .p-body { font-size: clamp(1.02rem,1.4vw,1.16rem); line-height: 1.7; color: var(--ink-soft); }
+      .p-dark .p-body { color: var(--cream-muted); }
+      .p-body strong { color: var(--ink); } .p-dark .p-body strong { color: var(--cream-d); }
+
+      .p-two { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px,4vw,56px); align-items: start; margin-top: 30px; }
+      .p-list { list-style: none; margin: 18px 0 0; display: grid; gap: 12px; }
+      .p-list li { position: relative; padding-left: 26px; color: var(--ink-soft); line-height: 1.5; }
+      .p-list li::before { content: "✦"; position: absolute; left: 0; top: 1px; color: var(--brass-deep); }
+      .p-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .p-stat { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 18px; box-shadow: var(--shadow); }
+      .p-stat .n { font-size: clamp(1.7rem,3vw,2.3rem); color: var(--forest-deep); line-height: 1; }
+      .p-stat .l { font-size: .82rem; color: var(--ink-soft); margin-top: 8px; line-height: 1.45; }
+      .p-stat .l b { color: var(--ink); }
+
+      .p-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 34px; }
+      .p-cards-3 { grid-template-columns: repeat(3,1fr); }
+      .p-card { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px 22px; box-shadow: var(--shadow); }
+      .p-dark .p-card { background: var(--mocha); border-color: var(--dline); }
+      .p-card h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--ink); }
+      .p-dark .p-card h3 { color: var(--cream-d); }
+      .p-card p { font-size: .92rem; line-height: 1.55; color: var(--ink-soft); }
+      .p-dark .p-card p { color: var(--cream-muted); }
+
+      .umbrella { margin: 44px auto 0; max-width: 980px; }
+      .u-top { text-align: center; }
+      .u-crown { display: flex; justify-content: center; margin-bottom: 14px; }
+      .u-name { font-size: clamp(1.4rem,2.6vw,1.9rem); color: var(--cream-d); }
+      .u-tag { font-size: .8rem; color: var(--brass); margin-top: 4px; letter-spacing: .02em; }
+      .u-stem { width: 2px; height: 40px; margin: 16px auto 0; background: linear-gradient(var(--brass), transparent); }
+      .u-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 8px; }
+      .u-card { background: var(--mocha); border: 1px solid var(--dline); border-radius: var(--r); padding: 18px 16px; }
+      .u-card.u-live { border-color: rgba(63,209,116,.42); box-shadow: 0 0 0 1px rgba(63,209,116,.18); }
+      .u-card-h { display: flex; align-items: center; gap: 8px; font-size: .98rem; color: var(--cream-d); margin-bottom: 8px; flex-wrap: wrap; }
+      .u-card p { font-size: .84rem; line-height: 1.5; color: var(--cream-muted); }
+      .u-badge { font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; background: var(--forest-deep); color: #fff; font-weight: 600; }
+      .u-badge.soon { background: rgba(245,239,224,.12); color: var(--cream-dim); }
+
+      .p-ask { margin: 40px auto 0; max-width: 720px; text-align: center; background: var(--espresso); color: var(--cream-d); border-radius: var(--r-lg); padding: clamp(28px,4vw,44px); }
+      .p-ask h3 { font-size: 1.5rem; color: var(--cream-d); margin-bottom: 12px; }
+      .p-ask p { color: var(--cream-muted); line-height: 1.65; }
+      .p-ask .btn { margin-top: 22px; }
+      .p-note { font-size: .74rem !important; color: var(--cream-dim) !important; margin-top: 22px; line-height: 1.5; }
+
+      .p-foot { background: var(--charcoal); color: var(--cream-dim); text-align: center; padding: 48px 0; }
+      .p-foot-mark { display: flex; justify-content: center; margin-bottom: 14px; }
+      .p-foot-name { color: var(--cream-d); font-size: 1.15rem; }
+      .p-verse { font-family: 'Fraunces', serif; font-style: italic; color: var(--brass); margin: 10px auto 16px; max-width: 460px; font-size: .95rem; }
+      .p-foot-meta { font-size: .76rem; color: var(--cream-dim); }
+
+      @media (max-width: 860px) {
+        .p-two { grid-template-columns: 1fr; }
+        .p-cards, .p-cards-3, .u-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 560px) {
+        .p-cards, .p-cards-3, .u-grid, .p-stats { grid-template-columns: 1fr; }
+      }
+    </style>
+  </body>
+</html>

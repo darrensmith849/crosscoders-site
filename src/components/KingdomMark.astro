@@ -1,0 +1,74 @@
+---
+// Kingdom Come Foundation logo mark — a cross standing on the horizon against a
+// rising dawn, set in the same brand tile as the CrossCoders mark so the two read
+// as a family. "Alive": the dawn breathes and the rays shimmer in sequence.
+// Fully self-contained (its own <style>) so it can travel across brands.
+interface Props { size?: number; animated?: boolean }
+const { size = 32, animated = true } = Astro.props;
+const cls = animated ? 'kc-mark is-alive' : 'kc-mark';
+---
+<svg class={cls} width={size} height={size} viewBox="0 0 100 100" role="img" aria-label="Kingdom Come Foundation" focusable="false">
+  <defs>
+    <linearGradient id="kcSun" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#9C7F3F" />
+      <stop offset=".55" stop-color="#C9A961" />
+      <stop offset="1" stop-color="#E5C685" />
+    </linearGradient>
+    <radialGradient id="kcGlow" cx="50%" cy="66%" r="58%">
+      <stop offset="0" stop-color="#E5C685" stop-opacity=".55" />
+      <stop offset="1" stop-color="#E5C685" stop-opacity="0" />
+    </radialGradient>
+    <clipPath id="kcTile"><rect x="6" y="6" width="88" height="88" rx="20" /></clipPath>
+  </defs>
+
+  <rect x="6" y="6" width="88" height="88" rx="20" fill="#161310" stroke="rgba(245,239,224,0.10)" stroke-width="1.5" />
+
+  <g clip-path="url(#kcTile)">
+    <circle class="kc-glow" cx="50" cy="64" r="36" fill="url(#kcGlow)" />
+
+    <g class="kc-rays" stroke="#C9A961" stroke-width="2.4" stroke-linecap="round">
+      <line x1="50" y1="64" x2="50" y2="13" />
+      <line x1="50" y1="64" x2="33" y2="16" />
+      <line x1="50" y1="64" x2="67" y2="16" />
+      <line x1="50" y1="64" x2="20" y2="26" />
+      <line x1="50" y1="64" x2="80" y2="26" />
+      <line x1="50" y1="64" x2="11" y2="45" />
+      <line x1="50" y1="64" x2="89" y2="45" />
+    </g>
+
+    <path d="M22 64 a28 28 0 0 1 56 0 Z" fill="url(#kcSun)" />
+
+    <!-- horizon ground masks the lower half of the sun + rays -->
+    <rect x="4" y="64" width="92" height="32" fill="#161310" />
+    <line x1="13" y1="64" x2="87" y2="64" stroke="#3FD174" stroke-width="2.4" stroke-linecap="round" opacity=".92" />
+
+    <g class="kc-cross" fill="#F5EFE0">
+      <rect x="46.4" y="29" width="7.2" height="43" rx="2.6" />
+      <rect x="37.5" y="41" width="25" height="7.2" rx="2.6" />
+    </g>
+  </g>
+</svg>
+
+<style>
+  .kc-mark { display: block; }
+  .kc-rays line { opacity: .42; }
+  .kc-mark.is-alive .kc-glow { animation: kc-breathe 4.2s ease-in-out infinite; transform-origin: 50px 64px; }
+  .kc-mark.is-alive .kc-rays line { animation: kc-shimmer 3.4s ease-in-out infinite; }
+  .kc-mark.is-alive .kc-rays line:nth-child(1) { animation-delay: 0s; }
+  .kc-mark.is-alive .kc-rays line:nth-child(2) { animation-delay: .45s; }
+  .kc-mark.is-alive .kc-rays line:nth-child(3) { animation-delay: .9s; }
+  .kc-mark.is-alive .kc-rays line:nth-child(4) { animation-delay: 1.3s; }
+  .kc-mark.is-alive .kc-rays line:nth-child(5) { animation-delay: .65s; }
+  .kc-mark.is-alive .kc-rays line:nth-child(6) { animation-delay: 1.7s; }
+  .kc-mark.is-alive .kc-rays line:nth-child(7) { animation-delay: 1.05s; }
+  .kc-mark.is-alive .kc-cross { animation: kc-rise 5s ease-in-out infinite; transform-origin: 50px 60px; }
+  @keyframes kc-shimmer { 0%, 100% { opacity: .3; } 50% { opacity: .95; } }
+  @keyframes kc-breathe { 0%, 100% { opacity: .7; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.08); } }
+  @keyframes kc-rise { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.2px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .kc-mark.is-alive .kc-glow,
+    .kc-mark.is-alive .kc-rays line,
+    .kc-mark.is-alive .kc-cross { animation: none; }
+    .kc-rays line { opacity: .7; }
+  }
+</style>
