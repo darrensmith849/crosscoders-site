@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+
+<BaseLayout title="Support the CrossCoders Foundation — fund free software for churches" description="Donate, sponsor a build for a specific church, partner or volunteer — and help put world-class tools in the hands of under-resourced churches.">
+  <PageHero eyebrow="The Foundation" title="Support the mission." sub="Your support multiplies — senior craft and AI mean more software per gift, in the hands of churches who need it most." cta={false} />
+
+  <section class="psec">
+    <div class="wrap prose">
+      <span class="eyebrow">Why it goes further</span>
+      <p style="margin-top:18px;font-size:1.18rem;color:var(--ink-soft);line-height:1.75">A gift here stretches further than a normal donation: because we pair senior craft with AI, every pound or dollar funds more finished software. You’re not buying hours — you’re funding outcomes for real churches.</p>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Three ways to give</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Build something that lasts.</h2>
+      <div class="paths">
+        <div class="card"><h3 class="serif">Donate</h3><p>One-off or monthly — every gift funds free builds for churches.</p></div>
+        <div class="card"><h3 class="serif">Sponsor a build</h3><p>Fund a free website, app or system for a specific, named church.</p></div>
+        <div class="card"><h3 class="serif">Partner or volunteer</h3><p>Networks, sponsors, and skilled volunteers — multiply the impact.</p></div>
+      </div>
+      <div class="note" style="margin-top:24px"><b>Giving is opening soon.</b> Tell us below how you’d like to help and we’ll be in touch with the best way to give.</div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap formwrap">
+      <form action="#" method="post">
+        <div class="field"><label>Your name *</label><input name="name" required /></div>
+        <div class="field"><label>Organisation (if any)</label><input name="org" /></div>
+        <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
+        <div class="field"><label>How would you like to help?</label><select name="interest"><option>Donate</option><option>Sponsor a build</option><option>Partner</option><option>Volunteer my skills</option></select></div>
+        <div class="field"><label>Message</label><textarea name="message"></textarea></div>
+        <button class="btn btn-primary" type="submit">Get in touch <span class="arrow">→</span></button>
+      </form>
+      <aside class="sidecard">
+        <h4>Where it goes</h4>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.6">Your support funds free and subsidised builds for under-resourced churches and ministries. We’re committed to being clear about how funds are used and what gets built.</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

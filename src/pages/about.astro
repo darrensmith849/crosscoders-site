@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+import PhotoCluster from '../components/demos/PhotoCluster.astro';
+import PhotoFigure from '../components/demos/PhotoFigure.astro';
+
+const values = [
+  { t: 'Excellence as worship', d: 'We build everything — paid or free, large or small — like it’s being seen by Someone who notices.' },
+  { t: 'Service', d: 'We care about your mission as much as your software. Your win is the point.' },
+  { t: 'Integrity', d: 'Honest advice, honest timelines, honest pricing. Even when it costs us.' },
+  { t: 'Craft', d: 'Custom, considered, and built to last — never a template with your name on it.' },
+];
+const team = [
+  { name: 'Darren', role: 'Studio & strategy', bio: 'Leads the studio, client work and the mission — making sure the right things get built for the right reasons.' },
+  { name: 'Daniel', role: 'Engineering & AI', bio: 'Leads the build — apps, agents and the AI leverage that lets a small team do extraordinary work.' },
+  { name: 'The team', role: 'Design & delivery', bio: 'A small, senior group who care about the craft and the people it serves.' },
+];
+---
+
+<BaseLayout
+  title="About CrossCoders — a Christian software studio | Christ, code & coffee"
+  description="Meet the small senior team behind CrossCoders — why we build, what we believe, and how excellent work becomes worship."
+>
+  <PageHero
+    eyebrow="Christ, code & coffee"
+    title="A small team, building like it matters."
+    sub="Senior people, big leverage, and a real mission — software worth believing in."
+  />
+
+  <section class="psec">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">Our story</span>
+        <h2 class="serif" style="margin:16px 0 16px;font-size:clamp(1.9rem,3.4vw,2.5rem)">Built by people who care about the mission.</h2>
+        <p style="color:var(--ink-soft);line-height:1.75;font-size:1.08rem">CrossCoders started with a simple conviction: the people doing the most important work often have the worst tools. Churches, ministries and mission-driven teams deserve world-class software — not clip-art templates and clunky systems. So we build it, pair it with AI to make it affordable, and give as much of it away as we can.</p>
+      </div>
+      <PhotoCluster
+        imgA="/img/ws-01.jpg"
+        altA="A sunlit studio desk with plants, wood and a screen mid-build"
+        imgB="/img/ws-09.jpg"
+        altB="A diverse team working together over laptops and coffee"
+        card={{ big: '$18,420', s: 'given this month', up: '▲ 12%' }}
+      />
+    </div>
+  </section>
+
+  <section class="psec dark">
+    <div class="wrap">
+      <span class="eyebrow">What we believe</span>
+      <h2 class="serif" style="margin:16px 0 30px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Why we build the way we do.</h2>
+      <div class="grid3">
+        {values.map((v) => (
+          <div class="card" style="background:var(--mocha);border-color:var(--dline)"><h3 class="serif" style="color:var(--cream-d)">{v.t}</h3><p style="color:var(--cream-muted)">{v.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">The team</span>
+      <h2 class="serif" style="margin:16px 0 30px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Across South Africa and beyond.</h2>
+      <div class="team">
+        {team.map((m) => (
+          <div class="tcard"><div class="av"></div><h4>{m.name}</h4><div class="role">{m.role}</div><p>{m.bio}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap two">
+      <PhotoFigure
+        img="/img/ws-06.jpg"
+        alt="The team and friends talking over coffee in a bright, plant-filled space"
+        portrait={true}
+        pos="br"
+        card={{ kind: 'status', t: 'Over coffee', s: 'where the best work starts' }}
+      />
+      <div>
+        <span class="eyebrow">Christ, code &amp; coffee</span>
+        <h2 class="serif" style="margin:16px 0 16px;font-size:clamp(1.9rem,3.4vw,2.5rem)">We build it like it matters — because it does.</h2>
+        <p style="color:var(--ink-soft);line-height:1.75;font-size:1.08rem">No junior hand-offs, no template factory. Just senior people who care about your mission, building carefully, and treating excellent work as a form of worship.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap" style="max-width:720px">
+      <span class="eyebrow">The Foundation</span>
+      <p class="lead" style="margin-top:18px;font-size:1.22rem">We believe every church deserves a home online — not just the ones who can afford it. Our paid work funds free builds for those who can’t. <a href="/foundation" style="color:var(--forest-deep);text-decoration:underline">Explore the Foundation →</a></p>
+    </div>
+  </section>
+
+  <FinalCta />
+</BaseLayout>

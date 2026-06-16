@@ -1,0 +1,12 @@
+---
+import ProductLayout from '../../layouts/ProductLayout.astro';
+import { products } from '../../lib/content';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+const { product } = Astro.props;
+---
+
+<ProductLayout product={product} />

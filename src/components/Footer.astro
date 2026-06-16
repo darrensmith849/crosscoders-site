@@ -1,0 +1,52 @@
+---
+import { brand, products } from '../lib/content';
+import { segments } from '../lib/pages';
+import Mark from './Mark.astro';
+---
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a class="brand" href="/"><Mark />{brand.name}</a>
+        <p>A Christian software studio building apps, websites and AI for organisations on a mission.</p>
+      </div>
+      <div class="fcols">
+        <div class="fcol">
+          <h5>Build</h5>
+          {products.map((p) => <a href={`/services/${p.slug}`}>{p.name}</a>)}
+        </div>
+        <div class="fcol">
+          <h5>For</h5>
+          {segments.map((s) => <a href={`/for/${s.slug}`}>{s.label.replace('For ', '')}</a>)}
+        </div>
+        <div class="fcol">
+          <h5>Studio</h5>
+          <a href="/services">What we build</a>
+          <a href="/ai">Our approach</a>
+          <a href="/process">How we work</a>
+          <a href="/work">Work</a>
+          <a href="/about">About</a>
+          <a href="/work-with-us">Work with us</a>
+          <a href="/insights">Insights</a>
+          <a href="/faq">FAQ</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="fcol">
+          <h5>Mission</h5>
+          <a href="/foundation">The Foundation</a>
+          <a href="/foundation/apply">Apply for a build</a>
+          <a href="/foundation/support">Support us</a>
+        </div>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 {brand.name}. {brand.tagline}</span>
+      <span class="verse">{brand.verse}</span>
+    </div>
+    <div class="fbot" style="border:0;padding-top:8px;font-size:.8rem">
+      <span><a href="/privacy" style="color:var(--cream-dim)">Privacy</a> · <a href="/terms" style="color:var(--cream-dim)">Terms</a></span>
+      <span>Built with {brand.builtWith}</span>
+    </div>
+  </div>
+</footer>

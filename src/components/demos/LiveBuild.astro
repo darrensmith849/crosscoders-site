@@ -1,0 +1,27 @@
+---
+// Live "watch your site build itself" window. Animated by src/scripts/demos.js.
+interface Props { url?: string }
+const { url = 'gracechapel.org' } = Astro.props;
+---
+<div class="buildwrap">
+  <div class="buildwin">
+    <div class="bw-bar">
+      <div class="bw-dots"><i style="background:#E06A57"></i><i style="background:#E8B84B"></i><i style="background:#3FD174"></i></div>
+      <span class="bw-url">{url}</span>
+      <span class="bw-pill"><i></i><span class="txt">building</span></span>
+    </div>
+    <div class="bw-stage">
+      <div class="bw-pointer"><svg viewBox="0 0 24 24"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div>
+      <div class="bw-nav ba"><div class="bw-logo"></div><div class="bw-links"><span></span><span></span><span></span></div></div>
+      <div class="bw-hero">
+        <div class="bw-h"></div>
+        <div class="bw-line ba"></div><div class="bw-line s ba"></div>
+        <div class="bw-btn ba"></div>
+      </div>
+      <div class="bw-cards"><div class="bw-card ba"></div><div class="bw-card ba"></div><div class="bw-card ba"></div></div>
+      <div class="bw-foot ba"></div>
+    </div>
+    <div class="bw-status"><span class="d"></span><span class="mono">initialising…</span><span class="bw-cursor"></span></div>
+  </div>
+  <div class="bw-float"><span class="av"></span><div><p class="t">You, over coffee</p><p class="m">watching it come together</p></div></div>
+</div>

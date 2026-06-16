@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Faq from '../components/Faq.astro';
+import { faqCategories } from '../lib/pages';
+
+const models = [
+  { t: 'Fixed-scope', d: 'For well-defined work — a website, a landing page — a clear scope and a clear price, agreed after the call.' },
+  { t: 'Estimate, then build', d: 'For apps and custom systems, we estimate honestly, then build in stages so you stay in control.' },
+  { t: 'Ongoing care', d: 'Hosting, updates, security and support — a real partnership long after launch.' },
+];
+const drivers = ['How big and complex it is', 'How custom vs off-the-shelf', 'Integrations with your other tools', 'Ongoing support and care'];
+const why = ['Senior craft × AI = more for less', 'Custom, never templates', 'You own what we build', 'A real partnership, not a vendor'];
+const pricingFaq = faqCategories.find((c) => c.category === 'Pricing & ownership')!.items;
+---
+
+<BaseLayout title="Ways to work together — CrossCoders software studio" description="How we work with churches, ministries and businesses — engagement models, what shapes a project, and the give-back model. Every project is scoped together once you apply.">
+  <PageHero eyebrow="Ways to work together" title="Let's find the right way to build it." sub="We don't do off-the-shelf price tags — every project is scoped together after you apply, so you only pay for what you need." />
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">How we work</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Three ways to engage.</h2>
+      <div class="grid3">
+        {models.map((m) => (
+          <div class="card"><h3 class="serif">{m.t}</h3><p>{m.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">What shapes a project</span>
+        <h2 class="serif" style="margin:16px 0 16px;font-size:clamp(1.8rem,3.2vw,2.4rem)">Honest about the cost drivers.</h2>
+        <ul class="ulist">{drivers.map((d) => <li>{d}</li>)}</ul>
+      </div>
+      <div>
+        <span class="eyebrow">Why CrossCoders</span>
+        <h2 class="serif" style="margin:16px 0 16px;font-size:clamp(1.8rem,3.2vw,2.4rem)">More for less, and yours.</h2>
+        <ul class="ulist">{why.map((d) => <li>{d}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <div class="note"><b>The give-back model.</b> Every paying client helps fund free software for under-resourced churches through the CrossCoders Foundation. When you build with us, you're funding the mission too. <a href="/foundation" style="color:var(--forest-deep);text-decoration:underline">See the Foundation →</a></div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Pricing & ownership</span>
+      <h2 class="serif" style="margin:16px 0 22px;font-size:clamp(1.9rem,3.6vw,2.6rem)">The honest answers.</h2>
+      <Faq items={pricingFaq} />
+    </div>
+  </section>
+
+  <FinalCta title="Tell us what you're building." sub="The first call is free — we'll map out the right way to do it." />
+</BaseLayout>

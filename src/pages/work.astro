@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+import PhotoBand from '../components/demos/PhotoBand.astro';
+
+const examples = [
+  { cat: 'Websites', t: 'A church website + online giving', d: 'Sermons, events, plan-your-visit and giving — run by the team in minutes.' },
+  { cat: 'AI agents', t: 'A ministry admin agent', d: 'Triages requests, drafts replies and keeps the back office tidy, 24/7.' },
+  { cat: 'Apps', t: 'A giving & member platform', d: 'Recurring giving, donor dashboards and a mobile app, all in one.' },
+];
+---
+
+<BaseLayout title="Our work — apps, websites & AI for the mission | CrossCoders" description="Work we're proud to put our name on — apps, websites, AI agents and automation for churches, ministries and mission-driven teams.">
+  <PageHero eyebrow="Our work" title="Work we're proud of." sub="We're a new studio — real case studies land here as we ship them. Here's the kind of work we build." />
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">The kind of work we do</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Built for the mission.</h2>
+      <div class="grid3">
+        {examples.map((e) => (
+          <div class="card"><div class="eyebrow" style="margin-bottom:12px">{e.cat}</div><h3 class="serif">{e.t}</h3><p>{e.d}</p></div>
+        ))}
+      </div>
+      <p style="margin-top:30px;color:var(--ink-mute)">These illustrate what we build, not specific clients — real, named case studies will appear here as projects ship.</p>
+    </div>
+  </section>
+
+  <PhotoBand
+    img="/img/ws-03.jpg"
+    alt="A warm, considered workspace where custom software takes shape"
+    eyebrow="Our craft"
+    title="Custom, considered, and unmistakably yours."
+    body="Every build is made from scratch around how you actually work — fast to ship, beautiful to use, and built to last. Real, named case studies will land here as projects go live."
+    c1={{ t: 'Shipped', s: 'church website + giving' }}
+    c2={{ t: 'New build', s: 'a ministry agent, live' }}
+    c3={{ big: '100%', s: 'custom', up: 'no templates' }}
+  />
+
+  <FinalCta title="Be one of our first stories." sub="Let's build something worth writing up. The first call is free." />
+</BaseLayout>

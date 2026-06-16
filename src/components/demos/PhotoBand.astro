@@ -1,0 +1,38 @@
+---
+// Full-bleed workspace photo with floating frosted "live" cards. Reusable across pages.
+interface Card { t: string; s: string }
+interface StatCard { big: string; s: string; up?: string }
+interface Props {
+  img?: string; alt?: string;
+  eyebrow?: string; title?: string; body?: string;
+  c1?: Card; c2?: Card; c3?: StatCard;
+}
+const {
+  img = '/img/ws-04.jpg',
+  alt = 'A warm, plant-filled studio workspace where the team collaborates over coffee',
+  eyebrow = 'The people behind it',
+  title = 'Real people, building real software — over coffee.',
+  body = "A small, senior team who care about your mission as much as your code. The screens are ours; the heart behind them is too.",
+  c1 = { t: 'Deployed · grace.app', s: 'live in 4 minutes' },
+  c2 = { t: 'New member', s: 'Sarah M. just joined' },
+  c3 = { big: '$18,420', s: 'given this month', up: '▲ 12%' },
+} = Astro.props;
+---
+<section class="photoband rev">
+  <img class="pb-img" src={img} alt={alt} loading="lazy" decoding="async" />
+  <div class="pb-ov"></div>
+  <div class="wrap pb-in">
+    <div class="pb-grid">
+      <div class="pb-copy">
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 class="serif">{title}</h2>
+        <p>{body}</p>
+      </div>
+      <div class="pb-stage">
+        <div class="pb-card pb-c1"><div class="row"><span class="gd"></span><div><div class="t">{c1.t}</div><div class="s">{c1.s}</div></div></div></div>
+        <div class="pb-card pb-c2"><div class="row"><span class="av"></span><div><div class="t">{c2.t}</div><div class="s">{c2.s}</div></div></div></div>
+        <div class="pb-card pb-c3"><div class="big">{c3.big}</div><div class="s">{c3.s} {c3.up && <span class="up">{c3.up}</span>}</div></div>
+      </div>
+    </div>
+  </div>
+</section>

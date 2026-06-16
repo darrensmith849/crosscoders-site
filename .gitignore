@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# cloudflare / wrangler
+.wrangler/
+
+# os / editor
+.DS_Store
+*.log
+
+# env / secrets — never commit these
+.env
+.env.*
+!.env.example

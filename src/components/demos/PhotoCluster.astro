@@ -1,0 +1,22 @@
+---
+// Two floating square photos overlapping, with a frosted card between them.
+interface CardData { kind?: 'stat' | 'status'; t?: string; s?: string; big?: string; up?: string }
+interface Props { imgA: string; altA: string; imgB: string; altB: string; card?: CardData }
+const { imgA, altA, imgB, altB, card } = Astro.props;
+---
+<div class="cluster rev">
+  <img class="ca" src={imgA} alt={altA} loading="lazy" decoding="async" />
+  <img class="cb" src={imgB} alt={altB} loading="lazy" decoding="async" />
+  {card && (
+    <div class="pb-card">
+      {card.big ? (
+        <Fragment>
+          <div class="big">{card.big}</div>
+          <div class="s">{card.s} {card.up && <span class="up">{card.up}</span>}</div>
+        </Fragment>
+      ) : (
+        <div class="row"><span class="gd"></span><div><div class="t">{card.t}</div><div class="s">{card.s}</div></div></div>
+      )}
+    </div>
+  )}
+</div>

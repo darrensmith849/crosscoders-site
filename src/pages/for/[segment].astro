@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import PhotoFigure from '../../components/demos/PhotoFigure.astro';
+import { segments } from '../../lib/pages';
+import type { Segment } from '../../lib/pages';
+
+interface Media { img: string; alt: string; portrait?: boolean; card: { kind?: 'status' | 'avatar' | 'stat'; t?: string; s?: string; big?: string; up?: string } }
+const media: Record<string, Media> = {
+  churches: { img: '/img/ws-06.jpg', alt: 'A church community talking and laughing together over coffee', portrait: true, card: { kind: 'avatar', t: 'New member', s: 'Sarah just joined' } },
+  ministries: { img: '/img/ws-08.jpg', alt: 'A ministry team collaborating in a bright, plant-filled workspace', card: { kind: 'stat', big: '▲ 12%', s: 'supporters this month' } },
+  nonprofits: { img: '/img/ws-02.jpg', alt: 'A nonprofit team working together over laptops and notes', card: { kind: 'stat', big: '$18,420', s: 'raised this month', up: '▲ 12%' } },
+  business: { img: '/img/ws-10.jpg', alt: 'A startup team building together in a warm, focused office', card: { kind: 'status', t: 'Shipped', s: 'live in 4 minutes' } },
+};
+
+export function getStaticPaths() {
+  return segments.map((s) => ({ params: { segment: s.slug }, props: { seg: s } }));
+}
+const { seg } = Astro.props as { seg: Segment };
+const m = media[seg.slug];
+---
+
+<BaseLayout title={`${seg.seoTitle} | CrossCoders`} description={seg.seoDesc}>
+  <PageHero eyebrow={seg.label} title={seg.h1} sub={seg.sub} />
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">We know your world</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">The things that slow you down.</h2>
+      <ul class="ulist" style="grid-template-columns:repeat(2,1fr)">{seg.pains.map((p) => <li>{p}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">What we build for you</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Built around your mission.</h2>
+      <div class="grid3">
+        {seg.builds.map((b) => (
+          <a class="card" href={b.href}><h3 class="serif">{b.name}</h3><p>{b.line}</p></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {m && (
+    <section class="psec">
+      <div class="wrap two">
+        <PhotoFigure img={m.img} alt={m.alt} portrait={m.portrait} pos="bl" card={m.card} />
+        <div>
+          <span class="eyebrow">Built for your world</span>
+          <h2 class="serif" style="margin:16px 0 16px;font-size:clamp(1.9rem,3.4vw,2.5rem)">Technology that feels like it gets you.</h2>
+          <p style="color:var(--ink-soft);line-height:1.75;font-size:1.08rem">We design around how you actually work — so the technology gets out of the way, and your mission gets the attention it deserves.</p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap">
+      {seg.foundationHook ? (
+        <div class="note"><b>On a tight budget?</b> If you’re an under-resourced church or ministry, you may qualify for a free or subsidised build through the CrossCoders Foundation. <a href="/foundation/apply" style="color:var(--forest-deep);text-decoration:underline">Apply for a free build →</a></div>
+      ) : (
+        <div class="note"><b>Build with purpose.</b> Every commercial project helps fund free software for under-resourced churches through the CrossCoders Foundation. <a href="/foundation" style="color:var(--forest-deep);text-decoration:underline">See the Foundation →</a></div>
+      )}
+    </div>
+  </section>
+
+  <FinalCta />
+</BaseLayout>

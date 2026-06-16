@@ -1,0 +1,12 @@
+---
+// CrossCoders logo mark — a terminal tile with a Latin cross and a blinking cursor.
+interface Props { size?: number; blink?: boolean }
+const { size = 28, blink = true } = Astro.props;
+const cursorClass = blink ? 'cc-cursor blink' : 'cc-cursor';
+---
+<svg class="cc-mark" width={size} height={size} viewBox="0 0 100 100" role="img" aria-label="CrossCoders" focusable="false">
+  <rect x="6" y="6" width="88" height="88" rx="20" fill="#1A1612" stroke="rgba(245,239,224,0.1)" stroke-width="1.5" />
+  <rect x="44" y="14" width="8" height="58" rx="3" fill="#3FD174" />
+  <rect x="29" y="25" width="38" height="8" rx="3" fill="#3FD174" />
+  <rect class={cursorClass} x="60" y="58" width="8" height="12" rx="1.5" fill="#C9A961" />
+</svg>

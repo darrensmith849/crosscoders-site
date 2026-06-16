@@ -1,0 +1,41 @@
+---
+// Two-phone duo: a member app cycling screens + a live giving flow. Animated by src/scripts/demos.js.
+---
+<div class="phone-duo" data-demo="phones">
+  <div class="phone back">
+    <div class="phone-screen">
+      <div class="psb"><span>9:41</span><span class="dots">•••</span></div>
+      <div class="appwrap">
+        <div class="appscr on" data-scr="0"><div class="apphd"></div><div class="appcard"></div><div class="approw"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:72%"></div><div class="appln" style="width:46%;margin-top:7px"></div></div></div><div class="approw" style="border:0"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:62%"></div><div class="appln" style="width:50%;margin-top:7px"></div></div></div></div>
+        <div class="appscr" data-scr="1"><div class="apphd"></div><div class="approw"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:68%"></div><div class="appln" style="width:40%;margin-top:7px"></div></div></div><div class="approw"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:74%"></div><div class="appln" style="width:48%;margin-top:7px"></div></div></div><div class="approw" style="border:0"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:58%"></div><div class="appln" style="width:44%;margin-top:7px"></div></div></div></div>
+        <div class="appscr" data-scr="2"><div class="apphd"></div><div class="appchips"><div class="appchip">$25</div><div class="appchip">$50</div><div class="appchip">$100</div></div><div class="appbtn">Give now</div><div class="approw" style="margin-top:16px;border:0"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:64%"></div><div class="appln" style="width:42%;margin-top:7px"></div></div></div></div>
+        <div class="appscr" data-scr="3"><div class="apphd"></div><div class="checkbig">✓</div><div class="approw"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:66%"></div><div class="appln" style="width:40%;margin-top:7px"></div></div></div><div class="approw" style="border:0"><div class="appdot"></div><div style="flex:1"><div class="appln" style="width:58%"></div><div class="appln" style="width:48%;margin-top:7px"></div></div></div></div>
+      </div>
+      <div class="ptabs">
+        <span class="ind"></span>
+        <button class="active"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg></button>
+        <button><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></button>
+        <button><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-1.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></button>
+        <button><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="phone front">
+    <div class="phone-screen">
+      <div class="psb"><span>9:41</span><span class="dots">•••</span></div>
+      <div class="givewrap">
+        <div class="gtitle">Give</div>
+        <div class="gsub">Grace Chapel · General Fund</div>
+        <div class="gchips">
+          <div class="gchip" data-amt="25">$25</div>
+          <div class="gchip" data-amt="50">$50</div>
+          <div class="gchip" data-amt="100">$100</div>
+          <div class="gchip" data-amt="0">Other</div>
+        </div>
+        <div class="gbtn"><span class="lbl">Give $50</span><div class="spin"></div></div>
+        <div class="gptr"><svg viewBox="0 0 24 24"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div>
+        <div class="gsuccess"><div class="checkbig">✓</div><div style="font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem">Thank you!</div><div class="gsub" style="margin-top:6px">Your $50 gift to Grace Chapel is on its way.</div></div>
+      </div>
+    </div>
+  </div>
+</div>

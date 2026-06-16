@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+
+const posts = [
+  { cat: 'AI for ministry', t: 'AI for churches, without the hype: a plain-language guide.' },
+  { cat: 'Church tech', t: 'What a modern church website actually needs in 2026.' },
+  { cat: 'Responsible AI', t: 'Keeping ministry chatbots honest: how grounding works.' },
+  { cat: 'Build in public', t: 'Built with Claude: why we bet our studio on one AI model.' },
+  { cat: 'Faith + technology', t: 'Excellence as worship: what Colossians 3:23 means for software.' },
+  { cat: 'How-to', t: 'From spreadsheet to system: automating the admin burning out your team.' },
+];
+---
+
+<BaseLayout title="Insights — church tech, AI for ministry & building well | CrossCoders" description="Notes on faith, technology and the craft of building — practical guidance for churches, ministries and mission-driven teams.">
+  <PageHero eyebrow="Insights" title="Notes on faith, technology and the craft of building." sub="Practical, honest writing on church tech, AI for ministry, and building software that matters." cta={false} />
+
+  <section class="psec">
+    <div class="wrap">
+      <div class="grid3">
+        {posts.map((p) => (
+          <article class="card"><div class="eyebrow" style="margin-bottom:12px">{p.cat}</div><h3 class="serif" style="font-size:1.2rem;line-height:1.25">{p.t}</h3><p style="margin-top:10px;color:var(--ink-mute)">Coming soon</p></article>
+        ))}
+      </div>
+      <p style="margin-top:30px;color:var(--ink-mute)">Our first articles are on the way — subscribe and we'll let you know when they land.</p>
+    </div>
+  </section>
+
+  <FinalCta title="Building something like this?" sub="If a post sparked an idea, the first call is free." />
+</BaseLayout>

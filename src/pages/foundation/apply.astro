@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Faq from '../../components/Faq.astro';
+
+const eligibility = ['Under-resourced churches, ministries & Christian nonprofits', 'A clear need with real impact', 'Willingness to partner with us on the build'];
+const next = ['We review your application', 'A short call to understand the need', 'We scope it and make a decision', 'We build, launch and train your team'];
+const faq = [
+  { q: 'Is it really free?', a: 'For those who qualify, yes — free or subsidised. No catch.' },
+  { q: 'What if we can pay a little?', a: 'Tell us — we offer subsidised builds too, so more churches can be served.' },
+  { q: 'Do we own it?', a: 'Yes — what we build for you is yours.' },
+  { q: 'How long does it take?', a: 'It depends on the build — we’ll be clear on timing after the call.' },
+];
+---
+
+<BaseLayout title="Apply for a free church website or app — CrossCoders Foundation" description="Tell us about your church and what you need. We review every application and reply — no cost, no catch.">
+  <PageHero eyebrow="The Foundation" title="Apply for a free build." sub="Tell us about your church and what you need — we'll review and reply. No cost, no catch." cta={false} />
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Eligibility</span>
+      <h2 class="serif" style="margin:16px 0 24px;font-size:clamp(1.7rem,3vw,2.3rem)">Who we look for.</h2>
+      <ul class="ulist" style="grid-template-columns:repeat(3,1fr)">{eligibility.map((e) => <li>{e}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap formwrap">
+      <form action="#" method="post">
+        <div class="field"><label>Your name *</label><input name="name" required /></div>
+        <div class="field"><label>Church / ministry / organisation *</label><input name="org" required /></div>
+        <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
+        <div class="field"><label>Phone / WhatsApp</label><input name="phone" /></div>
+        <div class="field"><label>Country / city *</label><input name="location" required /></div>
+        <div class="field"><label>What do you need?</label><select name="need"><option>Not sure yet</option><option>Website</option><option>App</option><option>Chatbot</option><option>AI agent</option><option>Automation</option></select></div>
+        <div class="field"><label>Describe the need and the impact it would have *</label><textarea name="message" required></textarea></div>
+        <button class="btn btn-primary" type="submit">Submit application <span class="arrow">→</span></button>
+      </form>
+      <aside class="sidecard">
+        <h4>What happens next</h4>
+        {next.map((s, i) => (
+          <div class="sidestep"><span class="n">{i + 1}</span><p>{s}</p></div>
+        ))}
+        <p style="font-size:.85rem;color:var(--ink-mute);margin-top:8px;line-height:1.5">It’s free, there’s no pressure, and we’ll be honest if we can’t take it on right now.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Good to know</span>
+      <Faq items={faq} />
+      <p style="margin-top:26px;color:var(--ink-soft)">Not under-resourced but love the mission? <a href="/foundation/support" style="color:var(--forest-deep);text-decoration:underline">Support a build →</a></p>
+    </div>
+  </section>
+</BaseLayout>

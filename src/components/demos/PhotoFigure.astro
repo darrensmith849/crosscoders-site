@@ -1,0 +1,25 @@
+---
+// A framed workspace photo with one frosted floating card on a corner.
+// Use inside a two-column ('.two') section beside copy.
+interface CardData { kind?: 'status' | 'avatar' | 'stat'; t?: string; s?: string; big?: string; up?: string }
+interface Props { img: string; alt: string; portrait?: boolean; pos?: 'bl' | 'tr' | 'br' | 'tl'; card?: CardData }
+const { img, alt, portrait = false, pos = 'bl', card } = Astro.props;
+---
+<div class={`figure${portrait ? ' portrait' : ''}`}>
+  <img class="figure-img" src={img} alt={alt} loading="lazy" decoding="async" />
+  {card && (
+    <div class={`pb-card fcard-${pos}`}>
+      {card.kind === 'stat' ? (
+        <Fragment>
+          <div class="big">{card.big}</div>
+          <div class="s">{card.s} {card.up && <span class="up">{card.up}</span>}</div>
+        </Fragment>
+      ) : (
+        <div class="row">
+          <span class={card.kind === 'status' ? 'gd' : 'av'}></span>
+          <div><div class="t">{card.t}</div><div class="s">{card.s}</div></div>
+        </div>
+      )}
+    </div>
+  )}
+</div>

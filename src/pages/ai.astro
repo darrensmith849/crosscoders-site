@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Faq from '../components/Faq.astro';
+import PhotoFigure from '../components/demos/PhotoFigure.astro';
+
+const responsible = [
+  { q: 'Will it make things up?', a: 'No — our chatbots and agents are grounded in your own content (RAG), so they answer from what’s true about you, not thin air.' },
+  { q: 'Is our data safe?', a: 'Your data stays yours. We don’t use it to train models, and we’re careful about what any AI can see and do.' },
+  { q: 'Is there human oversight?', a: 'Yes — agents are guardrailed with limits and human-in-the-loop approval wherever it matters.' },
+  { q: 'Is AI appropriate for a ministry?', a: 'Used well — grounded, honest, and overseen — AI simply helps your team do more of the work that matters. That’s the only way we build it.' },
+];
+const lifecycle = ['Research & planning, faster', 'Design explorations in hours, not weeks', 'Production code, written and reviewed', 'Tests and quality, automated', 'Content and copy, drafted'];
+---
+
+<BaseLayout
+  title="Our approach to AI — responsible AI, built with Claude | CrossCoders"
+  description="How a Christian software studio uses AI responsibly to build better software faster — and to fund free technology for churches."
+>
+  <PageHero
+    eyebrow="Our approach to AI"
+    title='AI, in the hands of people who can actually <em class="us-forest">build</em>.'
+    sub="Not a buzzword — a force multiplier we use to ship enterprise-quality work faster, and to give more away."
+  />
+
+  <section class="psec">
+    <div class="wrap" style="max-width:720px">
+      <span class="eyebrow">Why it matters</span>
+      <p class="lead" style="margin-top:18px;font-size:1.22rem">AI lets a small, senior team build more, faster, and to a higher standard than should be possible. For you, that means enterprise-quality work without the enterprise price. For the church, it means we can give a huge amount of it away.</p>
+    </div>
+  </section>
+
+  <section class="psec dark">
+    <div class="wrap">
+      <span class="eyebrow">How we use AI</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Across the whole build — without cutting corners.</h2>
+      <ul class="ulist" style="grid-template-columns:repeat(2,1fr);color:var(--cream-muted)">{lifecycle.map((l) => <li>{l}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">AI we build for you</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Not just how we build — what we build.</h2>
+      <div class="grid3">
+        <a class="card" href="/services/ai-agents"><h3 class="serif">AI agents</h3><p>Assistants that do real work — grounded, guardrailed, 24/7.</p></a>
+        <a class="card" href="/services/chatbots"><h3 class="serif">Chatbots</h3><p>Accurate, on-brand assistants for your site and socials.</p></a>
+        <a class="card" href="/services/web-mobile-apps"><h3 class="serif">AI in your product</h3><p>Smart search, recommendations and in-app assistants.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">Done responsibly</span>
+      <h2 class="serif" style="margin:16px 0 24px;font-size:clamp(1.9rem,3.6vw,2.6rem)">AI you can actually trust.</h2>
+      <Faq items={responsible} />
+    </div>
+  </section>
+
+  <section class="psec dark">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">Built with Claude</span>
+        <h2 class="serif" style="margin-top:16px;font-size:clamp(1.9rem,3.4vw,2.6rem)">We build on the best, safety-focused AI.</h2>
+        <p class="lead" style="margin-top:18px">We build on Anthropic’s Claude — a leading model designed with safety and honesty at its core. Through Claude for Nonprofits, that leverage stretches even further for the churches we serve.</p>
+      </div>
+      <PhotoFigure
+        img="/img/ws-09.jpg"
+        alt="A diverse team reviewing work together over laptops and coffee"
+        pos="bl"
+        card={{ kind: 'status', t: 'Human-reviewed', s: 'every line that ships' }}
+      />
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap" style="max-width:720px">
+      <span class="eyebrow">Why this powers the mission</span>
+      <p class="lead" style="margin-top:18px;font-size:1.22rem">AI leverage is exactly what makes free, excellent software for under-resourced churches possible. <a href="/foundation" style="color:var(--forest-deep);text-decoration:underline">See the Foundation →</a></p>
+    </div>
+  </section>
+
+  <FinalCta />
+</BaseLayout>

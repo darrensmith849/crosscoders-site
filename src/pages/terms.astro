@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<BaseLayout title="Terms | CrossCoders" description="The terms for using the CrossCoders website and engaging our services.">
+  <PageHero eyebrow="Legal" title="Terms." cta={false} />
+  <section class="psec">
+    <div class="wrap prose">
+      <p style="color:var(--ink-mute)">A plain-English summary. Full engagement terms are agreed in your project contract; this page is being finalised with legal counsel.</p>
+      <h2 class="serif">Using this site</h2>
+      <p>The content and design of this site are ours. Please don’t copy or reuse them without permission. The site is provided “as is”.</p>
+      <h2 class="serif">Our work together</h2>
+      <p>Project scope, estimates, payment terms and ownership are agreed in writing before we start. On full payment, the software and design we build for you are yours.</p>
+      <h2 class="serif">Third-party costs</h2>
+      <p>Domains, hosting, premium tools and similar third-party costs are billed separately or paid by you directly, as agreed.</p>
+      <h2 class="serif">Care plans</h2>
+      <p>Ongoing care is a separate, optional arrangement with its own terms — no unlimited edits, and larger custom work is quoted separately.</p>
+    </div>
+  </section>
+</BaseLayout>

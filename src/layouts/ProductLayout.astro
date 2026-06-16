@@ -1,0 +1,128 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { ctas, productBySlug } from '../lib/content';
+import type { Product } from '../lib/content';
+import LiveBuild from '../components/demos/LiveBuild.astro';
+import PhoneDuo from '../components/demos/PhoneDuo.astro';
+import Dashboard from '../components/demos/Dashboard.astro';
+import AgentChat from '../components/demos/AgentChat.astro';
+
+interface Props { product: Product }
+const { product: p } = Astro.props;
+const related = p.related.map(productBySlug).filter((x): x is Product => Boolean(x));
+
+const heroDemoBySlug: Record<string, string> = {
+  'web-mobile-apps': 'phones', 'websites': 'build', 'ai-agents': 'agent',
+  'chatbots': 'agent', 'automation': 'dash', 'custom-software': 'build',
+};
+const demo = heroDemoBySlug[p.slug] ?? 'build';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Service', name: p.name, description: p.seoDesc, provider: { '@type': 'Organization', name: 'CrossCoders' } },
+    { '@type': 'FAQPage', mainEntity: p.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+    { '@type': 'BreadcrumbList', itemListElement: [ { '@type': 'ListItem', position: 1, name: 'What we build', item: '/services' }, { '@type': 'ListItem', position: 2, name: p.name, item: `/services/${p.slug}` } ] },
+  ],
+};
+---
+
+<BaseLayout title={`${p.seoTitle} | CrossCoders`} description={p.seoDesc}>
+  <section class="ph">
+    <div class="wrap">
+      <span class="eyebrow center">{p.eyebrow}</span>
+      <h1 class="serif">{p.h1}</h1>
+      <p class="sub">{p.sub}</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href={ctas.primary.href}>{ctas.primary.label} <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href={ctas.secondary.href}>{ctas.secondary.label}</a>
+      </div>
+      {demo === 'phones' ? <PhoneDuo /> : (
+        <div class="prodhero">
+          {demo === 'build' && <LiveBuild />}
+          {demo === 'dash' && <Dashboard />}
+          {demo === 'agent' && <AgentChat />}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <div style="max-width:700px">
+        <span class="eyebrow">What it is</span>
+        <p class="lead" style="margin-top:18px;font-size:1.22rem">{p.intro}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">What we build</span>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.6vw,2.6rem);margin:16px 0 28px">From the practical to the ambitious.</h2>
+      <ul class="ulist" style="grid-template-columns:repeat(2,1fr)">{p.capabilities.map((c) => <li>{c}</li>)}</ul>
+      <div class="cols2" style="margin-top:44px">
+        <div><div class="colh">For churches &amp; ministries</div><ul class="ulist">{p.useCasesMinistry.map((c) => <li>{c}</li>)}</ul></div>
+        <div><div class="colh">For business</div><ul class="ulist">{p.useCasesBusiness.map((c) => <li>{c}</li>)}</ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">How it works</span>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.6vw,2.6rem);margin:16px 0 30px">Simple, from first call to launch.</h2>
+      <div class="steps">{p.steps.map((s, i) => <div class="step"><div class="n">0{i + 1}</div><h4>{s.t}</h4><p>{s.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="psec dark">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">The AI difference</span>
+        <h2 class="serif" style="font-size:clamp(1.9rem,3.4vw,2.7rem);margin-top:16px">Senior craft, multiplied by AI.</h2>
+        <p class="lead" style="margin-top:18px">{p.aiAngle}</p>
+      </div>
+      <div class="frame in">
+        <div class="bar" style="background:var(--mocha);border-color:var(--dline)"><i style="background:#E06A57"></i><i style="background:#E8B84B"></i><i style="background:#3FD174"></i></div>
+        <div class="body" style="background:var(--mocha-light)"><div class="blk" style="width:64%;background:rgba(245,239,224,.14)"></div><div class="blk" style="width:88%;background:rgba(245,239,224,.14)"></div><div class="blk g"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Outcomes</span>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.6vw,2.6rem);margin:16px 0 26px">What you actually get.</h2>
+      <ul class="ulist" style="grid-template-columns:repeat(2,1fr)">{p.outcomes.map((o) => <li>{o}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">Questions</span>
+      <h2 class="serif" style="font-size:clamp(1.9rem,3.6vw,2.6rem);margin:16px 0 22px">Good to know.</h2>
+      <div class="faq">{p.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+      <div class="wrap">
+        <span class="eyebrow">Related</span>
+        <h2 class="serif" style="font-size:clamp(1.7rem,3vw,2.3rem);margin:16px 0 24px">You might also need…</h2>
+        <div class="related">{related.map((r) => <a class="card" href={`/services/${r.slug}`}><h3 class="serif">{r.name}</h3><p>{r.blurb}</p></a>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec cta">
+    <div class="wrap">
+      <h2 class="serif">Let's build something that matters.</h2>
+      <p>Tell us what you need — the first call is free, and there's no pressure.</p>
+      <div class="hero-cta"><a class="btn btn-primary" href={ctas.primary.href}>{ctas.primary.label} <span class="arrow">→</span></a></div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+</BaseLayout>

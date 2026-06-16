@@ -1,0 +1,14 @@
+---
+// AI agent panel: messages reveal in sequence on view. Animated by src/scripts/demos.js.
+interface Props { org?: string }
+const { org = 'Grace Chapel' } = Astro.props;
+---
+<div class="panel">
+  <div class="bar"><span class="dot" style="background:#E06A57"></span><span class="dot" style="background:#E8B84B"></span><span class="dot" style="background:#3FD174"></span><span class="title"><b>CrossCoders Agent</b> · {org}</span></div>
+  <div class="chat">
+    <div class="bub a">Morning! 3 new prayer requests came in overnight — sorted by urgency, with replies drafted in your voice.</div>
+    <div class="bub u">Perfect. Add them to the 9am team huddle.</div>
+    <div class="bub a">Done <span class="tick">✓</span> Scheduled in Planning Center and the team's been notified.</div>
+  </div>
+  <div class="inp"><span>Ask your agent anything…</span><div class="send"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+</div>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+import PhotoBand from '../components/demos/PhotoBand.astro';
+
+const phases = [
+  { t: 'Discover', d: 'We start with your mission and your people — not a spec sheet. We learn what success really looks like.' },
+  { t: 'Design', d: 'You see the direction — look, feel and flow — before we build a thing. No surprises.' },
+  { t: 'Build', d: 'Engineered in TypeScript, tested and senior-reviewed. AI helps us move fast without cutting corners.' },
+  { t: 'Launch', d: 'We get you live, migrate cleanly, and train your team to run it themselves.' },
+  { t: 'Care', d: 'We don’t disappear at launch — hosting, updates, security and support, ongoing.' },
+];
+const diff = [
+  { t: 'AI-accelerated', d: 'We ship in weeks, not months, by pairing senior craft with the best AI tools.' },
+  { t: 'Senior throughout', d: 'You work directly with the people building your software — no junior hand-offs.' },
+  { t: 'A real partnership', d: 'We care about your mission as much as your code, and we’re honest at every step.' },
+];
+---
+
+<BaseLayout
+  title="How we work — our process, from first call to launch | CrossCoders"
+  description="Discover, design, build, launch, care — a simple, senior, AI-accelerated process for software that matters."
+>
+  <PageHero
+    eyebrow="How we work"
+    title="Simple, from first call to launch."
+    sub="Five clear phases. Senior people throughout. No drawn-out cycles."
+  />
+
+  <section class="psec">
+    <div class="wrap">
+      <span class="eyebrow">The journey</span>
+      <h2 class="serif" style="margin:16px 0 32px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Five phases. One partnership.</h2>
+      <div class="steps" style="grid-template-columns:repeat(5,1fr)">
+        {phases.map((s, i) => (
+          <div class="step"><div class="n">0{i + 1}</div><h4>{s.t}</h4><p>{s.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <PhotoBand
+    img="/img/ws-01.jpg"
+    alt="A sunlit studio desk with plants, wood and a screen mid-build"
+    eyebrow="In the studio"
+    title="Senior hands on every build."
+    body="You work directly with the people designing and engineering your software — no junior hand-offs, no black boxes. Just careful, considered work, moving fast."
+    c1={{ t: 'In review', s: 'senior-checked' }}
+    c2={{ t: 'Design ready', s: 'approved by you' }}
+    c3={{ big: 'Weeks', s: 'not months', up: 'AI-accelerated' }}
+  />
+
+  <section class="psec dark">
+    <div class="wrap">
+      <span class="eyebrow">What makes it different</span>
+      <h2 class="serif" style="margin:16px 0 30px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Senior, fast, and genuinely yours.</h2>
+      <div class="grid3">
+        {diff.map((d) => (
+          <div class="card" style="background:var(--mocha);border-color:var(--dline)"><h3 class="serif" style="color:var(--cream-d)">{d.t}</h3><p style="color:var(--cream-muted)">{d.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FinalCta title="Ready when you are." sub="The first call is free — we'll map out the right path for your build." />
+</BaseLayout>

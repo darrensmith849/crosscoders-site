@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Faq from '../components/Faq.astro';
+import { faqCategories } from '../lib/pages';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqCategories.flatMap((c) => c.items).map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<BaseLayout title="Frequently asked questions | CrossCoders" description="Answers on working with us, pricing & ownership, AI, the Foundation, and the technical side.">
+  <PageHero eyebrow="FAQ" title="Frequently asked questions." sub="Everything you might want to know about working with us." cta={false} />
+
+  {faqCategories.map((cat) => (
+    <section class="psec" style="padding-top:2.5rem;padding-bottom:2.5rem">
+      <div class="wrap">
+        <h2 class="serif" style="font-size:1.5rem;margin-bottom:6px">{cat.category}</h2>
+        <Faq items={cat.items} />
+      </div>
+    </section>
+  ))}
+
+  <FinalCta />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+</BaseLayout>

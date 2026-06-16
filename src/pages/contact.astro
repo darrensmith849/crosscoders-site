@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import { brand } from '../lib/content';
+import { faqCategories } from '../lib/pages';
+import PhotoBand from '../components/demos/PhotoBand.astro';
+
+const expect = ['We read every message', 'We reply by email, fast', 'Honest advice — no hard sell', 'A clear next step, no obligation'];
+const faq = faqCategories.find((c) => c.category === 'Working with us')!.items;
+---
+
+<BaseLayout title="Contact CrossCoders" description="Tell us what you need — an app, a site, an agent, or 'not sure yet'. We'll read it and reply by email — no pressure.">
+  <PageHero eyebrow="Get in touch" title="Let's talk." sub="Tell us what you need — an app, a site, an agent, or 'not sure yet'. We'll read it and reply by email." cta={false} />
+
+  <section class="psec">
+    <div class="wrap formwrap">
+      <form action="#" method="post">
+        <div class="field"><label>Your name *</label><input name="name" required /></div>
+        <div class="field"><label>Organisation</label><input name="org" /></div>
+        <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
+        <div class="field"><label>Phone / WhatsApp</label><input name="phone" /></div>
+        <div class="field"><label>What do you need?</label><select name="need"><option>Not sure yet</option><option>App or custom software</option><option>Website</option><option>AI agent</option><option>Chatbot</option><option>Automation</option></select></div>
+        <div class="field"><label>Tell us about your project *</label><textarea name="message" required></textarea></div>
+        <button class="btn btn-primary" type="submit">Send message <span class="arrow">→</span></button>
+        <p style="font-size:.85rem;color:var(--ink-mute);margin-top:14px">Prefer email? <a href={`mailto:${brand.email}`} style="color:var(--forest-deep)">{brand.email}</a></p>
+      </form>
+      <aside class="sidecard">
+        <h4>What to expect</h4>
+        {expect.map((s, i) => (
+          <div class="sidestep"><span class="n">{i + 1}</span><p>{s}</p></div>
+        ))}
+        <p style="font-size:.85rem;color:var(--ink-mute);margin-top:8px;line-height:1.5">Under-resourced church or ministry? You may qualify for a <a href="/foundation/apply" style="color:var(--forest-deep)">free build →</a></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Before you ask</span>
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <PhotoBand
+    img="/img/ws-07.jpg"
+    alt="A friendly, relaxed workspace where a conversation is about to happen"
+    eyebrow="What to expect"
+    title="There's a real person on the other end."
+    body="No bots, no call-centre script — a real person reads every message and replies honestly. Want a free build? The fastest route is to apply through the Foundation."
+    c1={{ t: 'A real person', s: 'reads every message' }}
+    c2={{ t: 'We reply', s: 'by email, fast' }}
+    c3={{ big: '0', s: 'pressure', up: 'promise' }}
+  />
+</BaseLayout>

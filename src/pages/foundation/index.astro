@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import PhotoBand from '../../components/demos/PhotoBand.astro';
+import ImpactMeter from '../../components/ImpactMeter.astro';
+
+const included = ['A custom build — never a template', 'Discovery & design', 'Launch and team training', 'A care window after launch'];
+const qualifies = ['Under-resourced churches & ministries', 'Christian nonprofits with a clear need', 'A real mission and willingness to partner'];
+const funding = [
+  { t: 'Paid work', d: 'Our commercial client work pays the bills — and the salaries.' },
+  { t: 'AI leverage', d: 'AI multiplies what a small senior team can build and give away.' },
+  { t: 'Donations', d: 'Supporters and sponsors fund builds for specific churches.' },
+];
+---
+
+<BaseLayout
+  title="The CrossCoders Foundation — free software for the church"
+  description="The CrossCoders Foundation builds free and subsidised software for under-resourced churches and ministries — funded by our paid work, multiplied by AI."
+>
+  <section class="ph">
+    <div class="wrap">
+      <span class="eyebrow center">The CrossCoders Foundation</span>
+      <h1 class="serif">World-class technology, <em class="us-forest">free</em> for the church.</h1>
+      <p class="sub">We build free and subsidised software for under-resourced churches and ministries — funded by our paid work, multiplied by AI.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="/foundation/apply">Apply for a free build <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="/foundation/support">Support the mission</a>
+      </div>
+    </div>
+  </section>
+
+  <ImpactMeter />
+
+  <section class="psec">
+    <div class="wrap prose">
+      <span class="eyebrow">The problem</span>
+      <p style="margin-top:18px;font-size:1.18rem;color:var(--ink-soft);line-height:1.75">The people doing the most important work often have the worst tools. Good software is expensive, under-resourced churches are locked out, and the gap is only widening as technology — and AI — accelerates. We exist to close it.</p>
+    </div>
+  </section>
+
+  <PhotoBand
+    img="/img/ws-05.jpg"
+    alt="A bright, welcoming workspace where people gather and collaborate"
+    eyebrow="Why it matters"
+    title="Built for the ones who get overlooked."
+    body="The smallest church and the largest ministry get the same senior craft. When budgets are tight, the Foundation closes the gap — so good technology is never a luxury."
+    c1={{ t: 'Free build · delivered', s: 'a church, now online' }}
+    c2={{ t: 'New church', s: 'just onboarded' }}
+    c3={{ big: '100%', s: 'given free', up: 'no catch' }}
+  />
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">What we do</span>
+        <h2 class="serif" style="margin:16px 0 16px;font-size:clamp(1.9rem,3.4vw,2.5rem)">A real build, given freely.</h2>
+        <p style="color:var(--ink-soft);line-height:1.7">Free and subsidised websites, apps, chatbots and automations for those who could never otherwise afford them.</p>
+        <div class="colh" style="margin-top:24px">What’s included</div>
+        <ul class="ulist">{included.map((i) => <li>{i}</li>)}</ul>
+      </div>
+      <div>
+        <div class="colh">Who qualifies</div>
+        <ul class="ulist">{qualifies.map((i) => <li>{i}</li>)}</ul>
+        <a class="btn btn-primary" href="/foundation/apply" style="margin-top:24px">Apply for a free build <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec dark">
+    <div class="wrap">
+      <span class="eyebrow">How it’s funded</span>
+      <h2 class="serif" style="margin:16px 0 30px;font-size:clamp(1.9rem,3.6vw,2.6rem)">The model that makes free, excellent work possible.</h2>
+      <div class="grid3">
+        {funding.map((f) => (
+          <div class="card" style="background:var(--mocha);border-color:var(--dline)"><h3 class="serif" style="color:var(--cream-d)">{f.t}</h3><p style="color:var(--cream-muted)">{f.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Get involved</span>
+      <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Three ways to be part of it.</h2>
+      <div class="paths">
+        <a class="card" href="/foundation/apply"><h3 class="serif">Apply for help</h3><p>An under-resourced church or ministry? Tell us what you need.</p></a>
+        <a class="card" href="/foundation/support"><h3 class="serif">Support the mission</h3><p>Donate or sponsor a build for a specific church.</p></a>
+        <a class="card" href="/foundation/support"><h3 class="serif">Partner with us</h3><p>Networks, agencies and tech partners — let’s multiply the impact.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="psec">
+    <div class="wrap prose">
+      <span class="eyebrow">Our model & transparency</span>
+      <p style="margin-top:18px;color:var(--ink-soft);line-height:1.75">CrossCoders is one brand with two arms: a commercial studio (a for-profit company) whose work funds a non-profit Foundation. We’re committed to being clear about how funds are used and what gets built — and to building everything, free or paid, like it matters. Built with Claude.</p>
+    </div>
+  </section>
+
+  <FinalCta title="Help us build software worth believing in." sub="Apply for a free build, or support the churches we serve." />
+</BaseLayout>
