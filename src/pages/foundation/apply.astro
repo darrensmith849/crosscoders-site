@@ -2,9 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import Faq from '../../components/Faq.astro';
+import ChatWidget from '../../components/ChatWidget.astro';
 
 const eligibility = ['Under-resourced churches, ministries & Christian nonprofits', 'A clear need with real impact', 'Willingness to partner with us on the build'];
-const next = ['We review your application', 'A short call to understand the need', 'We scope it and make a decision', 'We build, launch and train your team'];
+const next = ['We review your application', 'We follow up to understand the need', 'We scope it and make a decision', 'We build, launch and train your team'];
 const faq = [
   { q: 'Is it really free?', a: 'For those who qualify, yes — free or subsidised. No catch.' },
   { q: 'What if we can pay a little?', a: 'Tell us — we offer subsidised builds too, so more churches can be served.' },
@@ -25,6 +26,17 @@ const faq = [
   </section>
 
   <section class="psec">
+    <div class="wrap two">
+      <div>
+        <span class="eyebrow">First port of call</span>
+        <h2 class="serif" style="margin:16px 0 14px;font-size:clamp(1.9rem,3.4vw,2.5rem)">Chat with our assistant.</h2>
+        <p style="color:var(--ink-soft);line-height:1.7;font-size:1.05rem">Ask anything about the Foundation, free builds, or how to apply — our AI assistant answers instantly, any time. Prefer a form? It's just below.</p>
+      </div>
+      <ChatWidget />
+    </div>
+  </section>
+
+  <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
     <div class="wrap formwrap">
       <form action="#" method="post">
         <div class="field"><label>Your name *</label><input name="name" required /></div>

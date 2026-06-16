@@ -1,0 +1,66 @@
+---
+// Live AI assistant — talks to /api/chat (OpenAI; key held server-side).
+const greeting = "Hi! I'm the CrossCoders assistant. Ask me anything about the Foundation, free builds, or how to apply — or tell me about your church and I'll help you get started.";
+---
+<div class="panel chatw" data-chatw>
+  <div class="bar">
+    <span class="dot" style="background:#E06A57"></span><span class="dot" style="background:#E8B84B"></span><span class="dot" style="background:#3FD174"></span>
+    <span class="title"><b>CrossCoders assistant</b> · ask us anything</span>
+  </div>
+  <div class="chat" data-chat>
+    <div class="bub a in">{greeting}</div>
+  </div>
+  <form class="inp chatw-form" data-chatform>
+    <input type="text" placeholder="Type your message…" autocomplete="off" data-chatinput aria-label="Message the assistant" />
+    <button type="submit" class="send" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll('[data-chatw]').forEach((root) => {
+    const chat = root.querySelector('[data-chat]');
+    const form = root.querySelector('[data-chatform]');
+    const input = root.querySelector('[data-chatinput]');
+    chat.querySelectorAll('.bub').forEach((b) => b.classList.add('in'));
+    const history = [{ role: 'assistant', content: chat.querySelector('.bub')?.textContent || '' }];
+    let busy = false;
+    function add(role, text) {
+      const b = document.createElement('div');
+      b.className = 'bub in ' + (role === 'user' ? 'u' : 'a');
+      b.textContent = text;
+      chat.appendChild(b);
+      chat.scrollTop = chat.scrollHeight;
+      return b;
+    }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text || busy) return;
+      input.value = '';
+      add('user', text);
+      history.push({ role: 'user', content: text });
+      busy = true;
+      const typing = add('a', '…');
+      typing.classList.add('typing');
+      try {
+        const r = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ messages: history }),
+        });
+        const data = await r.json().catch(() => ({}));
+        const reply = r.ok && data.reply ? data.reply : "Sorry — I'm having trouble right now. Please fill in the form below and we'll get back to you.";
+        typing.classList.remove('typing');
+        typing.textContent = reply;
+        history.push({ role: 'assistant', content: reply });
+      } catch {
+        typing.classList.remove('typing');
+        typing.textContent = "Sorry — I'm having trouble connecting. Please use the form below.";
+      } finally {
+        busy = false;
+        input.focus();
+        chat.scrollTop = chat.scrollHeight;
+      }
+    });
+  });
+</script>
