@@ -37,6 +37,10 @@ const title = 'Kingdom Come Foundation — Investor Preview';
           technology, mercy, and the work of willing hands. <strong>CrossCoders is where it
           starts. It is not where it ends.</strong></p>
         <div class="p-slogan mono">“Equip the Church · serve the least · advance the gospel”</div>
+        <div class="p-term mono" aria-hidden="true">
+          <span class="p-term-dots"><i></i><i></i><i></i></span>
+          <span class="p-term-line">›&nbsp;<span id="p-term-text"></span><span class="p-term-cur">▋</span></span>
+        </div>
       </div>
       <div class="p-scroll">scroll ↓</div>
     </header>
@@ -147,15 +151,40 @@ const title = 'Kingdom Come Foundation — Investor Preview';
           <div class="p-card"><h3 class="serif">A self-funding engine</h3><p>Paid client work pays the bills and funds the free builds. It's a mission with a business under it — not a bucket with a hole in it.</p></div>
           <div class="p-card"><h3 class="serif">A brand people believe in</h3><p>Excellent, modern, unashamedly Christian. The kind of work churches show off and partners are proud to stand behind.</p></div>
         </div>
-        <div class="p-ask">
-          <h3 class="serif">The ask</h3>
-          <p>We're inviting founding partners and investors to fuel the foundation — to scale CrossCoders,
-            register the Foundation, and launch the next gospel venture beneath it. Whether you give,
-            invest, or open a door, you're helping put the Church where it should be: at the front.</p>
-          <a class="btn btn-primary" href={`mailto:${brand.email}?subject=Kingdom%20Come%20Foundation%20—%20partnering`}>Start a conversation <span class="arrow">→</span></a>
-          <p class="p-note">In formation — not yet a registered nonprofit, so nothing here is an offer of
-            securities or a claim of tax-deductibility. Figures are early and illustrative until real
-            build costs and the Foundation's registration are confirmed.</p>
+        <div class="p-invest" id="p-invest" data-email={brand.email}>
+          <div class="p-invest-top">
+            <div>
+              <h3 class="serif">Where your investment goes</h3>
+              <p class="p-invest-sub">Every rand is leveraged about 10× and tracked to real builds. Pick a tier — or set an amount that suits you.</p>
+            </div>
+            <label class="p-cur"><span>Your currency</span>
+              <select id="p-cur" aria-label="Choose your currency">
+                <option value="ZAR">ZAR · R — South Africa</option>
+                <option value="USD">USD · $</option>
+                <option value="GBP">GBP · £</option>
+                <option value="EUR">EUR · €</option>
+                <option value="AUD">AUD · A$</option>
+                <option value="CAD">CAD · C$</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="p-tiers" id="p-tiers"><!-- rendered by script --></div>
+
+          <div class="p-custom-card">
+            <div class="p-custom-h">Prefer your own number? Give whatever suits you.</div>
+            <div class="p-custom-row">
+              <span class="p-custom-sym" id="p-custom-sym">R</span>
+              <input type="number" id="p-custom-input" min="0" step="1000" inputmode="numeric" placeholder="Enter any amount" aria-label="Custom amount" />
+              <span class="p-custom-impact" id="p-custom-impact"></span>
+            </div>
+          </div>
+
+          <a class="btn btn-primary p-invest-cta" id="p-invest-cta" href={`mailto:${brand.email}?subject=Kingdom%20Come%20Foundation%20—%20partnering`}>Start a conversation <span class="arrow">→</span></a>
+          <p class="p-note">In formation — not yet a registered nonprofit, so nothing here is an offer of securities or
+            a claim of tax-deductibility. Builds are funded in South African Rand (R); other currencies are
+            indicative conversions at approximate rates. Figures are early and illustrative until real build
+            costs and the Foundation's registration are confirmed.</p>
         </div>
       </div>
     </section>
@@ -244,6 +273,51 @@ const title = 'Kingdom Come Foundation — Investor Preview';
       .p-ask .btn { margin-top: 22px; }
       .p-note { font-size: .74rem !important; color: var(--cream-dim) !important; margin-top: 22px; line-height: 1.5; }
 
+      /* terminal typewriter */
+      .p-term { display: inline-flex; align-items: center; gap: 11px; margin-top: 26px; padding: 9px 15px; border-radius: 11px;
+        background: rgba(15,14,12,.55); border: 1px solid var(--dline); font-size: .82rem; max-width: 92vw; }
+      .p-term-dots { display: inline-flex; gap: 5px; flex: none; }
+      .p-term-dots i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+      .p-term-dots i:nth-child(1) { background: #E06A57; } .p-term-dots i:nth-child(2) { background: #E8B84B; } .p-term-dots i:nth-child(3) { background: #3FD174; }
+      .p-term-line { color: var(--cream-muted); white-space: nowrap; overflow: hidden; }
+      #p-term-text { color: var(--brass-bright); }
+      .p-term-cur { color: var(--forest-bright); animation: p-blink 1s steps(2) infinite; }
+      @keyframes p-blink { 50% { opacity: 0; } }
+
+      /* investment tiers + currency */
+      .p-invest { margin: 40px auto 0; max-width: 1000px; }
+      .p-invest-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+      .p-invest-top h3 { font-size: 1.6rem; color: var(--ink); }
+      .p-invest-sub { color: var(--ink-soft); margin-top: 6px; max-width: 520px; font-size: .95rem; line-height: 1.5; }
+      .p-cur { display: flex; flex-direction: column; gap: 5px; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-mute); }
+      .p-cur select { font: inherit; font-size: .95rem; text-transform: none; letter-spacing: 0; color: var(--ink); background: var(--linen); border: 1px solid var(--line-strong); border-radius: 11px; padding: 11px 14px; cursor: pointer; }
+      .p-tiers { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+      /* tier cards are injected by JS, so these must be :global (scoped styles won't reach them) */
+      :global(.p-tier) { position: relative; background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 22px; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s; box-shadow: var(--shadow); }
+      :global(.p-tier:hover) { transform: translateY(-3px); }
+      :global(.p-tier.pop) { border-color: rgba(201,169,97,.5); }
+      :global(.p-tier.sel) { border-color: var(--brass); box-shadow: 0 0 0 1px rgba(201,169,97,.4), 0 16px 44px -18px rgba(201,169,97,.5); }
+      :global(.p-tier-pop) { position: absolute; top: -11px; left: 22px; font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; background: var(--brass); color: var(--ink); padding: 4px 10px; border-radius: 100px; }
+      :global(.p-tier-name) { font-family: 'JetBrains Mono', monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--brass-deep); }
+      :global(.p-tier-amt) { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.95rem; color: var(--ink); margin: 8px 0 2px; line-height: 1; }
+      :global(.p-tier-zar) { font-size: .74rem; color: var(--ink-mute); min-height: 1em; }
+      :global(.p-tier-fund) { margin: 16px 0 0; font-size: .9rem; color: var(--ink-soft); line-height: 1.5; }
+      :global(.p-tier-meta) { display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+      :global(.p-tier-meta span) { font-size: .74rem; color: var(--ink-mute); line-height: 1.25; }
+      :global(.p-tier-meta b) { display: block; font-family: 'Fraunces', serif; font-size: 1.15rem; color: var(--forest-deep); }
+      :global(.p-tier-pick) { margin-top: 16px; font-size: .84rem; font-weight: 600; color: var(--forest-deep); }
+
+      .p-custom-card { margin-top: 18px; background: var(--paper); border: 1px dashed var(--line-strong); border-radius: var(--r-lg); padding: 20px 22px; }
+      .p-custom-h { font-size: .9rem; color: var(--ink-soft); margin-bottom: 10px; font-weight: 500; }
+      .p-custom-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .p-custom-sym { font-weight: 600; color: var(--ink-soft); }
+      .p-custom-row input { flex: 1; min-width: 160px; font: inherit; font-size: 1.05rem; color: var(--ink); background: var(--linen); border: 1px solid var(--line-strong); border-radius: 11px; padding: 12px 14px; }
+      .p-custom-row input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
+      .p-custom-impact { font-size: .86rem; color: var(--forest-deep); font-weight: 600; }
+      .p-invest-cta { margin-top: 24px; }
+      .p-invest .p-note { color: var(--ink-mute) !important; text-align: left; max-width: 760px; margin-inline: 0; }
+      @media (max-width: 760px) { .p-tiers { grid-template-columns: 1fr; } .p-invest-top { align-items: flex-start; } }
+
       .p-foot { background: var(--charcoal); color: var(--cream-dim); text-align: center; padding: 48px 0; }
       .p-foot-mark { display: flex; justify-content: center; margin-bottom: 14px; }
       .p-foot-name { color: var(--cream-d); font-size: 1.15rem; }
@@ -258,5 +332,97 @@ const title = 'Kingdom Come Foundation — Investor Preview';
         .p-cards, .p-cards-3, .u-grid, .p-stats { grid-template-columns: 1fr; }
       }
     </style>
+
+    <script>
+      (function () {
+        // ---- terminal typewriter ----
+        const tEl = document.getElementById('p-term-text');
+        const lines = [
+          'deploying the gospel to under-resourced churches',
+          'every R1 → ~R10 of Kingdom work, multiplied by AI',
+          'senior craft × AI × mercy',
+          'the Church — online, equipped, unstoppable',
+        ];
+        if (tEl) {
+          if (matchMedia('(prefers-reduced-motion:reduce)').matches) { tEl.textContent = lines[0]; }
+          else {
+            let li = 0, ci = 0, del = false;
+            const tick = () => {
+              const full = lines[li];
+              ci += del ? -1 : 1;
+              tEl.textContent = full.slice(0, ci);
+              if (!del && ci === full.length) { del = true; setTimeout(tick, 2000); return; }
+              if (del && ci === 0) { del = false; li = (li + 1) % lines.length; }
+              setTimeout(tick, del ? 26 : 46);
+            };
+            setTimeout(tick, 700);
+          }
+        }
+
+        // ---- currency-aware investment tiers + custom ----
+        const wrap = document.getElementById('p-invest');
+        if (!wrap) return;
+        const EMAIL = wrap.dataset.email || 'hello@crosscoders.dev';
+        const RATES = { ZAR: 1, USD: 18.2, GBP: 23.2, EUR: 19.6, AUD: 12.0, CAD: 13.3 }; // ZAR per 1 unit (approx)
+        const SYM = { ZAR: 'R', USD: '$', GBP: '£', EUR: '€', AUD: 'A$', CAD: 'C$' };
+        const CPB = 10000, PPB = 120;
+        const TIERS = [
+          { id: 'supporter', name: 'Supporter', zar: 30000, blurb: 'Puts three churches online and into their community — websites, giving and member care included.' },
+          { id: 'partner', name: 'Partner', zar: 100000, pop: true, blurb: 'Equips ten churches (~1,200 people) and helps seed the next gospel venture beneath the Foundation.' },
+          { id: 'founding', name: 'Founding Partner', zar: 250000, blurb: 'Brings twenty-five churches online, launches a second venture, and a founding-partner seat at the table.' },
+        ];
+        let cur = 'ZAR', selected = null;
+        const curEl = document.getElementById('p-cur');
+        const tiersEl = document.getElementById('p-tiers');
+        const cta = document.getElementById('p-invest-cta');
+        const ci = document.getElementById('p-custom-input');
+        const csym = document.getElementById('p-custom-sym');
+        const cimp = document.getElementById('p-custom-impact');
+
+        const conv = (zar) => Math.round(zar / RATES[cur] / 10) * 10;
+        const money = (zar) => SYM[cur] + conv(zar).toLocaleString('en-US');
+        const churches = (zar) => Math.floor(zar / CPB);
+        const impactOf = (zar) => { const c = churches(zar); return c < 1 ? 'a start toward the first church' : c + ' church' + (c === 1 ? '' : 'es') + ' · ~' + (c * PPB).toLocaleString() + ' people'; };
+
+        function mailHref(label, zar) {
+          const body = "Hi — I'd like to explore partnering with Kingdom Come Foundation"
+            + (zar ? ' at the ' + label + ' level (' + money(zar) + (cur !== 'ZAR' ? ' ≈ R' + zar.toLocaleString() : '') + ').' : '.')
+            + "\n\nA little about me / our organisation:";
+          return 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Kingdom Come Foundation — partnering') + '&body=' + encodeURIComponent(body);
+        }
+        function renderTiers() {
+          tiersEl.innerHTML = TIERS.map((t) => `
+            <div class="p-tier${t.pop ? ' pop' : ''}${selected && selected.id === t.id ? ' sel' : ''}" data-id="${t.id}" role="button" tabindex="0">
+              ${t.pop ? '<span class="p-tier-pop">Most chosen</span>' : ''}
+              <div class="p-tier-name">${t.name}</div>
+              <div class="p-tier-amt">${money(t.zar)}</div>
+              <div class="p-tier-zar">${cur !== 'ZAR' ? '≈ R' + t.zar.toLocaleString() + ' · funded in Rand' : 'funded in Rand'}</div>
+              <p class="p-tier-fund">${t.blurb}</p>
+              <div class="p-tier-meta">
+                <span><b>${churches(t.zar)}</b>churches online</span>
+                <span><b>~${(churches(t.zar) * PPB).toLocaleString()}</b>people reached</span>
+              </div>
+              <div class="p-tier-pick">${selected && selected.id === t.id ? '✓ Selected' : 'Choose ' + t.name}</div>
+            </div>`).join('');
+          [...tiersEl.children].forEach((el) => {
+            const t = TIERS.find((x) => x.id === el.dataset.id);
+            const pick = () => { selected = { id: t.id, name: t.name, zar: t.zar }; ci.value = ''; refresh(); };
+            el.addEventListener('click', pick);
+            el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+          });
+        }
+        function refresh() {
+          csym.textContent = SYM[cur];
+          const v = +ci.value;
+          if (v > 0) { const zar = Math.round(v * RATES[cur]); selected = { id: 'custom', name: 'a custom', zar }; cimp.textContent = '≈ ' + impactOf(zar); }
+          else { cimp.textContent = ''; if (selected && selected.id === 'custom') selected = null; }
+          renderTiers();
+          cta.href = selected ? mailHref(selected.name, selected.zar) : mailHref('', 0);
+        }
+        curEl.addEventListener('change', () => { cur = curEl.value; refresh(); });
+        ci.addEventListener('input', refresh);
+        refresh();
+      })();
+    </script>
   </body>
 </html>
