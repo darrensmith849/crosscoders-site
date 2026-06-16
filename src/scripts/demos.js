@@ -121,6 +121,6 @@ if (!reduce) { const cg = document.createElement('div'); cg.className = 'cglow';
     const area = root.querySelector('.darea'); if (area) { if (reduce) area.style.opacity = '1'; else requestAnimationFrame(() => { area.style.opacity = '1'; }); }
     root.querySelectorAll('.pt').forEach((p, i) => setTimeout(() => p.classList.add('show'), 1000 + i * 180));
     root.querySelectorAll('.actrow').forEach((r, i) => setTimeout(() => r.classList.add('show'), 500 + i * 430));
-    if (!reduce) { const gv = root.querySelectorAll('.kpi .kv')[1]; if (gv) { const adds = [50, 25, 100, 75]; let ai = 0, given = 18420; setInterval(() => { if (document.hidden) return; given += adds[ai++ % adds.length]; gv.textContent = '$' + given.toLocaleString(); gv.style.color = 'var(--forest-deep)'; setTimeout(() => { gv.style.color = ''; }, 420); }, 5000); } }
+    if (!reduce) { const gv = root.querySelectorAll('.kpi .kv')[1]; if (gv) { const adds = [50, 25, 100, 75]; let ai = 0, given = 18420; setInterval(() => { if (document.hidden) return; given += adds[ai++ % adds.length]; gv.textContent = 'R' + given.toLocaleString(); gv.style.color = 'var(--forest-deep)'; setTimeout(() => { gv.style.color = ''; }, 420); }, 5000); } }
   }, 0.3);
 })();

@@ -4,7 +4,7 @@
 // illustrative until real build costs are set. In pledge mode (current = 0) it invites
 // people to be the first; the give button registers interest (no live payment yet).
 import { give } from '../lib/content';
-const kfmt = (n: number) => (n >= 1000 ? '$' + n / 1000 + 'k' : '$' + n);
+const kfmt = (n: number) => (n >= 1000 ? 'R' + n / 1000 + 'k' : 'R' + n);
 const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length) * 100));
 ---
 <section class="impact oak">
@@ -12,7 +12,7 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
     <div class="im-card">
       <div class="im-top">
         <span class="eyebrow">The Foundation · our goal</span>
-        <span class="im-multi">AI leverage — every $1 does ~$10 of work</span>
+        <span class="im-multi">AI leverage — every R1 does ~R10 of work</span>
       </div>
       <div class="im-head" id="im-head">Help under-resourced churches get online.</div>
       <div class="im-track"><div class="im-fill" id="im-fill"></div><div class="im-ghost" id="im-ghost"></div></div>
@@ -24,14 +24,14 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
       <div class="im-hr"></div>
       <div class="im-giveh">See what your gift would do:</div>
       <div class="im-chips" id="im-chips">
-        <button type="button" class="im-chip" data-v="25">$25</button>
-        <button type="button" class="im-chip" data-v="50">$50</button>
-        <button type="button" class="im-chip on" data-v="100">$100</button>
-        <button type="button" class="im-chip" data-v="250">$250</button>
+        <button type="button" class="im-chip" data-v="25">R25</button>
+        <button type="button" class="im-chip" data-v="50">R50</button>
+        <button type="button" class="im-chip on" data-v="100">R100</button>
+        <button type="button" class="im-chip" data-v="250">R250</button>
       </div>
-      <div class="im-sld"><input type="range" id="im-range" min="10" max="1000" step="10" value="100" aria-label="Gift amount" /><span class="im-amt" id="im-amt">$100</span></div>
-      <div class="im-impact" id="im-impact">Your $100 would help reach more people on the way to the next free church build.</div>
-      <a class="btn btn-primary im-give" href="/foundation/support" id="im-give">Pledge $100 <span class="arrow">→</span></a>
+      <div class="im-sld"><input type="range" id="im-range" min="10" max="1000" step="10" value="100" aria-label="Gift amount" /><span class="im-amt" id="im-amt">R100</span></div>
+      <div class="im-impact" id="im-impact">Your R100 would help reach more people on the way to the next free church build.</div>
+      <a class="btn btn-primary im-give" href="/foundation/support" id="im-give">Pledge R100 <span class="arrow">→</span></a>
       <p class="im-note">Giving opens once the Foundation is registered — pledge now and we'll be in touch. Tiers are illustrative until real build costs are confirmed.</p>
     </div>
   </div>
@@ -51,12 +51,12 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
       const proj = current + g, pp = pos(proj), churches = Math.floor(proj / cpb);
       ghost.style.left = curPos + '%'; ghost.style.width = Math.max(0, pp - curPos) + '%';
       if (proj <= 0) head.innerHTML = 'Be the <b>first</b> to fuel a build.';
-      else if (churches < 1) head.innerHTML = 'Your gift gets us started — <b>$' + proj.toLocaleString() + '</b> toward the first church.';
-      else head.innerHTML = '<b>$' + proj.toLocaleString() + '</b> raised · ' + Math.min(churches, totalCh) + ' of ' + totalCh + ' churches online.';
+      else if (churches < 1) head.innerHTML = 'Your gift gets us started — <b>R' + proj.toLocaleString() + '</b> toward the first church.';
+      else head.innerHTML = '<b>R' + proj.toLocaleString() + '</b> raised · ' + Math.min(churches, totalCh) + ' of ' + totalCh + ' churches online.';
       for (let i = 0; i < tiers.length; i++) tiers[i].classList.toggle('on', proj >= give.tiers[i].amount);
       const people = Math.round(g * ppb / cpb);
-      impact.innerHTML = 'Your <b>$' + g.toLocaleString() + '</b> would help reach about <b>' + people + ' people</b> — on the way to the next free church build.';
-      amt.textContent = '$' + g.toLocaleString(); range.value = g; giveBtn.innerHTML = 'Pledge $' + g.toLocaleString() + ' <span class="arrow">→</span>';
+      impact.innerHTML = 'Your <b>R' + g.toLocaleString() + '</b> would help reach about <b>' + people + ' people</b> — on the way to the next free church build.';
+      amt.textContent = 'R' + g.toLocaleString(); range.value = g; giveBtn.innerHTML = 'Pledge R' + g.toLocaleString() + ' <span class="arrow">→</span>';
       for (let j = 0; j < chips.length; j++) chips[j].classList.toggle('on', +chips[j].dataset.v === g);
     }
     range.addEventListener('input', () => update(+range.value));
