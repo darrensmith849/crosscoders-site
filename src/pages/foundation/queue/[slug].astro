@@ -26,7 +26,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         {c.image ? <img src={c.image} alt={c.name} /> : <ChurchArt kind={c.art} />}
       </div>
       <div class="qhero-tx">
-        <a class="qback" href="/foundation/queue">← The queue</a>
+        <a class="qback" href="/foundation/queue">← Funded projects</a>
         <span class={`qpill qpill-${stageMeta[c.stage].tone}`}>{stageMeta[c.stage].label}</span>
         <h1 class="serif">{c.name}</h1>
         <p class="qhero-meta">{c.kind} · {c.region}</p>
@@ -94,7 +94,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
 
   <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
     <div class="wrap">
-      <span class="eyebrow">More in the queue</span>
+      <span class="eyebrow">More funded projects</span>
       <h2 class="serif" style="margin:16px 0 28px;font-size:clamp(1.7rem,3vw,2.2rem)">Other churches you could help.</h2>
       <QueueGrid items={others} />
     </div>

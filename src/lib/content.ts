@@ -28,14 +28,13 @@ export const ctas = {
 export const give = {
   goal: 30000,
   current: 0,
-  costPerBuild: 2500,
+  costPerBuild: 10000,
   peoplePerBuild: 120,
   illustrative: true,
   tiers: [
-    { amount: 2500, label: '1 church' },
-    { amount: 10000, label: '4 churches' },
-    { amount: 20000, label: '8 churches' },
-    { amount: 30000, label: '12 · goal' },
+    { amount: 10000, label: '1 church' },
+    { amount: 20000, label: '2 churches' },
+    { amount: 30000, label: '3 · goal' },
   ],
 };
 
@@ -201,7 +200,7 @@ export const productBySlug = (slug: string) => products.find((p) => p.slug === s
 export const journey: { k: QueueStage | 'applied' | 'verified'; t: string; d: string }[] = [
   { k: 'applied', t: 'Applied', d: 'A church tells us what they need.' },
   { k: 'verified', t: 'Verified', d: 'We confirm a real, under-resourced ministry.' },
-  { k: 'approved', t: 'Approved', d: 'Accepted into the public queue.' },
+  { k: 'approved', t: 'Approved', d: 'Listed publicly as a funded project.' },
   { k: 'funding', t: 'Funding', d: 'Supporters pledge toward the build.' },
   { k: 'building', t: 'Building', d: 'We design, build and train the team.' },
   { k: 'shipped', t: 'Shipped', d: 'Live — and theirs to keep.' },
@@ -281,7 +280,7 @@ export const queue: QueueChurch[] = [
     raised: 0,
     story: [
       'Lighthouse runs camps and outreach for hundreds of young people across Soweto — and every event sign-up is a paper-and-pen scramble that loses kids in the gaps.',
-      'They’ve just been approved into the queue. They need online sign-ups, a site parents trust, and a chatbot to answer the after-hours questions that flood their leaders’ phones.',
+      'They’ve just been approved as a funded project. They need online sign-ups, a site parents trust, and a chatbot to answer the after-hours questions that flood their leaders’ phones.',
       'Be the first to pledge toward Lighthouse and help get this build funded.',
     ],
     outcome: 'Every young person signed up in seconds — and no leader answering DMs at midnight.',
@@ -318,7 +317,7 @@ export const queue: QueueChurch[] = [
     story: [
       'Cornerstone was the proof that this works. A small fellowship with a big heart and a budget that never stretched to a website.',
       'In a matter of weeks we built and launched their site — sermons, events and online giving — and trained their team to run it themselves.',
-      'It’s live today, fully funded by supporters like you. This is what every entry in this queue becomes.',
+      'It’s live today, fully funded by supporters like you. This is what every funded project here becomes.',
     ],
     outcome: 'Live, found, giving online — and run entirely by their own team.',
   },

@@ -24,18 +24,30 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
       <div class="im-hr"></div>
       <div class="im-giveh">See what your gift would do:</div>
       <div class="im-chips" id="im-chips">
-        <button type="button" class="im-chip" data-v="25">R25</button>
         <button type="button" class="im-chip" data-v="50">R50</button>
         <button type="button" class="im-chip on" data-v="100">R100</button>
         <button type="button" class="im-chip" data-v="250">R250</button>
+        <button type="button" class="im-chip" data-custom>Custom</button>
       </div>
-      <div class="im-sld"><input type="range" id="im-range" min="10" max="1000" step="10" value="100" aria-label="Gift amount" /><span class="im-amt" id="im-amt">R100</span></div>
+      <div class="im-custom" id="im-customwrap" hidden>
+        <span class="im-cur">R</span>
+        <input type="number" id="im-custom" min="50" step="50" inputmode="numeric" placeholder="Enter any amount" aria-label="Custom gift amount" />
+      </div>
+      <div class="im-sld"><input type="range" id="im-range" min="50" max="1000" step="50" value="100" aria-label="Gift amount" /><span class="im-amt" id="im-amt">R100</span></div>
       <div class="im-impact" id="im-impact">Your R100 would help reach more people on the way to the next free church build.</div>
       <a class="btn btn-primary im-give" href="/foundation/support" id="im-give">Pledge R100 <span class="arrow">→</span></a>
       <p class="im-note">Giving opens once the Foundation is registered — pledge now and we'll be in touch. Tiers are illustrative until real build costs are confirmed.</p>
     </div>
   </div>
 </section>
+
+<style>
+  .im-custom { display: flex; align-items: center; gap: 8px; margin-top: 12px; max-width: 260px; }
+  .im-custom[hidden] { display: none; }
+  .im-cur { font-weight: 600; color: var(--ink-soft); }
+  .im-custom input { flex: 1; font-family: inherit; font-size: 1rem; color: var(--ink); background: var(--linen); border: 1px solid var(--line); border-radius: 11px; padding: 11px 13px; transition: border-color .2s; }
+  .im-custom input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
+</style>
 
 <script define:vars={{ give, tierPos }}>
   (function () {
@@ -44,10 +56,20 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
     const flags = [{ a: 0, p: 0 }].concat(give.tiers.map((t, i) => ({ a: t.amount, p: tierPos[i] })));
     function pos(a) { a = Math.max(0, Math.min(a, goal)); for (let i = 1; i < flags.length; i++) { if (a <= flags[i].a) { const p = flags[i - 1], q = flags[i]; return p.p + (a - p.a) / (q.a - p.a) * (q.p - p.p); } } return 100; }
     const curPos = pos(current);
-    const fill = document.getElementById('im-fill'), ghost = document.getElementById('im-ghost'), head = document.getElementById('im-head'), impact = document.getElementById('im-impact'), amt = document.getElementById('im-amt'), range = document.getElementById('im-range'), giveBtn = document.getElementById('im-give'), tiers = document.getElementById('im-tiers').children, chips = document.getElementById('im-chips').children;
+    const fill = document.getElementById('im-fill'), ghost = document.getElementById('im-ghost'), head = document.getElementById('im-head'), impact = document.getElementById('im-impact'), amt = document.getElementById('im-amt'), range = document.getElementById('im-range'), giveBtn = document.getElementById('im-give'), tiers = document.getElementById('im-tiers').children;
+    const chips = [...document.getElementById('im-chips').children];
+    const customWrap = document.getElementById('im-customwrap'), customInput = document.getElementById('im-custom');
     if (!fill) return;
+    let customMode = false;
     fill.style.width = curPos + '%';
+    function setChips(g) {
+      for (const c of chips) {
+        if (c.hasAttribute('data-custom')) c.classList.toggle('on', customMode);
+        else c.classList.toggle('on', !customMode && +c.dataset.v === g);
+      }
+    }
     function update(g) {
+      g = Math.max(50, Math.round(g) || 50);
       const proj = current + g, pp = pos(proj), churches = Math.floor(proj / cpb);
       ghost.style.left = curPos + '%'; ghost.style.width = Math.max(0, pp - curPos) + '%';
       if (proj <= 0) head.innerHTML = 'Be the <b>first</b> to fuel a build.';
@@ -55,12 +77,22 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
       else head.innerHTML = '<b>R' + proj.toLocaleString() + '</b> raised · ' + Math.min(churches, totalCh) + ' of ' + totalCh + ' churches online.';
       for (let i = 0; i < tiers.length; i++) tiers[i].classList.toggle('on', proj >= give.tiers[i].amount);
       const people = Math.round(g * ppb / cpb);
-      impact.innerHTML = 'Your <b>R' + g.toLocaleString() + '</b> would help reach about <b>' + people + ' people</b> — on the way to the next free church build.';
-      amt.textContent = 'R' + g.toLocaleString(); range.value = g; giveBtn.innerHTML = 'Pledge R' + g.toLocaleString() + ' <span class="arrow">→</span>';
-      for (let j = 0; j < chips.length; j++) chips[j].classList.toggle('on', +chips[j].dataset.v === g);
+      impact.innerHTML = 'Your <b>R' + g.toLocaleString() + '</b> would help reach about <b>' + people + (people === 1 ? ' person' : ' people') + '</b> — on the way to the next free church build.';
+      amt.textContent = 'R' + g.toLocaleString(); if (+range.value !== g) range.value = g; giveBtn.innerHTML = 'Pledge R' + g.toLocaleString() + ' <span class="arrow">→</span>';
+      setChips(g);
     }
-    range.addEventListener('input', () => update(+range.value));
-    for (let k = 0; k < chips.length; k++) chips[k].addEventListener('click', function () { update(+this.dataset.v); });
+    range.addEventListener('input', () => { customMode = false; customWrap.hidden = true; update(+range.value); });
+    for (const c of chips) {
+      c.addEventListener('click', function () {
+        if (this.hasAttribute('data-custom')) {
+          customMode = true; customWrap.hidden = false; customInput.focus();
+          update(+customInput.value || 50);
+        } else {
+          customMode = false; customWrap.hidden = true; update(+this.dataset.v);
+        }
+      });
+    }
+    customInput.addEventListener('input', () => { customMode = true; update(+customInput.value || 50); });
     update(100);
   })();
 </script>

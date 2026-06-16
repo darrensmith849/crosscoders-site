@@ -41,7 +41,7 @@ const groups: { label: string; items: Item[] }[] = [
   { label: 'What we build', items: products.map((p) => ({ name: p.name, href: `/services/${p.slug}`, icon: p.icon, desc: productDesc[p.slug] })) },
   { label: 'Who we serve', items: segments.map((s) => ({ name: s.label.replace('For ', ''), href: `/for/${s.slug}`, icon: segIcon[s.slug] })) },
   { label: 'Our approach', items: [ { name: 'Our approach to AI', href: '/ai', icon: 'ai' }, { name: 'How we work', href: '/process', icon: 'route' } ] },
-  { label: 'Foundation', items: [ { name: 'The Foundation', href: '/foundation', icon: 'heart' }, { name: 'The queue', href: '/foundation/queue', icon: 'church' }, { name: 'Apply for a build', href: '/foundation/apply', icon: 'doc' }, { name: 'Support the mission', href: '/foundation/support', icon: 'gift' } ] },
+  { label: 'Foundation', items: [ { name: 'Funded projects', href: '/foundation/queue', icon: 'church' }, { name: 'The Foundation', href: '/foundation', icon: 'heart' }, { name: 'Apply for a build', href: '/foundation/apply', icon: 'doc' }, { name: 'Support the mission', href: '/foundation/support', icon: 'gift' } ] },
   { label: 'Studio', items: [ { name: 'About us', href: '/about', icon: 'users' }, { name: 'Our work', href: '/work', icon: 'star' }, { name: 'Insights', href: '/insights', icon: 'book' }, { name: 'FAQ', href: '/faq', icon: 'help' }, { name: 'Contact', href: '/contact', icon: 'mail' } ] },
 ];
 ---
