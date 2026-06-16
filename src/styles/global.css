@@ -440,3 +440,14 @@ nav{display:flex;align-items:center;justify-content:flex-start;gap:22px;height:7
 .chatw-form input::placeholder{color:var(--cream-dim)}
 .chatw-form .send{cursor:pointer;border:0}
 .bub.typing{opacity:.55}
+.apply-done{padding:8px 0}.apply-done h3{font-size:1.4rem;color:var(--forest-deep);margin-bottom:8px}.apply-done p{color:var(--ink-soft);line-height:1.6}
+.apply-err{color:#A32D2D;font-size:.9rem;margin-top:12px}
+/* EFT bank-details block */
+.eft{background:var(--linen);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 26px;max-width:560px}
+.eft h4{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;margin-bottom:4px}
+.eft .eft-note{font-size:.85rem;color:var(--ink-mute);margin-bottom:16px}
+.eft dl{display:grid;grid-template-columns:auto 1fr;gap:9px 18px;margin:0}
+.eft dt{color:var(--ink-mute);font-size:.9rem}
+.eft dd{margin:0;color:var(--ink);font-weight:500;font-size:.95rem}
+.eft dd.mono{font-family:'JetBrains Mono',monospace}
+.eft .eft-ref{margin-top:16px;font-size:.85rem;color:var(--ink-soft);background:rgba(19,178,74,.07);border:1px solid rgba(19,178,74,.18);border-radius:10px;padding:10px 13px;line-height:1.5}

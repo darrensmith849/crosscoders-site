@@ -38,7 +38,8 @@ const faq = [
 
   <section class="psec" style="background:var(--paper);border-top:1px solid var(--line)">
     <div class="wrap formwrap">
-      <form action="#" method="post">
+      <form action="/api/apply" method="post" data-applyform>
+        <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
         <div class="field"><label>Your name *</label><input name="name" required /></div>
         <div class="field"><label>Church / ministry / organisation *</label><input name="org" required /></div>
         <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
@@ -65,4 +66,28 @@ const faq = [
       <p style="margin-top:26px;color:var(--ink-soft)">Not under-resourced but love the mission? <a href="/foundation/support" style="color:var(--forest-deep);text-decoration:underline">Support a build →</a></p>
     </div>
   </section>
+
+  <script>
+    const f = document.querySelector('[data-applyform]');
+    if (f) {
+      f.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = f.querySelector('button[type=submit]');
+        const data = Object.fromEntries(new FormData(f).entries());
+        data.source = 'Foundation apply form';
+        const orig = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sending…';
+        try {
+          const r = await fetch('/api/apply', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok || !j.ok) throw new Error();
+          f.innerHTML = '<div class="apply-done"><h3 class="serif">Thank you — we\'ve got it.</h3><p>We read every application and will be in touch by email. No pressure, no catch.</p></div>';
+        } catch {
+          btn.disabled = false; btn.innerHTML = orig;
+          let m = f.querySelector('.apply-err');
+          if (!m) { m = document.createElement('p'); m.className = 'apply-err'; btn.insertAdjacentElement('afterend', m); }
+          m.textContent = "Sorry — something went wrong. Please email darren@2ko.co.za and we'll sort it out.";
+        }
+      });
+    }
+  </script>
 </BaseLayout>
