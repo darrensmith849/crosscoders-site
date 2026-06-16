@@ -17,6 +17,17 @@ const heroDemoBySlug: Record<string, string> = {
 };
 const demo = heroDemoBySlug[p.slug] ?? 'build';
 
+// A unique workspace photo behind the dark "AI difference" section, one per service.
+// web-mobile-apps is intentionally left without (its hero already carries the phone duo).
+const darkBgBySlug: Record<string, { img: string; alt: string }> = {
+  'websites': { img: '/img/bg-studio.jpg', alt: 'A senior team collaborating in a stylish, plant-filled studio' },
+  'ai-agents': { img: '/img/bg-discussion.jpg', alt: 'Colleagues engaged in a focused, productive discussion' },
+  'chatbots': { img: '/img/bg-planning.jpg', alt: 'A team planning together over notes and laptops' },
+  'automation': { img: '/img/bg-lobby.jpg', alt: 'Colleagues collaborating in a bright, open lobby' },
+  'custom-software': { img: '/img/bg-meeting.jpg', alt: 'A team meeting in a modern, light-filled space' },
+};
+const darkBg = darkBgBySlug[p.slug];
+
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -76,7 +87,9 @@ const jsonld = {
     </div>
   </section>
 
-  <section class="psec dark">
+  <section class={`psec dark${darkBg ? ' photobg' : ''}`}>
+    {darkBg && <img class="psec-bg" src={darkBg.img} alt={darkBg.alt} loading="lazy" decoding="async" />}
+    {darkBg && <div class="psec-bg-ov"></div>}
     <div class="wrap two">
       <div>
         <span class="eyebrow">The AI difference</span>

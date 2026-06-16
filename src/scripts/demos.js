@@ -69,16 +69,18 @@ if (!reduce) { const cg = document.createElement('div'); cg.className = 'cglow';
 // LIVE BUILD WINDOW --------------------------------------------------------
 (function () {
   const win = document.querySelector('.buildwin'); if (!win) return;
-  const ptr = win.querySelector('.bw-pointer'), h = win.querySelector('.bw-h'), pill = win.querySelector('.bw-pill'), pillt = win.querySelector('.bw-pill .txt'), st = win.querySelector('.bw-status .mono');
+  const ptr = win.querySelector('.bw-pointer'), h = win.querySelector('.bw-h'), sub = win.querySelector('.bw-sub'), pill = win.querySelector('.bw-pill'), pillt = win.querySelector('.bw-pill .txt'), st = win.querySelector('.bw-status .mono');
   const ba = [...win.querySelectorAll('.ba')];
+  const SUBTEXT = 'A Kingdom Come Foundation project';
   const at = (x, y) => { if (ptr) ptr.style.transform = `translate(${x}px,${y}px)`; };
-  if (reduce) { ba.forEach((b) => b.classList.add('show')); if (h) h.textContent = 'Welcome home'; if (pillt) pillt.textContent = 'live'; if (st) st.textContent = 'shipped ✓'; return; }
+  if (reduce) { ba.forEach((b) => b.classList.add('show')); if (h) h.textContent = 'Welcome home'; if (sub) { sub.textContent = SUBTEXT; sub.classList.add('in', 'done'); } if (pillt) pillt.textContent = 'live'; if (st) st.textContent = 'shipped ✓'; return; }
   async function build() {
     while (true) {
-      ba.forEach((b) => b.classList.remove('show')); if (h) h.textContent = '';
+      ba.forEach((b) => b.classList.remove('show')); if (h) h.textContent = ''; if (sub) { sub.textContent = ''; sub.classList.remove('in', 'done'); }
       pill.classList.remove('done'); pillt.textContent = 'building'; at(150, 12); st.textContent = 'initialising…'; await wait(700);
       at(60, 30); st.textContent = 'scaffolding layout…'; ba[0] && ba[0].classList.add('show'); await wait(650);
       at(120, 96); st.textContent = 'writing copy…'; await typeInto(h, 'Welcome home', 58); await wait(250);
+      if (sub) { st.textContent = 'signing it…'; sub.classList.add('in'); await wait(120); await typeInto(sub, SUBTEXT, 34); sub.classList.add('done'); await wait(300); }
       ba[1] && ba[1].classList.add('show'); ba[2] && ba[2].classList.add('show'); await wait(450);
       at(110, 150); st.textContent = 'styling components…'; ba[3] && ba[3].classList.add('show'); await wait(650);
       at(230, 210); st.textContent = 'wiring the AI agent…'; ba[4] && ba[4].classList.add('show'); await wait(220); ba[5] && ba[5].classList.add('show'); await wait(220); ba[6] && ba[6].classList.add('show'); await wait(550);
