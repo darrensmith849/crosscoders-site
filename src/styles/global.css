@@ -13,7 +13,9 @@
   --shadow-lg:0 1px 0 0 rgba(255,250,240,.6) inset,0 30px 64px -24px rgba(60,40,20,.26);
   --fglow:0 0 0 1px rgba(19,178,74,.30),0 16px 44px -18px rgba(19,178,74,.5);
   --r:14px;--r-lg:22px;
+  --header-h:76px;
 }
+html{scroll-padding-top:var(--header-h)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;background:var(--bone);
@@ -36,7 +38,7 @@ h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-.015em;
 .btn-primary:hover{background:var(--forest-deep);box-shadow:var(--fglow)}
 .btn-ghost{color:var(--ink)}
 .btn .arrow{transition:transform .25s ease}.btn:hover .arrow{transform:translateX(5px)}
-header{position:sticky;top:0;z-index:50;background:transparent}
+header{position:fixed;top:0;left:0;right:0;z-index:50;background:transparent}
 nav{display:flex;align-items:center;justify-content:space-between;height:76px}
 .brand{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-size:1.34rem;font-weight:600;letter-spacing:-.02em}
 .mark{width:28px;height:28px;border-radius:8px;background:var(--ink);position:relative;flex:none}
@@ -44,7 +46,7 @@ nav{display:flex;align-items:center;justify-content:space-between;height:76px}
 .mark::before{width:12px;height:2.6px;top:12.7px;left:8px}.mark::after{width:2.6px;height:12px;top:8px;left:12.7px}
 .nav-links{display:flex;align-items:center;gap:30px}
 .nav-links a{font-size:.92rem;color:var(--ink-soft);font-weight:450;transition:color .2s}.nav-links a:hover{color:var(--forest-deep)}
-.hero{padding:72px 0 50px;text-align:center;position:relative;overflow:hidden}
+.hero{padding:calc(72px + var(--header-h)) 0 50px;text-align:center;position:relative;overflow:hidden}
 .hero-inner{max-width:880px;margin:0 auto;position:relative;z-index:2}
 .hero h1{font-weight:500;font-size:clamp(2.7rem,6.4vw,5rem);line-height:1.03;letter-spacing:-.025em;margin:24px 0 0}
 .hero .sub{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--ink-soft);max-width:650px;margin:26px auto 0;line-height:1.62}
@@ -86,7 +88,7 @@ footer .brand{color:var(--cream-d)}
 .f-legal{border:0;padding-top:10px;font-size:.78rem}
 @media(max-width:900px){.f-top{grid-template-columns:1fr 1fr;gap:36px}.f-brand{grid-column:1/-1;max-width:none}}
 @media(max-width:560px){.f-top{grid-template-columns:1fr;gap:30px}.f-bottom{flex-direction:column;align-items:flex-start;gap:10px}}
-.ph{padding:64px 0 28px;text-align:center;position:relative}
+.ph{padding:calc(64px + var(--header-h)) 0 28px;text-align:center;position:relative}
 .ph .eyebrow{justify-content:center}
 .ph h1{font-weight:500;font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.025em;margin:22px 0 0}
 .ph .sub{font-size:clamp(1.05rem,1.5vw,1.25rem);color:var(--ink-soft);max-width:620px;margin:22px auto 0;line-height:1.6}
@@ -432,19 +434,12 @@ footer .brand-sub{color:var(--cream-dim)}
 @media(prefers-reduced-motion:reduce){.im-fill,.im-ghost{transition:none}}
 
 /* ============================ OAK TABLETOP ============================ */
-/* A polished oak-grain texture for select feature sections only — anisotropic
-   feTurbulence (low X / high Y) gives wood streaks, not isotropic noise. */
-.oak{position:relative;background-color:#5E4528;background-image:repeating-linear-gradient(0deg,transparent 0 99px,rgba(0,0,0,.2) 99px 100px,rgba(255,240,214,.05) 100px 101px,transparent 101px 103px),radial-gradient(135% 95% at 26% -10%,rgba(255,242,214,.16),transparent 54%),linear-gradient(180deg,#7C5E39 0%,#5E4528 58%,#4B3920 100%);border-color:rgba(245,239,224,.16)}
-.oak::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='280'><filter id='wd'><feTurbulence type='fractalNoise' baseFrequency='0.017 0.58' numOctaves='4' seed='11'/><feColorMatrix values='0 0 0 0 0.15 0 0 0 0 0.09 0 0 0 0 0.04 0 0 0 0.72 0'/></filter><rect width='100%' height='100%' filter='url(%23wd)'/></svg>");background-size:640px 280px}
-.oak::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.42;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='680' height='300'><filter id='wl'><feTurbulence type='fractalNoise' baseFrequency='0.015 0.5' numOctaves='4' seed='4'/><feColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.86 0 0 0 0 0.66 0 0 0 0.85 0'/></filter><rect width='100%' height='100%' filter='url(%23wl)'/></svg>");background-size:680px 300px}
+/* Honey-oak tabletop for select feature sections — matches WWYW's wood:
+   a warm wood-tan base + anisotropic grain (low X / high Y) at multiply, so
+   streaks read on the light base. Dark text sits on it; light cards float. */
+.oak{position:relative;background:#E8D6B0}
+.oak::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.26;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='620' height='260'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='0.022 0.62' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.34 0 0 0 0 0.24 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23w)'/></svg>");background-size:620px 260px}
 .oak > *{position:relative;z-index:1}
-/* Cream treatment for text sitting DIRECTLY on the band (not inside floating cards). */
-.oak > .wrap > .eyebrow{color:var(--brass-bright)}
-.oak > .wrap > .eyebrow::before{background:var(--brass-bright)}
-.oak > .wrap > h2,.oak > .wrap > h3{color:var(--cream-d)}
-.oak > .wrap > p{color:var(--cream-muted)}
-.oak > .wrap .btn-ghost{color:var(--cream-d);border-color:rgba(245,239,224,.34)}
-.oak > .wrap .btn-ghost:hover{border-color:rgba(245,239,224,.62);background:rgba(245,239,224,.07)}
 
 /* ============================ LIVE CHAT WIDGET ============================ */
 .chatw{display:flex;flex-direction:column;max-width:580px}
@@ -522,14 +517,9 @@ footer .brand-sub{color:var(--cream-dim)}
 .jstep.done .jdot{background:var(--forest);border-color:var(--forest);color:#fff}
 .jstep.done::before{background:var(--forest)}
 .jstep.now .jdot{box-shadow:0 0 0 5px rgba(19,178,74,.18)}
-/* On wood */
-.journey.wood .jdot{background:rgba(255,247,228,.1);border-color:rgba(245,239,224,.4);color:var(--cream-d)}
-.journey.wood .jstep::before{background:rgba(245,239,224,.28)}
-.journey.wood .jtx b{color:var(--cream-d)}
-.journey.wood .jtx i{color:var(--cream-muted)}
-.journey.wood .jstep.done .jdot{background:var(--forest-bright);border-color:var(--forest-bright);color:#0c2b16}
-.journey.wood .jstep.done::before{background:var(--forest-bright)}
-.journey.wood .jstep.now .jdot{box-shadow:0 0 0 5px rgba(63,209,116,.25)}
+/* On honey-oak wood — slightly stronger dots/lines for the warmer base */
+.journey.wood .jdot{background:var(--linen);border-color:var(--brass-deep);color:var(--ink-soft)}
+.journey.wood .jstep::before{background:rgba(58,44,32,.22)}
 @media(max-width:760px){
   .journey{flex-direction:column;gap:18px;max-width:340px;margin-inline:auto}
   .jstep{flex-direction:row;text-align:left;gap:14px;padding:0}
@@ -538,7 +528,7 @@ footer .brand-sub{color:var(--cream-dim)}
 }
 
 /* Detail hero */
-.qhero{background:linear-gradient(180deg,var(--paper),var(--linen));border-bottom:1px solid var(--line);padding:clamp(2rem,5vw,3.2rem) 0}
+.qhero{background:linear-gradient(180deg,var(--paper),var(--linen));border-bottom:1px solid var(--line);padding:calc(var(--header-h) + clamp(1.6rem,4vw,2.6rem)) 0 clamp(2rem,5vw,3.2rem)}
 .qhero-in{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:clamp(24px,4vw,48px);align-items:center}
 .qhero-art{aspect-ratio:3/2;background:linear-gradient(168deg,#ECF4E6,#F1E7CF);border:1px solid var(--line);border-radius:var(--r-lg);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
 .qhero-art .churchart{width:80%;height:88%}
