@@ -75,10 +75,11 @@ const title = 'Kingdom Come Foundation — Investor Preview';
           </div>
           <div class="u-stem"></div>
           <div class="u-grid">
-            <div class="u-card u-live">
+            <a class="u-card u-live" href="https://crosscoders.pages.dev" target="_blank" rel="noopener noreferrer">
               <div class="u-card-h"><Mark size={26} /> <b>CrossCoders</b> <span class="u-badge">Live</span></div>
               <p>Free, world-class software for under-resourced churches — funded by paid work, multiplied by AI.</p>
-            </div>
+              <span class="u-visit">Visit CrossCoders ↗</span>
+            </a>
             <div class="u-card"><div class="u-card-h">🕊️ <b>Orphan care</b> <span class="u-badge soon">Next</span></div><p>Supporting homes and carers who raise the children no one else will.</p></div>
             <div class="u-card"><div class="u-card-h">🧶 <b>The Makers</b> <span class="u-badge soon">Next</span></div><p>Backing the women who knit and sew for churches, the cold and the homeless in their spare time.</p></div>
             <div class="u-card"><div class="u-card-h">🤝 <b>Giving &amp; relief</b> <span class="u-badge soon">Next</span></div><p>Infrastructure for generosity — feeding, shelter, and getting help where the gospel is already at work.</p></div>
@@ -260,8 +261,12 @@ const title = 'Kingdom Come Foundation — Investor Preview';
       .u-tag { font-size: .8rem; color: var(--brass); margin-top: 4px; letter-spacing: .02em; }
       .u-stem { width: 2px; height: 40px; margin: 16px auto 0; background: linear-gradient(var(--brass), transparent); }
       .u-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 8px; }
-      .u-card { background: var(--mocha); border: 1px solid var(--dline); border-radius: var(--r); padding: 18px 16px; }
+      .u-card { display: block; background: var(--mocha); border: 1px solid var(--dline); border-radius: var(--r); padding: 18px 16px; }
       .u-card.u-live { border-color: rgba(63,209,116,.42); box-shadow: 0 0 0 1px rgba(63,209,116,.18); }
+      a.u-card { cursor: pointer; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+      a.u-card:hover { transform: translateY(-3px); border-color: rgba(63,209,116,.7); box-shadow: 0 0 0 1px rgba(63,209,116,.32), 0 16px 34px -20px rgba(0,0,0,.7); }
+      .u-visit { display: inline-flex; align-items: center; gap: 5px; margin-top: 11px; font-size: .74rem; font-weight: 600; color: var(--forest-bright); }
+      a.u-card:hover .u-visit { text-decoration: underline; }
       .u-card-h { display: flex; align-items: center; gap: 8px; font-size: .98rem; color: var(--cream-d); margin-bottom: 8px; flex-wrap: wrap; }
       .u-card p { font-size: .84rem; line-height: 1.5; color: var(--cream-muted); }
       .u-badge { font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; background: var(--forest-deep); color: #fff; font-weight: 600; }
