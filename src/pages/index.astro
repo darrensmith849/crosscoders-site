@@ -72,6 +72,7 @@ const appsProduct = products.find((p) => p.slug === 'web-mobile-apps');
             <div class="ic"><Fragment set:html={icons[p.icon]} /></div>
             <h3 class="serif">{p.name}</h3>
             <p>{p.blurb}</p>
+            <span class="card-more">Learn more <span class="arrow">→</span></span>
           </a>
         ))}
       </div>
@@ -156,3 +157,11 @@ const appsProduct = products.find((p) => p.slug === 'web-mobile-apps');
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .grid3 .card { display: flex; flex-direction: column; }
+  .card-more { margin-top: auto; padding-top: 18px; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; font-weight: 600; color: var(--forest-deep); }
+  .card-more .arrow { transition: transform .2s ease; }
+  .card:hover .card-more { color: var(--forest); }
+  .card:hover .card-more .arrow { transform: translateX(4px); }
+</style>
