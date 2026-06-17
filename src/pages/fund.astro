@@ -4,7 +4,6 @@
 // NOT use the public Header/Footer or appear in the public nav or sitemap.
 // Kingdom Come Foundation is the umbrella; CrossCoders is the first venture under it.
 import '../styles/global.css';
-import KingdomMark from '../components/KingdomMark.astro';
 import Mark from '../components/Mark.astro';
 import { brand, give } from '../lib/content';
 
@@ -30,8 +29,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
     <header class="p-hero">
       <div class="p-hero-glow"></div>
       <div class="wrap p-hero-in">
-        <div class="p-logo"><KingdomMark size={92} /></div>
-        <span class="eyebrow center p-eye">Kingdom Come Foundation</span>
+        <div class="p-logo"><img class="p-logo-img" src="/img/kcf-logo.png" width="1600" height="427" alt="Kingdom Come Foundation" /></div>
         <h1 class="serif p-title">Until His Kingdom<br /><em>comes</em>.</h1>
         <p class="p-lead">A gospel foundation built to empower the Church across the board — pairing
           technology, mercy, and the work of willing hands. <strong>CrossCoders is where it
@@ -69,7 +67,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
 
         <div class="umbrella">
           <div class="u-top">
-            <div class="u-crown"><KingdomMark size={64} /></div>
+            <div class="u-crown"><img class="u-crown-img" src="/img/kcf-mark.png" width="512" height="512" alt="" /></div>
             <div class="u-name serif">Kingdom Come Foundation</div>
             <div class="u-tag">the umbrella · everything gospel-related</div>
           </div>
@@ -194,8 +192,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
     <!-- ============ FOOTER ============ -->
     <footer class="p-foot">
       <div class="wrap">
-        <div class="p-foot-mark"><KingdomMark size={40} animated={false} /></div>
-        <div class="p-foot-name serif">Kingdom Come Foundation</div>
+        <div class="p-foot-mark"><img class="p-foot-img" src="/img/kcf-logo.png" width="1600" height="427" alt="Kingdom Come Foundation" /></div>
         <div class="p-verse">{brand.verse}</div>
         <div class="p-foot-meta">Confidential investor preview · CrossCoders is a venture of Kingdom Come Foundation · {brand.email}</div>
       </div>
@@ -214,9 +211,8 @@ const title = 'Kingdom Come Foundation — Investor Preview';
         radial-gradient(ellipse 700px 460px at 50% 8%, rgba(201,169,97,.20), transparent 62%),
         radial-gradient(ellipse 800px 520px at 50% 100%, rgba(19,178,74,.10), transparent 60%); }
       .p-hero-in { position: relative; z-index: 1; }
-      .p-logo { display: flex; justify-content: center; margin-bottom: 26px; }
-      .p-eye { color: var(--brass-bright) !important; }
-      .p-eye::before { background: var(--brass-bright) !important; }
+      .p-logo { display: flex; justify-content: center; margin-bottom: 22px; }
+      .p-logo-img { width: min(540px, 86vw); height: auto; display: block; }
       .p-title { font-size: clamp(2.8rem,7vw,5.2rem); line-height: 1; margin: 14px 0 0; color: var(--cream-d); }
       .p-title em { color: var(--brass-bright); }
       .p-lead { max-width: 620px; margin: 26px auto 0; font-size: clamp(1.05rem,1.7vw,1.32rem); line-height: 1.6; color: var(--cream-muted); }
@@ -258,6 +254,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
       .umbrella { margin: 44px auto 0; max-width: 980px; }
       .u-top { text-align: center; }
       .u-crown { display: flex; justify-content: center; margin-bottom: 14px; }
+      .u-crown-img { width: 64px; height: 64px; display: block; }
       .u-name { font-size: clamp(1.4rem,2.6vw,1.9rem); color: var(--cream-d); }
       .u-tag { font-size: .8rem; color: var(--brass); margin-top: 4px; letter-spacing: .02em; }
       .u-stem { width: 2px; height: 40px; margin: 16px auto 0; background: linear-gradient(var(--brass), transparent); }
@@ -328,8 +325,8 @@ const title = 'Kingdom Come Foundation — Investor Preview';
       @media (max-width: 760px) { .p-tiers { grid-template-columns: 1fr; } .p-invest-top { align-items: flex-start; } }
 
       .p-foot { background: var(--charcoal); color: var(--cream-dim); text-align: center; padding: 48px 0; }
-      .p-foot-mark { display: flex; justify-content: center; margin-bottom: 14px; }
-      .p-foot-name { color: var(--cream-d); font-size: 1.15rem; }
+      .p-foot-mark { display: flex; justify-content: center; margin-bottom: 16px; }
+      .p-foot-img { width: min(240px, 72vw); height: auto; display: block; }
       .p-verse { font-family: 'Fraunces', serif; font-style: italic; color: var(--brass); margin: 10px auto 16px; max-width: 460px; font-size: .95rem; }
       .p-foot-meta { font-size: .76rem; color: var(--cream-dim); }
 
