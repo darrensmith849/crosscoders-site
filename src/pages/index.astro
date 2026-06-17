@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import IntroSplash from '../components/IntroSplash.astro';
+import Mark from '../components/Mark.astro';
 import LiveBuild from '../components/demos/LiveBuild.astro';
 import PhotoBand from '../components/demos/PhotoBand.astro';
 import PhoneDuo from '../components/demos/PhoneDuo.astro';
@@ -33,6 +35,10 @@ const appsProduct = products.find((p) => p.slug === 'web-mobile-apps');
 ---
 
 <BaseLayout>
+  <IntroSplash title="CrossCoders" subtitle="A Kingdom Come Foundation Venture">
+    <Mark size={172} />
+  </IntroSplash>
+
   <section class="hero">
     <div class="aurora"><span class="blob a"></span><span class="blob b"></span><span class="blob c"></span></div>
     <div class="wrap">

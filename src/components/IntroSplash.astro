@@ -1,0 +1,67 @@
+---
+// IntroSplash.astro — full-screen, scroll-driven intro.
+// The logo holds the screen, then on scroll it surges forward and the dark scene
+// dissolves into the site. Drop it at the TOP of your home page (inside the layout,
+// above your hero) and put your logo in the slot. Everything below it becomes the
+// site you scroll into.
+interface Props { title?: string; subtitle?: string }
+const { title = 'CrossCoders', subtitle = 'A Kingdom Come Foundation Venture' } = Astro.props;
+---
+<div class="cc-splash" id="ccSplash">
+  <div class="cc-splash-bg"></div>
+  <div class="cc-splash-inner">
+    <div class="cc-splash-mark" id="ccSplashMark"><slot /></div>
+    {title && <div class="cc-splash-word" id="ccSplashWord">{title}</div>}
+    <div class="cc-splash-sub" id="ccSplashSub"><i class="ln"></i><span>{subtitle}</span><i class="ln"></i></div>
+    <div class="cc-splash-hint" id="ccSplashHint"><span>scroll to enter</span><b aria-hidden="true">↓</b></div>
+  </div>
+</div>
+<div class="cc-splash-spacer" id="ccSplashSpacer" aria-hidden="true"></div>
+
+<style>
+  .cc-splash { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; overflow: hidden; will-change: opacity; }
+  .cc-splash-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 52% at 50% 41%, #1b1712 0%, #0c0b08 68%); }
+  .cc-splash-inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 26px; text-align: center; padding: 0 24px; }
+  .cc-splash-mark { will-change: transform, opacity; filter: drop-shadow(0 0 46px rgba(229,198,133,.28)); transform-origin: center 46%; }
+  .cc-splash-word { font-family: 'Fraunces', Georgia, serif; color: var(--cream-d, #F5EFE0); font-size: clamp(1.9rem, 5vw, 3.4rem); font-weight: 600; letter-spacing: -.01em; line-height: 1.04; margin-top: 4px; }
+  .cc-splash-sub { display: inline-flex; align-items: center; gap: 14px; color: var(--brass-bright, #E5C685); font-family: 'Inter', system-ui, sans-serif; font-size: clamp(.62rem, 1.6vw, .74rem); font-weight: 600; letter-spacing: .26em; text-transform: uppercase; }
+  .cc-splash-sub .ln { width: 26px; height: 1px; flex: none; background: var(--brass, #C9A961); opacity: .7; }
+  .cc-splash-hint { display: flex; flex-direction: column; align-items: center; gap: 9px; color: var(--cream-dim, #9A917E); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; margin-top: 10px; }
+  .cc-splash-hint b { font-size: 1.1rem; color: var(--brass, #C9A961); animation: cc-bob 1.8s ease-in-out infinite; }
+  @keyframes cc-bob { 0%, 100% { transform: translateY(0); opacity: .7; } 50% { transform: translateY(7px); opacity: 1; } }
+  .cc-splash-spacer { height: 104vh; }
+  @media (prefers-reduced-motion: reduce) { .cc-splash, .cc-splash-spacer { display: none; } }
+</style>
+
+<script>
+  (function () {
+    const splash = document.getElementById('ccSplash');
+    const spacer = document.getElementById('ccSplashSpacer');
+    const mark = document.getElementById('ccSplashMark');
+    const word = document.getElementById('ccSplashWord');
+    const sub = document.getElementById('ccSplashSub');
+    const hint = document.getElementById('ccSplashHint');
+    const header = document.querySelector('header');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!splash || !spacer || reduce) { if (header) header.style.opacity = '1'; return; }
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    let dist = innerHeight * 0.98;
+    if (header) header.style.transition = 'opacity .5s ease';
+    function tick() {
+      const p = clamp(scrollY / dist, 0, 1);
+      const scale = 1 + Math.pow(p, 1.75) * 9;          // logo surges forward
+      const markFade = clamp(1 - (p - 0.42) / 0.4, 0, 1);
+      if (mark) { mark.style.transform = 'scale(' + scale.toFixed(3) + ')'; mark.style.opacity = markFade.toFixed(3); }
+      if (word) word.style.opacity = clamp(1 - p * 2.6, 0, 1).toFixed(3);
+      if (sub) sub.style.opacity = clamp(1 - p * 2.6, 0, 1).toFixed(3);
+      if (hint) hint.style.opacity = clamp(1 - p * 4.5, 0, 1).toFixed(3);
+      splash.style.opacity = clamp(1 - (p - 0.72) / 0.28, 0, 1).toFixed(3);  // scene dissolves
+      splash.style.visibility = p >= 0.99 ? 'hidden' : 'visible';
+      splash.style.pointerEvents = p > 0.05 ? 'none' : '';
+      if (header) { header.style.opacity = p > 0.6 ? '1' : '0'; header.style.pointerEvents = p > 0.6 ? '' : 'none'; }
+    }
+    addEventListener('scroll', tick, { passive: true });
+    addEventListener('resize', () => { dist = innerHeight * 0.98; tick(); });
+    tick();
+  })();
+</script>
