@@ -11,9 +11,14 @@ const values = [
   { t: 'Integrity', d: 'Honest advice, honest timelines, honest pricing. Even when it costs us.' },
   { t: 'Craft', d: 'Custom, considered, and built to last — never a template with your name on it.' },
 ];
-const team = [
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const team: { name: string; full?: string; role: string; bio: string; photo?: string; about?: string }[] = [
   { name: 'Darren', role: 'Studio & strategy', bio: 'Leads the studio, client work and the mission — making sure the right things get built for the right reasons.' },
-  { name: 'Daniel', role: 'Engineering & AI', bio: 'Leads the build — apps, agents and the AI leverage that lets a small team do extraordinary work.' },
+  {
+    name: 'Daniel', full: 'Daniel Jenkins', role: 'Co-founder · Engineering & AI', photo: '/img/daniel.jpg',
+    bio: 'Co-founded Kingdom Come Foundation — the umbrella over CrossCoders — and leads the build: apps, agents and the AI that lets a small team do extraordinary work.',
+    about: 'Before the code, there was music. For a decade Daniel toured the world as a musician — opening for Prime Circle, playing cruise ships from Antarctica onward, and sharing stages across Zimbabwe with Ammara Brown and Jah Prayzah. It looked glamorous from the outside and felt isolating from the inside. A near-death experience and a return to faith changed everything — less of him, more of God. That same conviction now drives the build: he co-founded Kingdom Come Foundation, the umbrella over CrossCoders, pairing senior engineering with AI so the Church gets world-class tools, free.',
+  },
   { name: 'The team', role: 'Design & delivery', bio: 'A small, senior group who care about the craft and the people it serves.' },
 ];
 ---
@@ -63,9 +68,31 @@ const team = [
       <h2 class="serif" style="margin:16px 0 30px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Across South Africa and beyond.</h2>
       <div class="team">
         {team.map((m) => (
-          <div class="tcard"><div class="av"></div><h4>{m.name}</h4><div class="role">{m.role}</div><p>{m.bio}</p></div>
+          <div class="tcard">
+            {m.photo
+              ? <button class="av av-photo" type="button" style={`background-image:url(${m.photo})`} data-bio={slug(m.name)} aria-label={`Read about ${m.name}`}></button>
+              : <div class="av"></div>}
+            <h4>{m.name}</h4>
+            <div class="role">{m.role}</div>
+            <p>{m.bio}</p>
+            {m.about && <button class="tcard-more" type="button" data-bio={slug(m.name)}>Read about {m.name} <span class="arrow">→</span></button>}
+          </div>
         ))}
       </div>
+      {team.filter((m) => m.about).map((m) => (
+        <div class="bio-modal" id={`bio-${slug(m.name)}`} hidden>
+          <div class="bio-backdrop" data-close></div>
+          <div class="bio-panel" style={`background-image:url(${m.photo})`}>
+            <button class="bio-close" type="button" data-close aria-label="Close">✕</button>
+            <div class="bio-scrim"></div>
+            <div class="bio-content">
+              <div class="bio-name serif">{m.full ?? m.name}</div>
+              <div class="bio-role">{m.role}</div>
+              <p>{m.about}</p>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -95,3 +122,36 @@ const team = [
 
   <FinalCta />
 </BaseLayout>
+
+<style>
+  .tcard .av-photo { background-size: cover; background-position: 66% 18%; border: 0; cursor: pointer; padding: 0; transition: transform .2s ease, box-shadow .2s ease; }
+  .tcard .av-photo:hover { transform: scale(1.06); box-shadow: 0 0 0 3px rgba(19,178,74,.25); }
+  .tcard-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; background: none; border: 0; cursor: pointer; font: inherit; font-size: .85rem; font-weight: 600; color: var(--forest-deep); }
+  .tcard-more .arrow { transition: transform .2s ease; }
+  .tcard-more:hover .arrow { transform: translateX(3px); }
+
+  .bio-modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 24px; }
+  .bio-modal[hidden] { display: none; }
+  .bio-backdrop { position: absolute; inset: 0; background: rgba(12,11,8,.72); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .bio-panel { position: relative; width: min(440px, 92vw); aspect-ratio: 4 / 5; max-height: 86vh; border-radius: var(--r-lg); overflow: hidden; background-size: cover; background-position: 60% center; box-shadow: var(--shadow-lg); animation: bioIn .3s ease; }
+  @keyframes bioIn { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+  .bio-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,9,7,.95) 4%, rgba(10,9,7,.75) 38%, rgba(10,9,7,.12) 72%, transparent 100%); }
+  .bio-content { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 26px 28px; color: var(--cream-d); }
+  .bio-name { font-size: 1.5rem; font-weight: 600; line-height: 1.1; }
+  .bio-role { color: var(--brass-bright); font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; margin: 6px 0 12px; }
+  .bio-content p { color: var(--cream-muted); font-size: .92rem; line-height: 1.6; }
+  .bio-close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(255,255,255,.18); color: #fff; font-size: .95rem; line-height: 1; backdrop-filter: blur(4px); }
+  .bio-close:hover { background: rgba(255,255,255,.3); }
+</style>
+
+<script>
+  (function () {
+    const close = () => { document.querySelectorAll('.bio-modal').forEach((m) => { m.hidden = true; }); document.body.style.overflow = ''; };
+    document.querySelectorAll('[data-bio]').forEach((b) => b.addEventListener('click', () => {
+      const m = document.getElementById('bio-' + b.getAttribute('data-bio'));
+      if (m) { m.hidden = false; document.body.style.overflow = 'hidden'; }
+    }));
+    document.querySelectorAll('[data-close]').forEach((c) => c.addEventListener('click', close));
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  })();
+</script>
