@@ -14,9 +14,9 @@ const values = [
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 const team: { name: string; full?: string; role: string; bio: string; photo?: string; about?: string }[] = [
   {
-    name: 'Daniel', full: 'Daniel Jenkins', role: 'Co-founder · Engineering & AI', photo: '/img/daniel.jpg',
-    bio: 'Co-founded Kingdom Come Foundation — the umbrella over CrossCoders — and leads the build: apps, agents and the AI that lets a small team do extraordinary work.',
-    about: 'Before the code, there was music. For a decade Daniel toured the world as a musician — opening for Prime Circle, playing cruise ships from Antarctica onward, and sharing stages across Zimbabwe with Ammara Brown and Jah Prayzah. It looked glamorous from the outside and felt isolating from the inside. A near-death experience and a return to faith changed everything — less of him, more of God. That same conviction now drives the build: he co-founded Kingdom Come Foundation, the umbrella over CrossCoders, pairing senior engineering with AI so the Church gets world-class tools, free.',
+    name: 'Daniel', full: 'Daniel Jenkins', role: 'Founder · Engineering & AI', photo: '/img/daniel.jpg',
+    bio: 'Founded Kingdom Come Foundation — the umbrella over CrossCoders — and leads the build: apps, agents and the AI that lets a small team do extraordinary work.',
+    about: 'Before the code, there was music. For a decade Daniel toured the world as a musician — opening for Prime Circle, playing cruise ships from Antarctica onward, and sharing stages across Zimbabwe with Ammara Brown and Jah Prayzah. It looked glamorous from the outside and felt isolating from the inside. A near-death experience and a return to faith changed everything — less of him, more of God. That same conviction now drives the build: he founded Kingdom Come Foundation, the umbrella over CrossCoders, pairing senior engineering with AI so the Church gets world-class tools, free.',
   },
 ];
 ---
@@ -66,14 +66,16 @@ const team: { name: string; full?: string; role: string; bio: string; photo?: st
       <h2 class="serif" style="margin:16px 0 30px;font-size:clamp(1.9rem,3.6vw,2.6rem)">Meet the founder.</h2>
       <div class="team">
         {team.map((m) => (
-          <div class="tcard">
+          <div class={m.photo ? 'tcard founder' : 'tcard'}>
             {m.photo
-              ? <button class="av av-photo" type="button" style={`background-image:url(${m.photo})`} data-bio={slug(m.name)} aria-label={`Read about ${m.name}`}></button>
+              ? <button class="founder-photo" type="button" style={`background-image:url(${m.photo})`} data-bio={slug(m.name)} aria-label={`Read about ${m.name}`}></button>
               : <div class="av"></div>}
-            <h4>{m.name}</h4>
-            <div class="role">{m.role}</div>
-            <p>{m.bio}</p>
-            {m.about && <button class="tcard-more" type="button" data-bio={slug(m.name)}>Read about {m.name} <span class="arrow">→</span></button>}
+            <div class="founder-body">
+              <h4>{m.name}</h4>
+              <div class="role">{m.role}</div>
+              <p>{m.bio}</p>
+              {m.about && <button class="tcard-more" type="button" data-bio={slug(m.name)}>Read about {m.name} <span class="arrow">→</span></button>}
+            </div>
           </div>
         ))}
       </div>
@@ -122,11 +124,14 @@ const team: { name: string; full?: string; role: string; bio: string; photo?: st
 </BaseLayout>
 
 <style>
-  .team { grid-template-columns: minmax(0, 460px); justify-content: center; }
-  .team .tcard { padding: 32px 28px; }
-  .team .tcard .av { width: 96px; height: 96px; }
-  .tcard .av-photo { background-size: cover; background-position: 66% 18%; border: 0; cursor: pointer; padding: 0; transition: transform .2s ease, box-shadow .2s ease; }
-  .tcard .av-photo:hover { transform: scale(1.06); box-shadow: 0 0 0 3px rgba(19,178,74,.25); }
+  .team { grid-template-columns: minmax(0, 420px); justify-content: center; }
+  .team .tcard.founder { padding: 0; overflow: hidden; text-align: center; }
+  .founder-photo { display: block; width: 100%; aspect-ratio: 4 / 5; margin: 0; padding: 0; border: 0; cursor: pointer; background-size: cover; background-position: 50% 18%; transition: transform .45s ease; }
+  .founder-photo:hover { transform: scale(1.04); }
+  .founder-body { padding: 24px 28px 30px; }
+  .founder-body h4 { font-size: 1.45rem; margin: 0 0 6px; }
+  .founder-body .role { font-size: .86rem; }
+  .founder-body p { font-size: .95rem; margin-top: 8px; }
   .tcard-more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; background: none; border: 0; cursor: pointer; font: inherit; font-size: .85rem; font-weight: 600; color: var(--forest-deep); }
   .tcard-more .arrow { transition: transform .2s ease; }
   .tcard-more:hover .arrow { transform: translateX(3px); }
