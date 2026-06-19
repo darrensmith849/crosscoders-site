@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const presets = [100, 250, 500, 1000, 2500];
+---
+
+<BaseLayout
+  title="Give — CrossCoders | Fuel a free build for the church"
+  description="Support free, world-class software for under-resourced churches. Secure giving processed by Paystack."
+>
+  <PageHero
+    eyebrow="Give"
+    title="Fuel a build."
+    sub="Your gift puts an under-resourced church online — a website, app and giving tools, built free. Around R10,000 funds one full build and reaches ~120 people."
+  />
+
+  <section class="psec">
+    <div class="wrap give-wrap">
+      <form class="give-card" id="give-form" novalidate>
+        <span class="give-label">Choose an amount</span>
+        <div class="give-amounts" id="give-amounts">
+          {presets.map((p) => (
+            <button type="button" class="give-amt" data-amt={p}>R{p.toLocaleString('en-ZA')}</button>
+          ))}
+        </div>
+
+        <label class="give-field">
+          <span>Or enter your own amount (R)</span>
+          <input type="number" id="give-amount" name="amount" min="10" step="10" inputmode="numeric" placeholder="Enter an amount" required />
+        </label>
+
+        <div class="give-row">
+          <label class="give-field">
+            <span>Your name <i>(optional)</i></span>
+            <input type="text" id="give-name" name="name" autocomplete="name" placeholder="Name" />
+          </label>
+          <label class="give-field">
+            <span>Email</span>
+            <input type="email" id="give-email" name="email" autocomplete="email" placeholder="you@email.com" required />
+          </label>
+        </div>
+
+        {/* honeypot — bots fill this, people don't */}
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="give-hp" aria-hidden="true" />
+
+        <button type="submit" class="btn btn-primary give-submit" id="give-submit">Give securely <span class="arrow">→</span></button>
+        <p class="give-msg" id="give-msg" role="status" aria-live="polite"></p>
+
+        <p class="give-note">🔒 Payments are processed securely by <b>Paystack</b>. CrossCoders never sees or stores your card details. Kingdom Come Foundation is in formation — gifts are not yet tax-deductible.</p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .give-wrap { max-width: 560px; }
+  .give-card { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(22px, 4vw, 34px); box-shadow: var(--shadow); }
+  .give-label { display: block; font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 12px; }
+  .give-amounts { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .give-amt { font: inherit; font-weight: 600; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 13px 8px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .give-amt:hover { transform: translateY(-2px); border-color: var(--forest); }
+  .give-amt.sel { border-color: var(--forest); box-shadow: 0 0 0 2px rgba(19,178,74,.18); color: var(--forest-deep); }
+  .give-field { display: block; margin-bottom: 16px; }
+  .give-field span { display: block; font-size: .85rem; color: var(--ink-soft); margin-bottom: 6px; }
+  .give-field span i { color: var(--ink-mute); font-style: normal; }
+  .give-field input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 13px 14px; transition: border-color .15s, box-shadow .15s; }
+  .give-field input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
+  .give-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .give-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .give-submit { width: 100%; justify-content: center; margin-top: 6px; }
+  .give-submit[disabled] { opacity: .65; cursor: progress; }
+  .give-msg { min-height: 1.2em; margin-top: 12px; font-size: .9rem; color: var(--ink-soft); text-align: center; }
+  .give-msg.err { color: #B4452F; }
+  .give-note { margin-top: 18px; font-size: .78rem; line-height: 1.55; color: var(--ink-mute); }
+  .give-note b { color: var(--ink-soft); }
+  @media (max-width: 480px) { .give-row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  (function () {
+    const form = document.getElementById('give-form');
+    if (!form) return;
+    const amounts = document.getElementById('give-amounts');
+    const amtInput = document.getElementById('give-amount');
+    const msg = document.getElementById('give-msg');
+    const submit = document.getElementById('give-submit');
+
+    amounts.addEventListener('click', (e) => {
+      const b = e.target.closest('.give-amt');
+      if (!b) return;
+      amtInput.value = b.dataset.amt;
+      [...amounts.children].forEach((c) => c.classList.toggle('sel', c === b));
+    });
+    amtInput.addEventListener('input', () => [...amounts.children].forEach((c) => c.classList.remove('sel')));
+
+    const fail = (t) => { msg.textContent = t; msg.classList.add('err'); };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = ''; msg.classList.remove('err');
+
+      const amount = Math.floor(Number(amtInput.value));
+      const email = document.getElementById('give-email').value.trim();
+      const name = document.getElementById('give-name').value.trim();
+      const company = form.querySelector('[name=company]').value;
+
+      if (!amount || amount < 10) return fail('Please enter an amount of at least R10.');
+      if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email address.');
+
+      submit.disabled = true;
+      msg.textContent = 'Taking you to secure checkout…';
+
+      try {
+        const r = await fetch('/api/paystack/initialize', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ amount, email, name, company }),
+        });
+        const data = await r.json();
+        if (data.authorization_url) { window.location.href = data.authorization_url; return; }
+        submit.disabled = false;
+        fail(data.error === 'not_configured'
+          ? 'Giving isn’t switched on just yet — please try again soon.'
+          : 'Sorry, we couldn’t start the payment. Please try again.');
+      } catch {
+        submit.disabled = false;
+        fail('Network error — please check your connection and try again.');
+      }
+    });
+  })();
+</script>

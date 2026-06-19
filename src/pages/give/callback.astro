@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Thank you — CrossCoders" description="Confirming your gift.">
+  <section class="psec">
+    <div class="wrap cb-wrap">
+      <div class="cb-spin" id="cb-spin"></div>
+      <h1 class="serif cb-title" id="cb-title">Confirming your gift…</h1>
+      <p class="cb-body" id="cb-body">One moment while we confirm with Paystack.</p>
+      <a class="btn btn-ghost cb-home" id="cb-home" href="/">Back to home <span class="arrow">→</span></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cb-wrap { max-width: 560px; text-align: center; }
+  .cb-spin { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--forest); margin: 0 auto 24px; animation: cbspin .8s linear infinite; }
+  @keyframes cbspin { to { transform: rotate(360deg); } }
+  .cb-title { font-size: clamp(1.8rem, 3.4vw, 2.4rem); }
+  .cb-body { color: var(--ink-soft); line-height: 1.7; margin-top: 14px; font-size: 1.05rem; }
+  .cb-body b { color: var(--ink); }
+  .cb-home { margin-top: 24px; display: none; }
+</style>
+
+<script>
+  (function () {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get('reference') || params.get('trxref');
+    const title = document.getElementById('cb-title');
+    const body = document.getElementById('cb-body');
+    const spin = document.getElementById('cb-spin');
+    const home = document.getElementById('cb-home');
+    const done = () => { spin.style.display = 'none'; home.style.display = 'inline-flex'; };
+
+    if (!ref) {
+      title.textContent = 'No payment reference';
+      body.textContent = 'We couldn’t find a transaction to confirm. If you were charged, please contact us.';
+      done();
+      return;
+    }
+
+    fetch('/api/paystack/verify?reference=' + encodeURIComponent(ref))
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.status === 'success') {
+          title.textContent = 'Thank you' + (d.name ? ', ' + d.name : '') + '!';
+          body.innerHTML = 'Your gift' + (d.amount ? ' of <b>R' + Number(d.amount).toLocaleString('en-ZA') + '</b>' : '')
+            + ' helps put a church online. A receipt is on its way to your email.';
+        } else {
+          title.textContent = 'Payment not completed';
+          body.textContent = 'It looks like the payment didn’t go through — you weren’t charged. You can try again any time.';
+        }
+        done();
+      })
+      .catch(() => {
+        title.textContent = 'Couldn’t confirm just now';
+        body.textContent = 'If you completed payment, check your email for a receipt — or contact us and we’ll sort it out.';
+        done();
+      });
+  })();
+</script>
