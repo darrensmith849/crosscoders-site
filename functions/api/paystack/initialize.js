@@ -10,7 +10,7 @@ export async function onRequestPost({ request, env }) {
   let f;
   try { f = await request.json(); } catch { return json({ error: 'bad_request' }, 400); }
 
-  if (f.company) return json({ ok: true, skip: true }); // honeypot — silently accept, do nothing
+  if (f.hp_check) return json({ ok: true, skip: true }); // honeypot — silently accept, do nothing
 
   const email = (f.email || '').toString().trim();
   if (!email || !/.+@.+\..+/.test(email)) return json({ error: 'invalid_email' }, 400);

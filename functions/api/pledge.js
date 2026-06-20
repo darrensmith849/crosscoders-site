@@ -12,7 +12,7 @@ export async function onRequestPost({ request, env }) {
   let f;
   try { f = await request.json(); } catch { return json({ error: 'bad_request' }, 400); }
 
-  if (f.company) return json({ ok: true }); // honeypot
+  if (f.hp_check) return json({ ok: true }); // honeypot
 
   const intent = f.intent === 'follow' ? 'follow' : 'pledge';
   const email = (f.email || '').toString().trim();

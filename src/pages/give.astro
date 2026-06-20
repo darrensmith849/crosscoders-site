@@ -42,7 +42,7 @@ const presets = [100, 250, 500, 1000, 2500];
         </div>
 
         {/* honeypot — bots fill this, people don't */}
-        <input type="text" name="company" tabindex="-1" autocomplete="off" class="give-hp" aria-hidden="true" />
+        <input type="text" name="hp_check" tabindex="-1" autocomplete="off" class="give-hp" aria-hidden="true" data-1p-ignore data-lpignore="true" data-form-type="other" />
 
         <button type="submit" class="btn btn-primary give-submit" id="give-submit">Give securely <span class="arrow">→</span></button>
         <p class="give-msg" id="give-msg" role="status" aria-live="polite"></p>
@@ -103,7 +103,7 @@ const presets = [100, 250, 500, 1000, 2500];
       const amount = Math.floor(Number(amtInput.value));
       const email = document.getElementById('give-email').value.trim();
       const name = document.getElementById('give-name').value.trim();
-      const company = form.querySelector('[name=company]').value;
+      const hp = form.querySelector('[name=hp_check]').value;
 
       if (!amount || amount < 10) return fail('Please enter an amount of at least R10.');
       if (!/.+@.+\..+/.test(email)) return fail('Please enter a valid email address.');
@@ -115,7 +115,7 @@ const presets = [100, 250, 500, 1000, 2500];
         const r = await fetch('/api/paystack/initialize', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ amount, email, name, company }),
+          body: JSON.stringify({ amount, email, name, hp_check: hp }),
         });
         const data = await r.json();
         if (data.authorization_url) { window.location.href = data.authorization_url; return; }
