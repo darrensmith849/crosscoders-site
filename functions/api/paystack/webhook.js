@@ -4,7 +4,7 @@
 // genuine Paystack calls are honoured.
 //
 // >>> Set THIS URL as your Live Webhook URL in the Paystack dashboard:
-//     https://crosscoders.dev/api/paystack/webhook
+//     https://crosscoders.co.za/api/paystack/webhook
 //     (replacing the old turkeyvisa.co.za/?callback=gravityformspaystack one)
 
 export async function onRequestPost({ request, env }) {

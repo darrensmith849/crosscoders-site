@@ -20,7 +20,7 @@ export const nav = [
 export const ctas = {
   primary: { label: 'Apply for a build', href: '/foundation/apply' },
   secondary: { label: 'See our work', href: '/work' },
-  fund: { label: 'Fuel a build', href: '/foundation' },
+  fund: { label: 'Fuel a build', href: '/give' },
 };
 
 // Impact meter config — figures are ILLUSTRATIVE until real build costs are set.

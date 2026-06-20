@@ -36,9 +36,9 @@ To test first, use your `sk_test_…` instead — same command, test key.
 **3. Point the webhook at this site** (replace the old turkeyvisa.co.za one)
 - Paystack Dashboard → **Settings → API Keys & Webhooks → Live Webhook URL**:
   ```
-  https://crosscoders.dev/api/paystack/webhook
+  https://crosscoders.co.za/api/paystack/webhook
   ```
-  (use your live domain; on the Pages domain it's `https://crosscoders.pages.dev/api/paystack/webhook`)
+  (your live domain; on the Pages domain it's `https://crosscoders.pages.dev/api/paystack/webhook`)
 
 **4. (Optional) Whitelist nothing extra / leave IP whitelist empty** unless you have a fixed egress IP — Cloudflare Functions don't use one, so leave it blank.
 
