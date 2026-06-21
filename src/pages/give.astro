@@ -47,6 +47,7 @@ const presets = [100, 250, 500, 1000, 2500];
         <button type="submit" class="btn btn-primary give-submit" id="give-submit">Give securely <span class="arrow">→</span></button>
         <p class="give-msg" id="give-msg" role="status" aria-live="polite"></p>
 
+        <p class="give-note">After you give, you'll choose which build to support and how you'd like to be listed as a benefactor — including the option to stay anonymous.</p>
         <p class="give-note">🔒 Payments are processed securely by <b>Paystack</b>. CrossCoders never sees or stores your card details. Kingdom Come Foundation is in formation — gifts are not yet tax-deductible.</p>
       </form>
     </div>
@@ -118,7 +119,10 @@ const presets = [100, 250, 500, 1000, 2500];
           body: JSON.stringify({ amount, email, name, hp_check: hp }),
         });
         const data = await r.json();
-        if (data.authorization_url) { window.location.href = data.authorization_url; return; }
+        if (data.authorization_url) {
+          try { if (data.reference && data.alloc_token) sessionStorage.setItem('cc_alloc:' + data.reference, data.alloc_token); } catch (e) {}
+          window.location.href = data.authorization_url; return;
+        }
         submit.disabled = false;
         fail(data.error === 'not_configured'
           ? 'Giving isn’t switched on just yet — please try again soon.'

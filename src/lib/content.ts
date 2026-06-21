@@ -219,7 +219,8 @@ export type QueueStage = 'approved' | 'funding' | 'building' | 'shipped';
 export type QueueChurch = {
   slug: string;
   name: string;
-  kind: string; // Church / Ministry / Christian nonprofit
+  kind: string; // Church / Ministry / Christian nonprofit (human label)
+  category: 'church' | 'ministry' | 'nonprofit' | 'business'; // machine taxonomy (Phase C)
   region: string;
   art: string; // ChurchArt illustration kind
   image?: string; // optional real photo (overrides illustration)
@@ -237,6 +238,7 @@ export const queue: QueueChurch[] = [
     slug: 'grace-chapel',
     name: 'Grace Chapel',
     kind: 'Church',
+    category: 'church',
     region: 'Mdantsane, Eastern Cape',
     art: 'steeple',
     stage: 'building',
@@ -255,6 +257,7 @@ export const queue: QueueChurch[] = [
     slug: 'hope-community',
     name: 'Hope Community Church',
     kind: 'Church',
+    category: 'church',
     region: 'Khayelitsha, Western Cape',
     art: 'modern',
     stage: 'funding',
@@ -273,6 +276,7 @@ export const queue: QueueChurch[] = [
     slug: 'lighthouse-youth',
     name: 'Lighthouse Youth',
     kind: 'Youth ministry',
+    category: 'ministry',
     region: 'Soweto, Gauteng',
     art: 'lighthouse',
     stage: 'approved',
@@ -291,6 +295,7 @@ export const queue: QueueChurch[] = [
     slug: 'new-life-mission',
     name: 'New Life Mission',
     kind: 'Christian nonprofit',
+    category: 'nonprofit',
     region: 'Polokwane, Limpopo',
     art: 'hands',
     stage: 'funding',
@@ -309,6 +314,7 @@ export const queue: QueueChurch[] = [
     slug: 'cornerstone-fellowship',
     name: 'Cornerstone Fellowship',
     kind: 'Church',
+    category: 'church',
     region: 'Pietermaritzburg, KwaZulu-Natal',
     art: 'chapel',
     stage: 'shipped',

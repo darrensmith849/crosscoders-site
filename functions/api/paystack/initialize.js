@@ -22,6 +22,7 @@ export async function onRequestPost({ request, env }) {
 
   const origin = new URL(request.url).origin;
   const name = (f.name || '').toString().slice(0, 120);
+  const allocToken = crypto.randomUUID(); // one-time token → only the payer can allocate on the thank-you page
 
   try {
     const r = await fetch('https://api.paystack.co/transaction/initialize', {
@@ -34,6 +35,7 @@ export async function onRequestPost({ request, env }) {
         callback_url: `${origin}/give/callback`,
         metadata: {
           name,
+          alloc_token: allocToken,
           purpose: 'CrossCoders — give',
           custom_fields: name
             ? [{ display_name: 'Name', variable_name: 'name', value: name }]
@@ -45,7 +47,7 @@ export async function onRequestPost({ request, env }) {
     if (!r.ok || !data?.status || !data?.data?.authorization_url) {
       return json({ error: 'init_failed', detail: (data && data.message) || 'unknown' }, 502);
     }
-    return json({ authorization_url: data.data.authorization_url, reference: data.data.reference });
+    return json({ authorization_url: data.data.authorization_url, reference: data.data.reference, alloc_token: allocToken });
   } catch {
     return json({ error: 'fetch_failed' }, 502);
   }

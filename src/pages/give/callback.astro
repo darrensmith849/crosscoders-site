@@ -1,5 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChurchArt from '../../components/ChurchArt.astro';
+import { queue } from '../../lib/content';
+
+// Builds people can still fund — rendered as selectable cards in the carousel.
+const projects = queue
+  .filter((p) => p.stage === 'funding' || p.stage === 'approved')
+  .map((p) => ({ slug: p.slug, name: p.name, region: p.region, kind: p.kind, art: p.art, tagline: p.tagline, goal: p.goal }));
 ---
 
 <BaseLayout title="Thank you — CrossCoders" description="Confirming your gift.">
@@ -8,55 +15,271 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <div class="cb-spin" id="cb-spin"></div>
       <h1 class="serif cb-title" id="cb-title">Confirming your gift…</h1>
       <p class="cb-body" id="cb-body">One moment while we confirm with Paystack.</p>
+
+      <!-- Reassurance — shown the moment we confirm the gift -->
+      <div class="cb-reassure" id="cb-reassure" hidden>
+        <p class="cb-sub">Nothing more is needed — it's already at work. If you'd like to make it personal, you have <b><span id="cb-timer">24:00:00</span></b> to choose a build and how you're shown. Otherwise it stays in the general fund, used at our discretion.</p>
+      </div>
+
+      <!-- Personalization — only when we have an allocation token -->
+      <div class="cb-personalize" id="cb-personalize" hidden>
+        <span class="cb-step">Choose a build to fund</span>
+        <div class="cb-carousel" id="cb-carousel" role="radiogroup" aria-label="Choose a build">
+          {projects.map((p) => (
+            <button type="button" class="cb-card" data-slug={p.slug} data-goal={p.goal} role="radio" aria-checked="false">
+              <div class={`cb-cover ca-bg-${p.art}`}><ChurchArt kind={p.art} /></div>
+              <div class="cb-cbody">
+                <div class="cb-cmeta">{p.kind} · {p.region}</div>
+                <h3 class="serif cb-cname">{p.name}</h3>
+                <p class="cb-ctag">{p.tagline}</p>
+                <div class="cb-bar"><span data-bar style="width:0%"></span></div>
+                <div class="cb-fund" data-fund>Be the first to back this build</div>
+                <div class="cb-bens" data-bens></div>
+              </div>
+              <span class="cb-tick" aria-hidden="true">✓</span>
+            </button>
+          ))}
+          <button type="button" class="cb-card cb-card-general sel" data-slug="general" role="radio" aria-checked="true">
+            <div class="cb-cbody cb-genbody">
+              <div class="cb-genicon">♥</div>
+              <h3 class="serif cb-cname">Wherever it's needed most</h3>
+              <p class="cb-ctag">Keep my gift in the general fund — used at our discretion to fund the builds that need it most.</p>
+            </div>
+            <span class="cb-tick" aria-hidden="true">✓</span>
+          </button>
+        </div>
+
+        <div class="cb-consent" id="cb-consent">
+          <div class="cb-field">
+            <span class="cb-label">How would you like to be shown on <span id="cb-pickname">the general fund</span>?</span>
+            <div class="cb-opts">
+              <label class="cb-radio"><input type="radio" name="vis" value="named" checked /> List me as a benefactor</label>
+              <label class="cb-radio"><input type="radio" name="vis" value="anon" /> Give anonymously</label>
+            </div>
+          </div>
+          <div id="cb-named">
+            <input type="text" id="cb-display" class="cb-input" placeholder="Display name" autocomplete="off" />
+            <div class="cb-opts" style="margin-top:10px">
+              <label class="cb-radio"><input type="radio" name="gtype" value="individual" checked /> An individual</label>
+              <label class="cb-radio"><input type="radio" name="gtype" value="business" /> A business</label>
+            </div>
+          </div>
+          <label class="cb-check"><input type="checkbox" id="cb-emails" /> Email me this build's journey &amp; milestones</label>
+          <button type="button" class="btn btn-primary cb-confirm" id="cb-confirm">Confirm <span class="arrow">→</span></button>
+          <p class="cb-msg" id="cb-msg" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+
       <a class="btn btn-ghost cb-home" id="cb-home" href="/">Back to home <span class="arrow">→</span></a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .cb-wrap { max-width: 560px; text-align: center; }
+  .cb-wrap { max-width: 760px; text-align: center; }
   .cb-spin { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--forest); margin: 0 auto 24px; animation: cbspin .8s linear infinite; }
   @keyframes cbspin { to { transform: rotate(360deg); } }
-  .cb-title { font-size: clamp(1.8rem, 3.4vw, 2.4rem); }
-  .cb-body { color: var(--ink-soft); line-height: 1.7; margin-top: 14px; font-size: 1.05rem; }
+  .cb-title { font-size: clamp(1.8rem, 3.4vw, 2.5rem); }
+  .cb-body { color: var(--ink-soft); line-height: 1.7; margin-top: 14px; font-size: 1.1rem; }
   .cb-body b { color: var(--ink); }
-  .cb-home { margin-top: 24px; display: none; }
+  .cb-sub { color: var(--ink-soft); line-height: 1.7; margin: 10px auto 0; max-width: 600px; font-size: 1rem; }
+  .cb-sub b { color: var(--forest-deep); }
+  #cb-timer { font-variant-numeric: tabular-nums; }
+
+  .cb-personalize { margin-top: 30px; text-align: left; }
+  .cb-step { display: block; font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 12px; text-align: center; }
+
+  .cb-carousel { display: flex; gap: 16px; overflow-x: auto; padding: 6px 4px 18px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .cb-carousel::-webkit-scrollbar { height: 8px; }
+  .cb-carousel::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 8px; }
+  .cb-card { scroll-snap-align: start; flex: 0 0 248px; text-align: left; background: var(--linen); border: 2px solid var(--line); border-radius: var(--r-lg); overflow: hidden; cursor: pointer; padding: 0; position: relative; transition: border-color .15s, box-shadow .15s, transform .15s; font: inherit; }
+  .cb-card:hover { transform: translateY(-3px); }
+  .cb-card.sel { border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.16); }
+  .cb-cover { height: 116px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .cb-cover :global(svg) { width: 100%; height: 100%; }
+  .cb-cbody { padding: 14px 16px 16px; }
+  .cb-cmeta { font-size: .72rem; color: var(--ink-mute); text-transform: uppercase; letter-spacing: .03em; }
+  .cb-cname { font-size: 1.15rem; margin: 4px 0 6px; }
+  .cb-ctag { font-size: .85rem; color: var(--ink-soft); line-height: 1.5; margin: 0 0 12px; }
+  .cb-bar { height: 7px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .cb-bar span { display: block; height: 100%; background: var(--forest); border-radius: 6px; transition: width .4s; }
+  .cb-fund { font-size: .8rem; color: var(--ink-soft); margin-top: 7px; }
+  .cb-fund b { color: var(--ink); }
+  .cb-bens { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .cb-chip { font-size: .72rem; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 3px 9px; color: var(--ink-soft); }
+  .cb-tick { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; border-radius: 50%; background: var(--forest); color: #fff; font-size: .8rem; display: none; align-items: center; justify-content: center; line-height: 1; }
+  .cb-card.sel .cb-tick { display: flex; }
+  .cb-card-general { flex-basis: 248px; display: flex; align-items: center; }
+  .cb-genbody { text-align: center; width: 100%; }
+  .cb-genicon { font-size: 1.8rem; color: var(--forest); }
+
+  .cb-consent { max-width: 520px; margin: 18px auto 0; background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(20px, 4vw, 28px); box-shadow: var(--shadow); }
+  .cb-field { margin-bottom: 18px; }
+  .cb-label { display: block; font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+  .cb-input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 12px 14px; }
+  .cb-input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
+  .cb-opts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cb-radio { display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; color: var(--ink-soft); border: 1px solid var(--line-strong); border-radius: 10px; padding: 9px 13px; cursor: pointer; }
+  .cb-radio:has(input:checked) { border-color: var(--forest); box-shadow: 0 0 0 2px rgba(19,178,74,.16); color: var(--forest-deep); }
+  .cb-check { display: flex; align-items: center; gap: 10px; font-size: .95rem; color: var(--ink-soft); margin: 16px 0 22px; cursor: pointer; }
+  .cb-confirm { width: 100%; justify-content: center; }
+  .cb-confirm[disabled] { opacity: .65; cursor: progress; }
+  .cb-msg { min-height: 1.2em; margin-top: 12px; font-size: .9rem; color: var(--ink-soft); text-align: center; }
+  .cb-msg.err { color: #B4452F; }
+  .cb-home { margin-top: 26px; display: none; }
 </style>
 
-<script>
+<script define:vars={{ projects }}>
   (function () {
     const params = new URLSearchParams(location.search);
     const ref = params.get('reference') || params.get('trxref');
-    const title = document.getElementById('cb-title');
-    const body = document.getElementById('cb-body');
-    const spin = document.getElementById('cb-spin');
-    const home = document.getElementById('cb-home');
-    const done = () => { spin.style.display = 'none'; home.style.display = 'inline-flex'; };
+    const $ = (id) => document.getElementById(id);
+    const title = $('cb-title'), body = $('cb-body'), spin = $('cb-spin'), home = $('cb-home');
+    const reassure = $('cb-reassure'), timerEl = $('cb-timer');
+    const panel = $('cb-personalize'), carousel = $('cb-carousel'), consent = $('cb-consent');
+    const named = $('cb-named'), display = $('cb-display'), emails = $('cb-emails');
+    const confirm = $('cb-confirm'), msg = $('cb-msg'), pickname = $('cb-pickname');
+
+    const stopSpin = () => { spin.style.display = 'none'; };
+    const showHome = () => { home.style.display = 'inline-flex'; };
 
     if (!ref) {
+      stopSpin();
       title.textContent = 'No payment reference';
       body.textContent = 'We couldn’t find a transaction to confirm. If you were charged, please contact us.';
-      done();
+      showHome();
       return;
+    }
+
+    // Token from the email "personalize" link (?t=) or from this device's session.
+    let token = params.get('t') || '';
+    if (!token) { try { token = sessionStorage.getItem('cc_alloc:' + ref) || ''; } catch (e) {} }
+
+    let selected = 'general';
+    const cards = Array.from(carousel.querySelectorAll('.cb-card'));
+    const nameBySlug = {}; projects.forEach((p) => { nameBySlug[p.slug] = p.name; });
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        cards.forEach((c) => { c.classList.remove('sel'); c.setAttribute('aria-checked', 'false'); });
+        card.classList.add('sel'); card.setAttribute('aria-checked', 'true');
+        selected = card.dataset.slug;
+        pickname.textContent = selected === 'general' ? 'the general fund' : (nameBySlug[selected] || 'this build');
+      });
+    });
+
+    reassure.addEventListener('change', () => {}); // noop
+    consent.addEventListener('change', (e) => {
+      if (e.target.name === 'vis') named.style.display = e.target.value === 'anon' ? 'none' : '';
+    });
+
+    const money = (cents) => 'R' + Math.round((cents || 0) / 100).toLocaleString('en-ZA');
+
+    // Fill each card's funding + benefactors from the live summary.
+    function hydrateCards() {
+      fetch('/api/paystack/summary').then((r) => r.json()).then((s) => {
+        const data = (s && s.projects) || {};
+        cards.forEach((card) => {
+          const slug = card.dataset.slug;
+          if (slug === 'general') return;
+          const goal = Number(card.dataset.goal) || 0;
+          const p = data[slug];
+          const raised = p ? p.raisedCents : 0;
+          const bar = card.querySelector('[data-bar]'), fund = card.querySelector('[data-fund]'), bens = card.querySelector('[data-bens]');
+          if (p && p.total > 0) {
+            if (goal) bar.style.width = Math.min(100, Math.round((raised / (goal * 100)) * 100)) + '%';
+            fund.innerHTML = '<b>' + money(raised) + '</b> in · ' + p.total + ' ' + (p.total === 1 ? 'backer' : 'backers');
+            (p.benefactors || []).slice(0, 3).forEach((b) => {
+              const chip = document.createElement('span'); chip.className = 'cb-chip';
+              chip.textContent = b.displayName + (b.giverType === 'business' ? ' ●' : '');
+              bens.appendChild(chip);
+            });
+            if (p.anonymous > 0) {
+              const chip = document.createElement('span'); chip.className = 'cb-chip';
+              chip.textContent = '+' + p.anonymous + ' anonymous'; bens.appendChild(chip);
+            }
+          }
+        });
+      }).catch(() => {});
+    }
+
+    // 24h countdown from when the gift was paid.
+    function startTimer(paidAt) {
+      const end = (paidAt ? Date.parse(paidAt) : Date.now()) + 24 * 60 * 60 * 1000;
+      const tick = () => {
+        const ms = end - Date.now();
+        if (ms <= 0) { timerEl.textContent = '0:00:00'; return; }
+        const h = Math.floor(ms / 3.6e6), m = Math.floor((ms % 3.6e6) / 6e4), s = Math.floor((ms % 6e4) / 1000);
+        timerEl.textContent = h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        setTimeout(tick, 1000);
+      };
+      tick();
     }
 
     fetch('/api/paystack/verify?reference=' + encodeURIComponent(ref))
       .then((r) => r.json())
       .then((d) => {
+        stopSpin();
         if (d.status === 'success') {
-          title.textContent = 'Thank you' + (d.name ? ', ' + d.name : '') + '!';
-          body.innerHTML = 'Your gift' + (d.amount ? ' of <b>R' + Number(d.amount).toLocaleString('en-ZA') + '</b>' : '')
-            + ' helps put a church online. A receipt is on its way to your email.';
+          title.textContent = 'Thank you' + (d.name ? ', ' + d.name : '') + '! 🎉';
+          body.innerHTML = 'Your gift' + (d.amount ? ' of <b>R' + Number(d.amount).toLocaleString('en-ZA') + '</b>' : '') + ' is in.';
+          if (d.name) display.value = d.name;
+          reassure.hidden = false;
+          startTimer(d.paid_at);
+          if (token) { panel.hidden = false; hydrateCards(); }
+          else { showHome(); }
         } else {
           title.textContent = 'Payment not completed';
           body.textContent = 'It looks like the payment didn’t go through — you weren’t charged. You can try again any time.';
+          showHome();
         }
-        done();
       })
       .catch(() => {
+        stopSpin();
         title.textContent = 'Couldn’t confirm just now';
         body.textContent = 'If you completed payment, check your email for a receipt — or contact us and we’ll sort it out.';
-        done();
+        showHome();
       });
+
+    confirm.addEventListener('click', async () => {
+      msg.textContent = ''; msg.classList.remove('err');
+      const anonymous = consent.querySelector('input[name=vis]:checked').value === 'anon';
+      const giverType = consent.querySelector('input[name=gtype]:checked').value;
+      const payload = {
+        reference: ref, alloc_token: token, project: selected,
+        anonymous, giverType, displayName: display.value.trim(), emailUpdates: emails.checked,
+      };
+      confirm.disabled = true; msg.textContent = 'Saving…';
+      try {
+        const r = await fetch('/api/paystack/allocate', {
+          method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload),
+        });
+        const out = await r.json();
+        if (out.ok) {
+          const onGeneral = out.project === 'general';
+          const projName = onGeneral ? 'the general fund' : (nameBySlug[out.project] || 'this build');
+          panel.hidden = true; reassure.hidden = true;
+          title.textContent = 'You’re in 🙌';
+          let m = anonymous
+            ? 'Your anonymous gift is supporting <b>' + projName + '</b>.'
+            : 'You’re <b>benefactor #' + out.benefactorNumber + '</b> on <b>' + projName + '</b>.';
+          if (payload.emailUpdates) m += ' We’ll email you as this build moves forward.';
+          body.innerHTML = m;
+          if (!onGeneral) { home.href = '/foundation/queue/' + out.project; home.innerHTML = 'See this build <span class="arrow">→</span>'; }
+          showHome();
+        } else if (out.error === 'window_closed') {
+          panel.hidden = true; reassure.hidden = true;
+          title.textContent = 'All done 🙏';
+          body.innerHTML = 'Your 24-hour window has passed — your gift is safely in the <b>general fund</b>. Thank you!';
+          showHome();
+        } else {
+          confirm.disabled = false;
+          msg.textContent = 'Couldn’t save that — please try again.'; msg.classList.add('err');
+        }
+      } catch (err) {
+        confirm.disabled = false;
+        msg.textContent = 'Network error — please try again.'; msg.classList.add('err');
+      }
+    });
   })();
 </script>

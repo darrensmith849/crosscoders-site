@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "crosscoders",
+  "pages_build_output_dir": "dist",
+  "compatibility_date": "2026-06-18",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "crosscoders-gifts",
+      "database_id": "REPLACE_WITH_REAL_ID_BEFORE_DEPLOY"
+    }
+  ]
+}
