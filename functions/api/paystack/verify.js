@@ -24,6 +24,7 @@ export async function onRequestGet({ request, env }) {
       currency: d.currency,
       paid_at: d.paid_at || null,
       name: d.metadata?.name || null,
+      project: d.metadata?.project || null,
     });
   } catch {
     return json({ error: 'fetch_failed' }, 502);

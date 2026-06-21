@@ -4,10 +4,7 @@
 // Paystack, and require the one-time alloc_token (minted at checkout) so only the
 // actual payer can allocate or de-anonymise this gift.
 
-const VALID_PROJECTS = new Set([
-  // Keep in sync with `queue` in src/lib/content.ts (Phase B will generate this).
-  'grace-chapel', 'hope-community', 'lighthouse-youth', 'new-life-mission', 'cornerstone-fellowship',
-]);
+import { isProject } from './_lib.js';
 
 export async function onRequestPost({ request, env }) {
   if (!env.PAYSTACK_SECRET_KEY) return json({ error: 'not_configured' }, 500);
@@ -42,7 +39,7 @@ export async function onRequestPost({ request, env }) {
 
   // 3) Sanitise the giver's choices.
   let projectSlug = (body.project || '').toString().trim();
-  if (!projectSlug || projectSlug === 'general' || !VALID_PROJECTS.has(projectSlug)) projectSlug = null;
+  if (!projectSlug || projectSlug === 'general' || !isProject(projectSlug)) projectSlug = null;
   const anonymous = body.anonymous ? 1 : 0;
   const giverType = body.giverType === 'business' ? 'business' : 'individual';
   const emailUpdates = body.emailUpdates ? 1 : 0;

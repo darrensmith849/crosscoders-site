@@ -7,6 +7,8 @@
 //     https://crosscoders.co.za/api/paystack/webhook
 //     (replacing the old turkeyvisa.co.za/?callback=gravityformspaystack one)
 
+import { isProject } from './_lib.js';
+
 export async function onRequestPost({ request, env }) {
   if (!env.PAYSTACK_SECRET_KEY) return new Response('not configured', { status: 500 });
 
@@ -32,14 +34,15 @@ export async function onRequestPost({ request, env }) {
       if (d.reference && env.DB) {
         const giftName = (meta.name || '').toString().slice(0, 120) || null;
         const tokenHash = meta.alloc_token ? await sha256Hex(meta.alloc_token) : null;
+        const proj = isProject(meta.project) ? meta.project : null; // directed-giving intent → default allocation
         try {
           await env.DB.prepare(
             `INSERT OR IGNORE INTO gifts
                (reference, amount_cents, currency, email, name, source, status,
-                display_name, giver_type, anonymous, email_updates, token_hash)
-             VALUES (?, ?, ?, ?, ?, 'paystack', 'success', ?, 'individual', 0, 0, ?)`
+                project_slug, display_name, giver_type, anonymous, email_updates, token_hash)
+             VALUES (?, ?, ?, ?, ?, 'paystack', 'success', ?, ?, 'individual', 0, 0, ?)`
           ).bind(d.reference, d.amount ?? 0, d.currency || 'ZAR',
-                 (d.customer && d.customer.email) || null, giftName, giftName, tokenHash).run();
+                 (d.customer && d.customer.email) || null, giftName, proj, giftName, tokenHash).run();
         } catch (e) {
           // Never fail the webhook on a DB hiccup — Paystack would retry indefinitely.
         }

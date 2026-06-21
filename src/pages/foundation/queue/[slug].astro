@@ -11,8 +11,6 @@ export function getStaticPaths() {
 interface Props { church: QueueChurch }
 const { church: c } = Astro.props;
 const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
-const pct = Math.min(100, Math.round((c.raised / c.goal) * 100));
-const remaining = Math.max(0, c.goal - c.raised);
 const shipped = c.stage === 'shipped';
 const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
 ---
@@ -31,6 +29,20 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         <h1 class="serif">{c.name}</h1>
         <p class="qhero-meta">{c.kind} · {c.region}</p>
         <p class="qhero-tag">{c.tagline}</p>
+
+        <!-- Kickstarter-style campaign block (hydrated from live D1 data) -->
+        <div class="qcamp" data-slug={c.slug} data-goal={c.goal}>
+          <div class="qcamp-stats">
+            <div class="qcamp-amt"><b data-raised>{R(0)}</b> <span>raised of {R(c.goal)} goal</span></div>
+            <div class="qcamp-backers"><b data-backers>0</b> backers</div>
+          </div>
+          <div class="qbar lg"><span data-bar style="width:0%"></span></div>
+          <div class="qcamp-cta">
+            {shipped
+              ? <span class="qcamp-done">✓ Fully funded — live and theirs to keep.</span>
+              : <a class="btn btn-primary magnetic" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>}
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -46,30 +58,16 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
       </article>
 
       <aside class="qpanel" data-slug={c.slug} data-name={c.name}>
-        <div class="qpanel-fund">
-          <div class="qpanel-amt"><b>{R(c.raised)}</b> <span>of {R(c.goal)} {shipped ? 'funded' : 'pledged'}</span></div>
-          <div class="qbar lg"><span style={`width:${pct}%`}></span></div>
-          <div class="qpanel-sub">{shipped ? 'Fully funded — live and theirs to keep.' : `${R(remaining)} to go · ${pct}% of the way there`}</div>
-        </div>
-
         {!shipped && (
-          <form class="qpledge" data-pledgeform>
-            <input type="text" name="hp_check" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" data-1p-ignore data-lpignore="true" data-form-type="other" />
-            <div class="colh">Pledge toward this build</div>
-            <div class="qchips" role="group" aria-label="Pledge amount">
-              <button type="button" class="qchip" data-v="50">R50</button>
-              <button type="button" class="qchip on" data-v="100">R100</button>
-              <button type="button" class="qchip" data-v="250">R250</button>
-              <button type="button" class="qchip" data-v="500">R500</button>
-            </div>
-            <input type="hidden" name="amount" value="100" />
-            <div class="field"><label>Your name *</label><input name="name" required /></div>
-            <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
-            <div class="field"><label>A message for them (optional)</label><textarea name="message" rows="2"></textarea></div>
-            <button class="btn btn-primary" type="submit">Pledge <span class="qbtnamt">R100</span> <span class="arrow">→</span></button>
-            <p class="qfine">Pledges register your intent — no money moves yet. Giving opens once the Foundation is registered, and we'll email you to complete it.</p>
-          </form>
+          <a class="btn btn-primary qfund-btn" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>
         )}
+
+        <div class="qbens">
+          <div class="colh">Benefactors</div>
+          <div class="qbens-list" data-benslist>
+            <p class="qbens-empty">{shipped ? 'Funded by supporters like you.' : 'Be the first to back this build.'}</p>
+          </div>
+        </div>
 
         <form class="qfollow" data-followform>
           <input type="text" name="hp_check" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" data-1p-ignore data-lpignore="true" data-form-type="other" />
@@ -100,27 +98,86 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     </div>
   </section>
 
+  <style>
+    .qcamp { margin-top: 26px; padding: 20px; background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); }
+    .qcamp-stats { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+    .qcamp-amt b { font-size: 1.5rem; color: var(--forest-deep); }
+    .qcamp-amt span { color: var(--ink-soft); font-size: .95rem; }
+    .qcamp-backers { color: var(--ink-soft); font-size: .95rem; white-space: nowrap; }
+    .qcamp-backers b { color: var(--ink); font-size: 1.1rem; }
+    .qcamp .qbar.lg { height: 12px; }
+    .qcamp-cta { margin-top: 16px; }
+    .qcamp-done { color: var(--forest-deep); font-weight: 600; }
+
+    .qfund-btn { width: 100%; justify-content: center; margin-bottom: 22px; }
+    .qbens { margin-bottom: 24px; }
+    .qbens-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; }
+    .qbens-empty { color: var(--ink-mute); font-size: .9rem; font-style: italic; margin: 0; }
+    .qben { display: flex; align-items: center; gap: 9px; font-size: .92rem; color: var(--ink); }
+    .qben-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--forest); flex: 0 0 auto; }
+    .qben-biz { color: var(--ink-mute); font-size: .82rem; }
+    .qben-anon { color: var(--ink-mute); font-size: .88rem; padding-left: 17px; }
+  </style>
+
   <script>
-    function wire(form, intent) {
+    // Hydrate the campaign hero + benefactor list from live D1 data.
+    (async function () {
+      const camp = document.querySelector('.qcamp');
+      const slug = camp && camp.getAttribute('data-slug');
+      if (!slug) return;
+      const goal = Number(camp.getAttribute('data-goal')) || 0;
+      try {
+        const r = await fetch('/api/paystack/benefactors?project=' + encodeURIComponent(slug));
+        const d = await r.json();
+        const raised = (d.raisedCents || 0) / 100;
+        const raisedEl = camp.querySelector('[data-raised]');
+        const backersEl = camp.querySelector('[data-backers]');
+        const barEl = camp.querySelector('[data-bar]');
+        if (raisedEl) raisedEl.textContent = 'R' + Math.round(raised).toLocaleString('en-ZA');
+        if (backersEl) backersEl.textContent = String(d.total || 0);
+        if (barEl && goal) barEl.style.width = Math.min(100, Math.round((raised / goal) * 100)) + '%';
+
+        const list = document.querySelector('[data-benslist]');
+        if (list && d.total > 0) {
+          list.innerHTML = '';
+          (d.benefactors || []).forEach((b) => {
+            const row = document.createElement('div');
+            row.className = 'qben';
+            const dot = document.createElement('span'); dot.className = 'qben-dot';
+            const nm = document.createElement('span');
+            nm.textContent = b.displayName || '';
+            row.appendChild(dot); row.appendChild(nm);
+            if (b.giverType === 'business') { const bz = document.createElement('span'); bz.className = 'qben-biz'; bz.textContent = '· business'; row.appendChild(bz); }
+            list.appendChild(row);
+          });
+          if (d.anonymous > 0) {
+            const row = document.createElement('div');
+            row.className = 'qben-anon';
+            row.textContent = '+ ' + d.anonymous + ' anonymous ' + (d.anonymous === 1 ? 'benefactor' : 'benefactors');
+            list.appendChild(row);
+          }
+        }
+      } catch (e) {}
+    })();
+
+    // Follow this build — register for email updates (no payment).
+    (function () {
+      const form = document.querySelector('[data-followform]');
       if (!form) return;
       const panel = form.closest('.qpanel');
-      const slug = panel?.getAttribute('data-slug') || '';
-      const name = panel?.getAttribute('data-name') || '';
+      const slug = (panel && panel.getAttribute('data-slug')) || '';
+      const name = (panel && panel.getAttribute('data-name')) || '';
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('button[type=submit]');
         const data = Object.fromEntries(new FormData(form).entries());
-        data.intent = intent; data.church = slug; data.churchName = name;
-        data.source = `Queue ${intent} — ${name}`;
+        data.intent = 'follow'; data.church = slug; data.churchName = name; data.source = 'Queue follow — ' + name;
         const orig = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sending…';
         try {
           const r = await fetch('/api/pledge', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
           const j = await r.json().catch(() => ({}));
           if (!r.ok || !j.ok) throw new Error();
-          const msg = intent === 'pledge'
-            ? `<div class="apply-done"><h3 class="serif">Thank you — that means a lot.</h3><p>We’ve logged your pledge of ${data.amount ? 'R' + data.amount : 'support'} toward ${name}. We’ll email you the moment giving opens so you can complete it.</p></div>`
-            : `<div class="apply-done"><h3 class="serif">You’re following ${name}.</h3><p>We’ll email you as this build moves forward — funded, building, launched.</p></div>`;
-          form.outerHTML = msg;
+          form.outerHTML = '<div class="apply-done"><h3 class="serif">You’re following ' + name + '.</h3><p>We’ll email you as this build moves forward — funded, building, launched.</p></div>';
         } catch {
           btn.disabled = false; btn.innerHTML = orig;
           let m = form.querySelector('.apply-err');
@@ -128,21 +185,6 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
           m.textContent = 'Sorry — something went wrong. Please email daniel@crosscoders.co.za and we’ll sort it out.';
         }
       });
-    }
-    const pf = document.querySelector('[data-pledgeform]');
-    if (pf) {
-      const amt = pf.querySelector('input[name=amount]');
-      const lbl = pf.querySelector('.qbtnamt');
-      pf.querySelectorAll('.qchip').forEach((chip) => {
-        chip.addEventListener('click', () => {
-          pf.querySelectorAll('.qchip').forEach((c) => c.classList.remove('on'));
-          chip.classList.add('on');
-          const v = chip.getAttribute('data-v');
-          if (amt) amt.value = v; if (lbl) lbl.textContent = 'R' + v;
-        });
-      });
-    }
-    wire(pf, 'pledge');
-    wire(document.querySelector('[data-followform]'), 'follow');
+    })();
   </script>
 </BaseLayout>

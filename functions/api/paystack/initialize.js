@@ -4,6 +4,8 @@
 // browser or the repo. Returns { authorization_url, reference }; the browser
 // then redirects the giver to Paystack's hosted, PCI-compliant checkout.
 
+import { isProject } from './_lib.js';
+
 export async function onRequestPost({ request, env }) {
   if (!env.PAYSTACK_SECRET_KEY) return json({ error: 'not_configured' }, 500);
 
@@ -23,6 +25,7 @@ export async function onRequestPost({ request, env }) {
   const origin = new URL(request.url).origin;
   const name = (f.name || '').toString().slice(0, 120);
   const allocToken = crypto.randomUUID(); // one-time token → only the payer can allocate on the thank-you page
+  const project = isProject((f.project || '').toString()) ? f.project.toString() : null; // directed-giving intent (from a project page)
 
   try {
     const r = await fetch('https://api.paystack.co/transaction/initialize', {
@@ -36,6 +39,7 @@ export async function onRequestPost({ request, env }) {
         metadata: {
           name,
           alloc_token: allocToken,
+          project,
           purpose: 'CrossCoders — give',
           custom_fields: name
             ? [{ display_name: 'Name', variable_name: 'name', value: name }]

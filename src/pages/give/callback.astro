@@ -224,6 +224,7 @@ const projects = queue
           title.textContent = 'Thank you' + (d.name ? ', ' + d.name : '') + '! 🎉';
           body.innerHTML = 'Your gift' + (d.amount ? ' of <b>R' + Number(d.amount).toLocaleString('en-ZA') + '</b>' : '') + ' is in.';
           if (d.name) display.value = d.name;
+          if (d.project) { const c0 = carousel.querySelector('.cb-card[data-slug="' + d.project + '"]'); if (c0) c0.click(); }
           reassure.hidden = false;
           startTimer(d.paid_at);
           if (token) { panel.hidden = false; hydrateCards(); }
