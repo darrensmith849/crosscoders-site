@@ -23,7 +23,7 @@ const faq = faqCategories.find((c) => c.category === 'Working with us')!.items;
         <div class="field"><label>What do you need?</label><select name="need"><option>Not sure yet</option><option>App or custom software</option><option>Website</option><option>AI agent</option><option>Chatbot</option><option>Automation</option></select></div>
         <div class="field"><label>Tell us about your project *</label><textarea name="message" required></textarea></div>
         <button class="btn btn-primary" type="submit">Send message <span class="arrow">→</span></button>
-        <p style="font-size:.85rem;color:var(--ink-mute);margin-top:14px">Prefer email? <a href={`mailto:${brand.email}`} style="color:var(--forest-deep)">{brand.email}</a></p>
+        <p style="font-size:.85rem;color:var(--ink-mute);margin-top:14px">Prefer email? <a href={brand.contactHref} style="color:var(--forest-deep)">Get in touch</a></p>
       </form>
       <aside class="sidecard">
         <h4>What to expect</h4>

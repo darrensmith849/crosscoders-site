@@ -3,7 +3,9 @@ export const brand = {
   org: 'Kingdom Come Foundation',
   tagline: 'Software worth believing in.',
   ethos: 'Christ, code & coffee.',
-  email: 'hello@crosscoders.dev',
+  email: 'daniel@crosscoders.co.za',
+  emails: ['daniel@crosscoders.co.za', 'darren@crosscoders.co.za'],
+  contactHref: 'mailto:daniel@crosscoders.co.za,darren@crosscoders.co.za',
   verse: '“Whatever you do, work at it with all your heart.” — Colossians 3:23',
   builtWith: 'Claude',
   description:

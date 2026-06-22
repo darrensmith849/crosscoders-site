@@ -151,7 +151,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
           <div class="p-card"><h3 class="serif">A self-funding engine</h3><p>Paid client work pays the bills and funds the free builds. It's a mission with a business under it — not a bucket with a hole in it.</p></div>
           <div class="p-card"><h3 class="serif">A brand people believe in</h3><p>Excellent, modern, unashamedly Christian. The kind of work churches show off and partners are proud to stand behind.</p></div>
         </div>
-        <div class="p-invest" id="p-invest" data-email={brand.email}>
+        <div class="p-invest" id="p-invest" data-email={brand.emails.join(',')}>
           <div class="p-invest-top">
             <div>
               <h3 class="serif">Where your investment goes</h3>
@@ -180,7 +180,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
             </div>
           </div>
 
-          <a class="btn btn-primary p-invest-cta" id="p-invest-cta" href={`mailto:${brand.email}?subject=Kingdom%20Come%20Foundation%20—%20partnering`}>Start a conversation <span class="arrow">→</span></a>
+          <a class="btn btn-primary p-invest-cta" id="p-invest-cta" href={`mailto:${brand.emails.join(',')}?subject=Kingdom%20Come%20Foundation%20—%20partnering`}>Start a conversation <span class="arrow">→</span></a>
           <p class="p-note">In formation — not yet a registered nonprofit, so nothing here is an offer of securities or
             a claim of tax-deductibility. Builds are funded in South African Rand (R); other currencies are
             indicative conversions at approximate rates. Figures are early and illustrative until real build
@@ -368,7 +368,7 @@ const title = 'Kingdom Come Foundation — Investor Preview';
         // ---- currency-aware investment tiers + custom ----
         const wrap = document.getElementById('p-invest');
         if (!wrap) return;
-        const EMAIL = wrap.dataset.email || 'hello@crosscoders.dev';
+        const EMAIL = wrap.dataset.email || 'daniel@crosscoders.co.za,darren@crosscoders.co.za';
         const RATES = { ZAR: 1, USD: 18.2, GBP: 23.2, EUR: 19.6, AUD: 12.0, CAD: 13.3 }; // ZAR per 1 unit (approx)
         const SYM = { ZAR: 'R', USD: '$', GBP: '£', EUR: '€', AUD: 'A$', CAD: 'C$' };
         const CPB = 10000, PPB = 120;

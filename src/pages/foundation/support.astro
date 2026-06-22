@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import { brand } from '../../lib/content';
 ---
 
 <BaseLayout title="Support the CrossCoders Foundation — fund free software for churches" description="Donate, sponsor a build for a specific church, partner or volunteer — and help put world-class tools in the hands of under-resourced churches.">
@@ -41,7 +42,7 @@ import PageHero from '../../components/PageHero.astro';
           <dt>Branch code</dt><dd class="mono">250 655</dd>
           <dt>SWIFT (international)</dt><dd class="mono">FIRNZAJJ</dd>
         </dl>
-        <div class="eft-ref"><b>Reference:</b> use your own name for general giving, or a church's name to direct your gift to that build. Email <a href="mailto:hello@crosscoders.dev" style="color:var(--forest-deep)">hello@crosscoders.dev</a> with your proof of payment and we'll send a thank-you.</div>
+        <div class="eft-ref"><b>Reference:</b> use your own name for general giving, or a church's name to direct your gift to that build. Email <a href={brand.contactHref} style="color:var(--forest-deep)">{brand.email}</a> with your proof of payment and we'll send a thank-you.</div>
       </div>
     </div>
   </section>
