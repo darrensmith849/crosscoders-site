@@ -12,6 +12,7 @@ interface Props { church: QueueChurch }
 const { church: c } = Astro.props;
 const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
 const shipped = c.stage === 'shipped';
+const amounts = [100, 250, 500, 1000];
 const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
 ---
 <BaseLayout
@@ -23,26 +24,37 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
       <div class="qhero-art">
         {c.image ? <img src={c.image} alt={c.name} /> : <ChurchArt kind={c.art} />}
       </div>
-      <div class="qhero-tx">
-        <a class="qback" href="/foundation/queue">← Funded projects</a>
-        <span class={`qpill qpill-${stageMeta[c.stage].tone}`}>{stageMeta[c.stage].label}</span>
-        <h1 class="serif">{c.name}</h1>
-        <p class="qhero-meta">{c.kind} · {c.region}</p>
-        <p class="qhero-tag">{c.tagline}</p>
 
-        <!-- Kickstarter-style campaign block (hydrated from live D1 data) -->
-        <div class="qcamp" data-slug={c.slug} data-goal={c.goal}>
-          <div class="qcamp-stats">
-            <div class="qcamp-amt"><b data-raised>{R(0)}</b> <span>raised of {R(c.goal)} goal</span></div>
-            <div class="qcamp-backers"><b data-backers>0</b> backers</div>
-          </div>
-          <div class="qbar lg"><span data-bar style="width:0%"></span></div>
-          <div class="qcamp-cta">
-            {shipped
-              ? <span class="qcamp-done">✓ Fully funded — live and theirs to keep.</span>
-              : <a class="btn btn-primary magnetic" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>}
-          </div>
+      <!-- Campaign card: bar → raised → title → description → button → quick amounts -->
+      <div class="qcard" data-slug={c.slug} data-goal={c.goal}>
+        <div class="qcard-top">
+          <a class="qback" href="/foundation/queue">← Funded projects</a>
+          <span class={`qpill qpill-${stageMeta[c.stage].tone}`}>{stageMeta[c.stage].label}</span>
         </div>
+
+        <div class="qbar lg"><span data-bar style="width:0%"></span></div>
+
+        <div class="qcard-raised">
+          <b data-raised>{R(0)}</b>
+          <span>raised of {R(c.goal)} &nbsp;·&nbsp; <b data-backers>0</b> backers</span>
+        </div>
+
+        <h1 class="serif qcard-title">{c.name}</h1>
+        <p class="qcard-meta">{c.kind} · {c.region}</p>
+        <p class="qcard-desc">{c.tagline}</p>
+
+        {shipped ? (
+          <div class="qcard-done">✓ Fully funded — live and theirs to keep.</div>
+        ) : (
+          <div>
+            <a class="btn btn-primary qcard-cta" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>
+            <div class="qcard-amts">
+              {amounts.map((a) => (
+                <a class="qcard-amt" href={`/give?project=${c.slug}&amount=${a}`}>{R(a)}</a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -58,10 +70,6 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
       </article>
 
       <aside class="qpanel" data-slug={c.slug} data-name={c.name}>
-        {!shipped && (
-          <a class="btn btn-primary qfund-btn" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>
-        )}
-
         <div class="qbens">
           <div class="colh">Benefactors</div>
           <div class="qbens-list" data-benslist>
@@ -99,17 +107,24 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
   </section>
 
   <style>
-    .qcamp { margin-top: 26px; padding: 20px; background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); }
-    .qcamp-stats { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
-    .qcamp-amt b { font-size: 1.5rem; color: var(--forest-deep); }
-    .qcamp-amt span { color: var(--ink-soft); font-size: .95rem; }
-    .qcamp-backers { color: var(--ink-soft); font-size: .95rem; white-space: nowrap; }
-    .qcamp-backers b { color: var(--ink); font-size: 1.1rem; }
-    .qcamp .qbar.lg { height: 12px; }
-    .qcamp-cta { margin-top: 16px; }
-    .qcamp-done { color: var(--forest-deep); font-weight: 600; }
+    .qcard { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: clamp(22px, 3vw, 30px); align-self: start; }
+    .qcard-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .qcard-top .qback { margin: 0; }
+    .qcard-top .qpill { position: static; }
+    .qcard .qbar.lg { height: 12px; }
+    .qcard-raised { margin-top: 16px; }
+    .qcard-raised b[data-raised] { font-size: clamp(1.9rem, 4vw, 2.5rem); color: var(--forest-deep); font-family: Georgia, serif; line-height: 1; }
+    .qcard-raised span { display: block; margin-top: 7px; font-size: .95rem; color: var(--ink-soft); }
+    .qcard-raised span b { color: var(--ink); }
+    .qcard-title { font-size: clamp(1.6rem, 3.2vw, 2.1rem); margin: 22px 0 0; }
+    .qcard-meta { font-size: .85rem; color: var(--ink-mute); text-transform: uppercase; letter-spacing: .03em; margin: 8px 0 0; }
+    .qcard-desc { font-size: 1.02rem; color: var(--ink-soft); line-height: 1.6; margin: 12px 0 0; }
+    .qcard-cta { width: 100%; justify-content: center; margin-top: 22px; font-size: 1.05rem; }
+    .qcard-amts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 12px; }
+    .qcard-amt { text-align: center; font-weight: 500; font-size: .98rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 11px 4px; text-decoration: none; transition: border-color .15s, color .15s, transform .15s; }
+    .qcard-amt:hover { border-color: var(--forest); color: var(--forest-deep); transform: translateY(-2px); }
+    .qcard-done { margin-top: 22px; color: var(--forest-deep); font-weight: 500; background: rgba(19,178,74,.08); border: 1px solid rgba(19,178,74,.25); border-radius: 11px; padding: 13px 16px; text-align: center; }
 
-    .qfund-btn { width: 100%; justify-content: center; margin-bottom: 22px; }
     .qbens { margin-bottom: 24px; }
     .qbens-list { margin-top: 10px; display: flex; flex-direction: column; gap: 9px; }
     .qbens-empty { color: var(--ink-mute); font-size: .9rem; font-style: italic; margin: 0; }
@@ -117,22 +132,22 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     .qben-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--forest); flex: 0 0 auto; }
     .qben-biz { color: var(--ink-mute); font-size: .82rem; }
     .qben-anon { color: var(--ink-mute); font-size: .88rem; padding-left: 17px; }
+    @media (max-width: 480px) { .qcard-amts { grid-template-columns: repeat(2, 1fr); } }
   </style>
 
   <script>
-    // Hydrate the campaign hero + benefactor list from live D1 data.
     (async function () {
-      const camp = document.querySelector('.qcamp');
-      const slug = camp && camp.getAttribute('data-slug');
+      const card = document.querySelector('.qcard[data-slug]');
+      const slug = card && card.getAttribute('data-slug');
       if (!slug) return;
-      const goal = Number(camp.getAttribute('data-goal')) || 0;
+      const goal = Number(card.getAttribute('data-goal')) || 0;
       try {
         const r = await fetch('/api/paystack/benefactors?project=' + encodeURIComponent(slug));
         const d = await r.json();
         const raised = (d.raisedCents || 0) / 100;
-        const raisedEl = camp.querySelector('[data-raised]');
-        const backersEl = camp.querySelector('[data-backers]');
-        const barEl = camp.querySelector('[data-bar]');
+        const raisedEl = card.querySelector('[data-raised]');
+        const backersEl = card.querySelector('[data-backers]');
+        const barEl = card.querySelector('[data-bar]');
         if (raisedEl) raisedEl.textContent = 'R' + Math.round(raised).toLocaleString('en-ZA');
         if (backersEl) backersEl.textContent = String(d.total || 0);
         if (barEl && goal) barEl.style.width = Math.min(100, Math.round((raised / goal) * 100)) + '%';
@@ -141,18 +156,15 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         if (list && d.total > 0) {
           list.innerHTML = '';
           (d.benefactors || []).forEach((b) => {
-            const row = document.createElement('div');
-            row.className = 'qben';
+            const row = document.createElement('div'); row.className = 'qben';
             const dot = document.createElement('span'); dot.className = 'qben-dot';
-            const nm = document.createElement('span');
-            nm.textContent = b.displayName || '';
+            const nm = document.createElement('span'); nm.textContent = b.displayName || '';
             row.appendChild(dot); row.appendChild(nm);
             if (b.giverType === 'business') { const bz = document.createElement('span'); bz.className = 'qben-biz'; bz.textContent = '· business'; row.appendChild(bz); }
             list.appendChild(row);
           });
           if (d.anonymous > 0) {
-            const row = document.createElement('div');
-            row.className = 'qben-anon';
+            const row = document.createElement('div'); row.className = 'qben-anon';
             row.textContent = '+ ' + d.anonymous + ' anonymous ' + (d.anonymous === 1 ? 'benefactor' : 'benefactors');
             list.appendChild(row);
           }
@@ -160,7 +172,6 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
       } catch (e) {}
     })();
 
-    // Follow this build — register for email updates (no payment).
     (function () {
       const form = document.querySelector('[data-followform]');
       if (!form) return;

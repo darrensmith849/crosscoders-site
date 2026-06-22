@@ -91,6 +91,12 @@ const projectNames = Object.fromEntries(queue.map((p) => [p.slug, p.name]));
       const ctx = document.getElementById('give-context');
       if (ctx) { ctx.textContent = '💚 You’re funding ' + projectNames[project]; ctx.hidden = false; }
     }
+    const qsAmount = new URLSearchParams(location.search).get('amount');
+    if (qsAmount && /^\d+$/.test(qsAmount)) {
+      const ai = document.getElementById('give-amount');
+      if (ai) ai.value = qsAmount;
+      document.querySelectorAll('.give-amt').forEach((b) => b.classList.toggle('sel', b.dataset.amt === qsAmount));
+    }
     const amounts = document.getElementById('give-amounts');
     const amtInput = document.getElementById('give-amount');
     const msg = document.getElementById('give-msg');
