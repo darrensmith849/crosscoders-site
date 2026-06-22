@@ -16,20 +16,56 @@ const greeting = "Hi! I'm the CrossCoders assistant. Ask me anything about the F
   </form>
 </div>
 
+<style is:global>
+  /* blinking caret shown while the assistant "types" a message */
+  .chatw .bub.a.wt::after { content: '▋'; margin-left: 2px; color: var(--forest-bright); animation: cwBlink 1s steps(2, start) infinite; }
+  @keyframes cwBlink { 50% { opacity: 0; } }
+</style>
+
 <script>
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal `text` into `el` one character at a time, like a typewriter.
+  function typeOut(el, text, scroll) {
+    return new Promise((resolve) => {
+      el.textContent = '';
+      el.classList.add('wt');
+      const finish = () => { el.classList.remove('wt'); scroll(); resolve(); };
+      if (REDUCED || !text) { el.textContent = text || ''; finish(); return; }
+      let i = 0;
+      const step = () => {
+        i += 1;
+        el.textContent = text.slice(0, i);
+        scroll();
+        if (i >= text.length) return finish();
+        const ch = text[i - 1];
+        const delay = /[.,!?…—:;]/.test(ch) ? 80 : 14 + Math.random() * 20;
+        setTimeout(step, delay);
+      };
+      step();
+    });
+  }
+
   document.querySelectorAll('[data-chatw]').forEach((root) => {
     const chat = root.querySelector('[data-chat]');
     const form = root.querySelector('[data-chatform]');
     const input = root.querySelector('[data-chatinput]');
+    const scroll = () => { chat.scrollTop = chat.scrollHeight; };
     chat.querySelectorAll('.bub').forEach((b) => b.classList.add('in'));
-    const history = [{ role: 'assistant', content: chat.querySelector('.bub')?.textContent || '' }];
+
+    // Type the greeting out on load, but keep its full text in history.
+    const greetEl = chat.querySelector('.bub.a');
+    const greetText = greetEl ? greetEl.textContent : '';
+    const history = [{ role: 'assistant', content: greetText }];
+    if (greetEl) typeOut(greetEl, greetText, scroll);
+
     let busy = false;
     function add(role, text) {
       const b = document.createElement('div');
       b.className = 'bub in ' + (role === 'user' ? 'u' : 'a');
       b.textContent = text;
       chat.appendChild(b);
-      chat.scrollTop = chat.scrollHeight;
+      scroll();
       return b;
     }
     form.addEventListener('submit', async (e) => {
@@ -51,15 +87,15 @@ const greeting = "Hi! I'm the CrossCoders assistant. Ask me anything about the F
         const data = await r.json().catch(() => ({}));
         const reply = r.ok && data.reply ? data.reply : "Sorry — I'm having trouble right now. Please fill in the form below and we'll get back to you.";
         typing.classList.remove('typing');
-        typing.textContent = reply;
+        await typeOut(typing, reply, scroll);
         history.push({ role: 'assistant', content: reply });
       } catch {
         typing.classList.remove('typing');
-        typing.textContent = "Sorry — I'm having trouble connecting. Please use the form below.";
+        await typeOut(typing, "Sorry — I'm having trouble connecting. Please use the form below.", scroll);
       } finally {
         busy = false;
         input.focus();
-        chat.scrollTop = chat.scrollHeight;
+        scroll();
       }
     });
   });
