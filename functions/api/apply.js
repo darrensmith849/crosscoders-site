@@ -2,7 +2,8 @@
 // Emails a Foundation application to the team via Brevo. Key held in env.BREVO_API_KEY.
 // Sender + recipient are overridable via env (APPLY_FROM / APPLY_TO).
 
-const DEFAULT_TO = 'darren@2ko.co.za';
+const DEFAULT_TO = 'daniel@crosscoders.co.za';
+const DEFAULT_CC = 'darren@crosscoders.co.za';
 const DEFAULT_FROM = { name: 'CrossCoders Foundation', email: 'contact@2ko.co.za' };
 
 export async function onRequestPost({ request, env }) {
@@ -42,6 +43,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         sender,
         to: [{ email: env.APPLY_TO || DEFAULT_TO }],
+        cc: [{ email: env.APPLY_CC || DEFAULT_CC }],
         replyTo: { email, name },
         subject: `New build application — ${String(f.org || name).slice(0, 80)}`,
         htmlContent: html,
