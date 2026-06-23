@@ -40,6 +40,14 @@ export const give = {
   ],
 };
 
+// Quick "fund a piece" shortcuts on each build's campaign card.
+// Placeholder amounts — tune per build once real costs are set.
+export const fundElements = [
+  { amount: 500, label: 'a page' },
+  { amount: 1500, label: 'online giving' },
+  { amount: 3000, label: 'the full build' },
+];
+
 export type Faq = { q: string; a: string };
 export type Step = { t: string; d: string };
 
@@ -241,6 +249,7 @@ export const queue: QueueChurch[] = [
     category: 'church',
     region: 'Mdantsane, Eastern Cape',
     art: 'steeple',
+    image: '/img/grace-chapel.jpg',
     stage: 'building',
     tagline: 'A 300-strong township church with no way to be found online.',
     need: ['Website with sermons & events', 'Online giving', 'A “plan your visit” page'],
@@ -260,6 +269,7 @@ export const queue: QueueChurch[] = [
     category: 'church',
     region: 'Khayelitsha, Western Cape',
     art: 'modern',
+    image: '/img/hope-community.jpg',
     stage: 'funding',
     tagline: 'A growing congregation that lives on WhatsApp and needs a real home.',
     need: ['A branded church app', 'Push notifications & events', 'Check-in for kids & volunteers'],
@@ -279,6 +289,7 @@ export const queue: QueueChurch[] = [
     category: 'ministry',
     region: 'Soweto, Gauteng',
     art: 'lighthouse',
+    image: '/img/lighthouse-youth.jpg',
     stage: 'approved',
     tagline: 'A youth ministry turning hundreds away because sign-ups are chaos.',
     need: ['Event & camp sign-ups', 'A simple website', 'An after-hours questions chatbot'],
@@ -298,6 +309,7 @@ export const queue: QueueChurch[] = [
     category: 'nonprofit',
     region: 'Polokwane, Limpopo',
     art: 'hands',
+    image: '/img/new-life-mission.jpg',
     stage: 'funding',
     tagline: 'A feeding-and-discipleship mission drowning in spreadsheets.',
     need: ['A donor & supporter platform', 'Automated thank-yous & receipts', 'Impact reporting'],
@@ -317,6 +329,7 @@ export const queue: QueueChurch[] = [
     category: 'church',
     region: 'Pietermaritzburg, KwaZulu-Natal',
     art: 'chapel',
+    image: '/img/cornerstone-fellowship.jpg',
     stage: 'shipped',
     tagline: 'Our first free build — live, and theirs to keep.',
     need: ['Website with media & giving', 'Self-serve CMS', 'SEO foundations'],

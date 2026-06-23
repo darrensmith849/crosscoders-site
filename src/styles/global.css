@@ -544,8 +544,8 @@ footer .brand-sub{color:var(--cream-dim)}
 
 /* Detail hero */
 .qhero{background:linear-gradient(180deg,var(--paper),var(--linen));border-bottom:1px solid var(--line);padding:calc(var(--header-h) + clamp(1.6rem,4vw,2.6rem)) 0 clamp(2rem,5vw,3.2rem)}
-.qhero-in{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:clamp(24px,4vw,48px);align-items:center}
-.qhero-art{aspect-ratio:3/2;background:linear-gradient(168deg,#ECF4E6,#F1E7CF);border:1px solid var(--line);border-radius:var(--r-lg);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.qhero-in{display:grid;grid-template-columns:2fr 1fr;gap:clamp(24px,4vw,48px);align-items:stretch}
+.qhero-art{min-height:340px;background:linear-gradient(168deg,#ECF4E6,#F1E7CF);border:1px solid var(--line);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .qhero-art .churchart{width:80%;height:88%}
 .qhero-art img{width:100%;height:100%;object-fit:cover}
 .qback{display:inline-block;font-size:.84rem;color:var(--ink-mute);text-decoration:none;margin-bottom:14px}

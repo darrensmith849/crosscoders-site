@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ChurchArt from '../../../components/ChurchArt.astro';
 import JourneyStrip from '../../../components/JourneyStrip.astro';
 import QueueGrid from '../../../components/QueueGrid.astro';
-import { queue, stageMeta, type QueueChurch } from '../../../lib/content';
+import { queue, stageMeta, fundElements, type QueueChurch } from '../../../lib/content';
 
 export function getStaticPaths() {
   return queue.map((c) => ({ params: { slug: c.slug }, props: { church: c } }));
@@ -12,7 +12,6 @@ interface Props { church: QueueChurch }
 const { church: c } = Astro.props;
 const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
 const shipped = c.stage === 'shipped';
-const amounts = [100, 250, 500, 1000];
 const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
 ---
 <BaseLayout
@@ -25,7 +24,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         {c.image ? <img src={c.image} alt={c.name} /> : <ChurchArt kind={c.art} />}
       </div>
 
-      <!-- Campaign card: bar → raised → title → description → button → quick amounts -->
+      <!-- Campaign card: bar → raised(+% / to go) → title → description → button → fund-a-piece -->
       <div class="qcard" data-slug={c.slug} data-goal={c.goal}>
         <div class="qcard-top">
           <a class="qback" href="/foundation/queue">← Funded projects</a>
@@ -35,8 +34,9 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         <div class="qbar lg"><span data-bar style="width:0%"></span></div>
 
         <div class="qcard-raised">
-          <b data-raised>{R(0)}</b>
-          <span>raised of {R(c.goal)} &nbsp;·&nbsp; <b data-backers>0</b> backers</span>
+          <span class="qcard-amt"><b data-raised>{R(0)}</b> raised</span>
+          <div class="qcard-prog"><b data-pct>0%</b> of {R(c.goal)} &nbsp;·&nbsp; <b data-togo>{R(c.goal)}</b> to go</div>
+          <div class="qcard-backers"><b data-backers>0</b> backers</div>
         </div>
 
         <h1 class="serif qcard-title">{c.name}</h1>
@@ -48,10 +48,17 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         ) : (
           <div>
             <a class="btn btn-primary qcard-cta" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>
-            <div class="qcard-amts">
-              {amounts.map((a) => (
-                <a class="qcard-amt" href={`/give?project=${c.slug}&amount=${a}`}>{R(a)}</a>
+            <div class="qcard-elems">
+              {fundElements.map((el) => (
+                <a class="qcard-elem" href={`/give?project=${c.slug}&amount=${el.amount}`}>
+                  <span class="qcard-elem-amt">{R(el.amount)}</span>
+                  <span class="qcard-elem-lbl">{el.label}</span>
+                </a>
               ))}
+              <a class="qcard-elem qcard-elem-custom" href={`/give?project=${c.slug}`}>
+                <span class="qcard-elem-amt">Custom</span>
+                <span class="qcard-elem-lbl">your amount</span>
+              </a>
             </div>
           </div>
         )}
@@ -106,6 +113,15 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     </div>
   </section>
 
+  {!shipped && (
+    <div class="qsticky" id="qsticky" hidden>
+      <div class="wrap qsticky-in">
+        <div class="qsticky-tx"><b>{c.name}</b> · <span data-sticky-raised>{R(0)}</span> raised</div>
+        <a class="btn btn-primary" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>
+      </div>
+    </div>
+  )}
+
   <style>
     .qcard { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: clamp(22px, 3vw, 30px); align-self: start; }
     .qcard-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
@@ -113,16 +129,22 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     .qcard-top .qpill { position: static; }
     .qcard .qbar.lg { height: 12px; }
     .qcard-raised { margin-top: 16px; }
-    .qcard-raised b[data-raised] { font-size: clamp(1.9rem, 4vw, 2.5rem); color: var(--forest-deep); font-family: Georgia, serif; line-height: 1; }
-    .qcard-raised span { display: block; margin-top: 7px; font-size: .95rem; color: var(--ink-soft); }
-    .qcard-raised span b { color: var(--ink); }
+    .qcard-amt b { font-size: clamp(1.9rem, 4vw, 2.5rem); color: var(--forest-deep); font-family: Georgia, serif; line-height: 1; }
+    .qcard-amt { font-size: .95rem; color: var(--ink-soft); }
+    .qcard-prog { margin-top: 9px; font-size: .92rem; color: var(--ink-soft); }
+    .qcard-prog b { color: var(--forest-deep); }
+    .qcard-backers { margin-top: 4px; font-size: .92rem; color: var(--ink-soft); }
+    .qcard-backers b { color: var(--ink); }
     .qcard-title { font-size: clamp(1.6rem, 3.2vw, 2.1rem); margin: 22px 0 0; }
     .qcard-meta { font-size: .85rem; color: var(--ink-mute); text-transform: uppercase; letter-spacing: .03em; margin: 8px 0 0; }
     .qcard-desc { font-size: 1.02rem; color: var(--ink-soft); line-height: 1.6; margin: 12px 0 0; }
     .qcard-cta { width: 100%; justify-content: center; margin-top: 22px; font-size: 1.05rem; }
-    .qcard-amts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 12px; }
-    .qcard-amt { text-align: center; font-weight: 500; font-size: .98rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 11px 4px; text-decoration: none; transition: border-color .15s, color .15s, transform .15s; }
-    .qcard-amt:hover { border-color: var(--forest); color: var(--forest-deep); transform: translateY(-2px); }
+    .qcard-elems { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .qcard-elem { display: flex; align-items: baseline; gap: 11px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 11px 14px; text-decoration: none; transition: border-color .15s, transform .15s; }
+    .qcard-elem:hover { border-color: var(--forest); transform: translateY(-2px); }
+    .qcard-elem-amt { font-weight: 500; color: var(--forest-deep); font-size: 1rem; min-width: 66px; }
+    .qcard-elem-lbl { color: var(--ink-soft); font-size: .92rem; }
+    .qcard-elem-custom .qcard-elem-amt { color: var(--ink); }
     .qcard-done { margin-top: 22px; color: var(--forest-deep); font-weight: 500; background: rgba(19,178,74,.08); border: 1px solid rgba(19,178,74,.25); border-radius: 11px; padding: 13px 16px; text-align: center; }
 
     .qbens { margin-bottom: 24px; }
@@ -132,7 +154,13 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     .qben-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--forest); flex: 0 0 auto; }
     .qben-biz { color: var(--ink-mute); font-size: .82rem; }
     .qben-anon { color: var(--ink-mute); font-size: .88rem; padding-left: 17px; }
-    @media (max-width: 480px) { .qcard-amts { grid-template-columns: repeat(2, 1fr); } }
+
+    .qsticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--linen); border-top: 1px solid var(--line); box-shadow: 0 -4px 22px rgba(0,0,0,.07); padding: 12px 0; }
+    .qsticky-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .qsticky-tx { font-size: .95rem; color: var(--ink-soft); }
+    .qsticky-tx b { color: var(--ink); }
+    .qsticky .btn { white-space: nowrap; }
+    @media (max-width: 600px) { .qsticky-tx { display: none; } .qsticky-in { justify-content: stretch; } .qsticky .btn { flex: 1; justify-content: center; } }
   </style>
 
   <script>
@@ -141,16 +169,19 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
       const slug = card && card.getAttribute('data-slug');
       if (!slug) return;
       const goal = Number(card.getAttribute('data-goal')) || 0;
+      const fmt = (n) => 'R' + Math.round(n).toLocaleString('en-ZA');
+      const set = (sel, val) => { const el = document.querySelector(sel); if (el) el.textContent = val; };
       try {
         const r = await fetch('/api/paystack/benefactors?project=' + encodeURIComponent(slug));
         const d = await r.json();
         const raised = (d.raisedCents || 0) / 100;
-        const raisedEl = card.querySelector('[data-raised]');
-        const backersEl = card.querySelector('[data-backers]');
-        const barEl = card.querySelector('[data-bar]');
-        if (raisedEl) raisedEl.textContent = 'R' + Math.round(raised).toLocaleString('en-ZA');
-        if (backersEl) backersEl.textContent = String(d.total || 0);
-        if (barEl && goal) barEl.style.width = Math.min(100, Math.round((raised / goal) * 100)) + '%';
+        const pct = goal ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
+        set('.qcard [data-raised]', fmt(raised));
+        set('.qcard [data-backers]', String(d.total || 0));
+        set('.qcard [data-pct]', goal ? pct + '%' : '—');
+        set('.qcard [data-togo]', fmt(Math.max(0, goal - raised)));
+        set('[data-sticky-raised]', fmt(raised));
+        const bar = card.querySelector('[data-bar]'); if (bar && goal) bar.style.width = pct + '%';
 
         const list = document.querySelector('[data-benslist]');
         if (list && d.total > 0) {
@@ -170,6 +201,16 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
           }
         }
       } catch (e) {}
+    })();
+
+    (function () {
+      const sticky = document.getElementById('qsticky');
+      const heroCard = document.querySelector('.qcard');
+      if (!sticky || !heroCard || !('IntersectionObserver' in window)) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { sticky.hidden = e.isIntersecting; });
+      }, { rootMargin: '-90px 0px 0px 0px' });
+      io.observe(heroCard);
     })();
 
     (function () {
