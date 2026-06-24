@@ -1,8 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-import { partnerTiers } from '../lib/content';
+import { partnerTiers, give } from '../lib/content';
 const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
+const peoplePerYear = (m: number) => Math.round((m * 12 * give.peoplePerBuild) / give.costPerBuild);
+const capLabel = (m: number) => {
+  const f = (m * 12) / give.costPerBuild;
+  if (f >= 1) return 'a church a year';
+  if (f >= 0.2) return 'part of a build a year';
+  return 'pools toward builds';
+};
 ---
 
 <BaseLayout
@@ -35,7 +42,29 @@ const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
               {t.featured && <span class="pbadge">Most loved</span>}
               <div class="pname">{t.name}</div>
               <div class="pamt"><b>{R(t.amount)}</b><span>/month</span></div>
-              <p class="pblurb">{t.blurb}</p>
+              <div class="psub">≈ {R(t.amount * 12)} a year</div>
+              <p class="ptag">{t.tagline}</p>
+
+              <div class="preach">
+                <div class="preach-s">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <div><b>~{peoplePerYear(t.amount)}</b><span>people / year</span></div>
+                </div>
+                <div class="preach-s">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/><path d="M12 3v3"/></svg>
+                  <div><b>{capLabel(t.amount)}</b><span>build capacity</span></div>
+                </div>
+              </div>
+
+              <ul class="pincl">
+                {t.includes.map((i) => (
+                  <li>
+                    <svg class="ptick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>{i}</span>
+                  </li>
+                ))}
+              </ul>
+
               <button type="button" class={`btn ${t.featured ? 'btn-primary' : 'btn-ghost pout'} ptier-btn`} data-tier={t.id}>Become a {t.name} <span class="arrow">→</span></button>
             </div>
           ))}
@@ -47,7 +76,7 @@ const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
       <div class="poff">
         <div class="poff-tx">
           <div class="pname">Sponsor a whole church</div>
-          <p class="pblurb">Prefer a one-off gift? Fund an entire build — a church online, start to finish.</p>
+          <p class="ptag" style="margin:6px 0 0">Prefer a one-off gift? Fund an entire build — a church online, start to finish.</p>
         </div>
         <a class="btn btn-ghost pout" href="/give?amount=50000">Sponsor a build · R50,000 <span class="arrow">→</span></a>
       </div>
@@ -58,40 +87,48 @@ const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
   </section>
 
   <style>
-    .pwrap { max-width: 880px; }
-    .pfound { background: rgba(19,178,74,.08); border: 1px solid rgba(19,178,74,.25); border-radius: 12px; padding: 12px 16px; font-size: .92rem; color: var(--forest-deep); margin-bottom: 22px; }
+    .pwrap { max-width: 1180px; }
+    .pfound { max-width: 720px; margin: 0 auto 24px; text-align: center; background: rgba(19,178,74,.08); border: 1px solid rgba(19,178,74,.25); border-radius: 12px; padding: 12px 18px; font-size: .92rem; color: var(--forest-deep); }
     .pfound b { font-weight: 600; }
     .pform { margin: 0; }
     .php { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-    .prow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 560px; margin: 0 auto 22px; }
+    .prow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 560px; margin: 0 auto 28px; }
     .pfield { display: block; }
     .pfield span { display: block; font-size: .85rem; color: var(--ink-soft); margin-bottom: 6px; }
     .pfield span i { color: var(--ink-mute); font-style: normal; }
     .pfield input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 12px 14px; transition: border-color .15s, box-shadow .15s; }
     .pfield input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
-    .ptiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .ptier { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px 20px 24px; display: flex; flex-direction: column; position: relative; }
+    .ptiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+    .ptier { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 24px 28px; display: flex; flex-direction: column; position: relative; }
     .ptier.feat { border: 2px solid var(--forest); box-shadow: var(--shadow); }
-    .pbadge { position: absolute; top: -11px; left: 20px; background: var(--forest); color: #fff; font-size: .72rem; font-weight: 600; padding: 3px 11px; border-radius: 999px; }
-    .pname { font-family: 'Fraunces', Georgia, serif; font-size: 1.15rem; color: var(--ink); }
-    .pamt { margin: 8px 0 2px; }
-    .pamt b { font-family: Georgia, serif; font-size: 1.9rem; color: var(--ink); }
-    .pamt span { color: var(--ink-mute); font-size: .9rem; }
-    .pblurb { font-size: .9rem; color: var(--ink-soft); line-height: 1.55; margin: 10px 0 18px; flex: 1; }
+    .pbadge { position: absolute; top: -12px; left: 24px; background: var(--forest); color: #fff; font-size: .72rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
+    .pname { font-family: 'Fraunces', Georgia, serif; font-size: 1.25rem; color: var(--ink); }
+    .pamt { margin: 8px 0 0; }
+    .pamt b { font-family: Georgia, serif; font-size: 2.2rem; color: var(--ink); line-height: 1; }
+    .pamt span { color: var(--ink-mute); font-size: .92rem; }
+    .psub { font-size: .85rem; color: var(--ink-mute); margin-top: 6px; }
+    .ptag { font-size: .95rem; color: var(--ink-soft); line-height: 1.5; margin: 14px 0 18px; }
+    .preach { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+    .preach-s { flex: 1; display: flex; align-items: center; gap: 10px; }
+    .preach-s svg { width: 22px; height: 22px; color: var(--forest); flex: none; }
+    .preach-s b { display: block; font-size: 1.05rem; color: var(--ink); font-family: Georgia, serif; line-height: 1.1; }
+    .preach-s span { font-size: .76rem; color: var(--ink-mute); }
+    .pincl { list-style: none; padding: 0; margin: 0 0 22px; display: flex; flex-direction: column; gap: 11px; flex: 1; }
+    .pincl li { display: flex; align-items: flex-start; gap: 10px; font-size: .92rem; color: var(--ink-soft); line-height: 1.45; }
+    .ptick { width: 18px; height: 18px; color: var(--forest); flex: none; margin-top: 2px; }
     .ptier-btn { width: 100%; justify-content: center; }
     .ptier-btn.pout { border-color: var(--line-strong); }
-    .ptier-btn:hover.pout { border-color: var(--forest); }
+    .ptier-btn.pout:hover { border-color: var(--forest); }
     .ptier-btn[disabled] { opacity: .65; cursor: progress; }
-    .pmsg { min-height: 1.2em; margin-top: 14px; font-size: .9rem; color: var(--ink-soft); text-align: center; }
+    .pmsg { min-height: 1.2em; margin-top: 16px; font-size: .9rem; color: var(--ink-soft); text-align: center; }
     .pmsg.err { color: #B4452F; }
-    .poff { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px 22px; margin-top: 22px; }
-    .poff .pblurb { margin: 6px 0 0; flex: none; }
+    .poff { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px 24px; margin-top: 24px; }
     .poff .btn { white-space: nowrap; }
-    .pcollective { text-align: center; margin-top: 26px; font-size: 1.05rem; color: var(--ink-soft); }
+    .pcollective { text-align: center; margin-top: 28px; font-size: 1.05rem; color: var(--ink-soft); }
     .pcollective b { color: var(--forest-deep); }
-    .pnote { margin-top: 16px; font-size: .8rem; line-height: 1.6; color: var(--ink-mute); text-align: center; max-width: 620px; margin-left: auto; margin-right: auto; }
+    .pnote { margin-top: 16px; font-size: .8rem; line-height: 1.6; color: var(--ink-mute); text-align: center; max-width: 640px; margin: 16px auto 0; }
     .pnote b { color: var(--ink-soft); }
-    @media (max-width: 720px) { .ptiers { grid-template-columns: 1fr; } .prow { grid-template-columns: 1fr; } }
+    @media (max-width: 860px) { .ptiers { grid-template-columns: 1fr; } .prow { grid-template-columns: 1fr; } }
   </style>
 
   <script>

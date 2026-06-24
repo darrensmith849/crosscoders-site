@@ -52,9 +52,43 @@ export const fundElements = [
 // R50,000, so partners pool toward whole churches; a one-off "sponsor a whole
 // church" is the R50,000 ask on /give. Impact lines stay honest + collective.
 export const partnerTiers = [
-  { id: 'builder', name: 'Builder', amount: 250, blurb: 'Lay a brick a month. Your gift pools with others to put the next church online.' },
-  { id: 'partner', name: 'Partner', amount: 1000, blurb: 'R12,000 a year — a serious share of a full church build, every single year.' },
-  { id: 'patron', name: 'Patron', amount: 5000, blurb: 'R60,000 a year — enough to put a whole church online on your own, annually.', featured: true },
+  {
+    id: 'builder',
+    name: 'Builder',
+    amount: 250,
+    tagline: 'Lay a brick a month — accessible, and it compounds.',
+    includes: [
+      'Your gift pools to fund the next church online',
+      'Your name on the benefactor wall',
+      'Monthly impact updates',
+      'Founding Partner status — first 50',
+    ],
+  },
+  {
+    id: 'partner',
+    name: 'Partner',
+    amount: 1000,
+    tagline: 'A serious share of a full build, every single year.',
+    includes: [
+      'Everything in Builder',
+      'Quarterly impact reports',
+      'A personal thank-you from the team',
+      'Help choose which church is funded next',
+    ],
+  },
+  {
+    id: 'patron',
+    name: 'Patron',
+    amount: 5000,
+    featured: true,
+    tagline: 'Put a whole church online a year — on your own.',
+    includes: [
+      'Everything in Partner',
+      'Named as a lead benefactor',
+      'A personal update from a church you helped launch',
+      'An annual impact call with the founders',
+    ],
+  },
 ];
 
 export type Faq = { q: string; a: string };
