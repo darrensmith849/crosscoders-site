@@ -48,6 +48,15 @@ export const fundElements = [
   { amount: 15000, label: 'a major lift' },
 ];
 
+// Recurring monthly partner tiers (the /partners page). A full church build is
+// R50,000, so partners pool toward whole churches; a one-off "sponsor a whole
+// church" is the R50,000 ask on /give. Impact lines stay honest + collective.
+export const partnerTiers = [
+  { id: 'builder', name: 'Builder', amount: 250, blurb: 'Lay a brick a month. Your gift pools with others to put the next church online.' },
+  { id: 'partner', name: 'Partner', amount: 1000, blurb: 'R12,000 a year — a serious share of a full church build, every single year.' },
+  { id: 'patron', name: 'Patron', amount: 5000, blurb: 'R60,000 a year — enough to put a whole church online on your own, annually.', featured: true },
+];
+
 export type Faq = { q: string; a: string };
 export type Step = { t: string; d: string };
 

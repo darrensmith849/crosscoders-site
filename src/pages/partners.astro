@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { partnerTiers } from '../lib/content';
+const R = (n: number) => 'R' + n.toLocaleString('en-ZA');
+---
+
+<BaseLayout
+  title="Become a partner — Kingdom Come Foundation"
+  description="Give monthly and put under-resourced churches online — a website, app and giving tools, built free. Become a founding partner of the Kingdom Come Foundation."
+>
+  <PageHero
+    eyebrow="Partners"
+    title="Become a partner."
+    sub="Give monthly and put under-resourced churches online — built free. Steady support is what turns a vision into churches launched, month after month."
+    cta={false}
+  />
+
+  <section class="psec">
+    <div class="wrap pwrap">
+      <div class="pfound">
+        <b>Founding Partners — the first 50.</b> Be one of the first to carry this mission. Named on the wall, with quarterly impact reports.
+      </div>
+
+      <form class="pform" id="pform" novalidate>
+        <input type="text" name="hp_check" tabindex="-1" autocomplete="off" class="php" aria-hidden="true" data-1p-ignore data-lpignore="true" data-form-type="other" />
+        <div class="prow">
+          <label class="pfield"><span>Your name <i>(optional)</i></span><input type="text" id="p-name" autocomplete="name" placeholder="Name" /></label>
+          <label class="pfield"><span>Email</span><input type="email" id="p-email" autocomplete="email" placeholder="you@email.com" required /></label>
+        </div>
+
+        <div class="ptiers">
+          {partnerTiers.map((t) => (
+            <div class={`ptier${t.featured ? ' feat' : ''}`}>
+              {t.featured && <span class="pbadge">Most loved</span>}
+              <div class="pname">{t.name}</div>
+              <div class="pamt"><b>{R(t.amount)}</b><span>/month</span></div>
+              <p class="pblurb">{t.blurb}</p>
+              <button type="button" class={`btn ${t.featured ? 'btn-primary' : 'btn-ghost pout'} ptier-btn`} data-tier={t.id}>Become a {t.name} <span class="arrow">→</span></button>
+            </div>
+          ))}
+        </div>
+
+        <p class="pmsg" id="pmsg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="poff">
+        <div class="poff-tx">
+          <div class="pname">Sponsor a whole church</div>
+          <p class="pblurb">Prefer a one-off gift? Fund an entire build — a church online, start to finish.</p>
+        </div>
+        <a class="btn btn-ghost pout" href="/give?amount=50000">Sponsor a build · R50,000 <span class="arrow">→</span></a>
+      </div>
+
+      <div class="pcollective">Together, our partners are funding <b id="p-churches">…</b>.</div>
+      <p class="pnote">🔒 Secure monthly giving via <b>Paystack</b> — cancel anytime. You're partnering with the Kingdom Come Foundation (in formation); gifts are not yet tax-deductible, but we keep records so a Section 18A certificate can follow once it's approved.</p>
+    </div>
+  </section>
+
+  <style>
+    .pwrap { max-width: 880px; }
+    .pfound { background: rgba(19,178,74,.08); border: 1px solid rgba(19,178,74,.25); border-radius: 12px; padding: 12px 16px; font-size: .92rem; color: var(--forest-deep); margin-bottom: 22px; }
+    .pfound b { font-weight: 600; }
+    .pform { margin: 0; }
+    .php { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .prow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 560px; margin: 0 auto 22px; }
+    .pfield { display: block; }
+    .pfield span { display: block; font-size: .85rem; color: var(--ink-soft); margin-bottom: 6px; }
+    .pfield span i { color: var(--ink-mute); font-style: normal; }
+    .pfield input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 12px 14px; transition: border-color .15s, box-shadow .15s; }
+    .pfield input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
+    .ptiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .ptier { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px 20px 24px; display: flex; flex-direction: column; position: relative; }
+    .ptier.feat { border: 2px solid var(--forest); box-shadow: var(--shadow); }
+    .pbadge { position: absolute; top: -11px; left: 20px; background: var(--forest); color: #fff; font-size: .72rem; font-weight: 600; padding: 3px 11px; border-radius: 999px; }
+    .pname { font-family: 'Fraunces', Georgia, serif; font-size: 1.15rem; color: var(--ink); }
+    .pamt { margin: 8px 0 2px; }
+    .pamt b { font-family: Georgia, serif; font-size: 1.9rem; color: var(--ink); }
+    .pamt span { color: var(--ink-mute); font-size: .9rem; }
+    .pblurb { font-size: .9rem; color: var(--ink-soft); line-height: 1.55; margin: 10px 0 18px; flex: 1; }
+    .ptier-btn { width: 100%; justify-content: center; }
+    .ptier-btn.pout { border-color: var(--line-strong); }
+    .ptier-btn:hover.pout { border-color: var(--forest); }
+    .ptier-btn[disabled] { opacity: .65; cursor: progress; }
+    .pmsg { min-height: 1.2em; margin-top: 14px; font-size: .9rem; color: var(--ink-soft); text-align: center; }
+    .pmsg.err { color: #B4452F; }
+    .poff { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px 22px; margin-top: 22px; }
+    .poff .pblurb { margin: 6px 0 0; flex: none; }
+    .poff .btn { white-space: nowrap; }
+    .pcollective { text-align: center; margin-top: 26px; font-size: 1.05rem; color: var(--ink-soft); }
+    .pcollective b { color: var(--forest-deep); }
+    .pnote { margin-top: 16px; font-size: .8rem; line-height: 1.6; color: var(--ink-mute); text-align: center; max-width: 620px; margin-left: auto; margin-right: auto; }
+    .pnote b { color: var(--ink-soft); }
+    @media (max-width: 720px) { .ptiers { grid-template-columns: 1fr; } .prow { grid-template-columns: 1fr; } }
+  </style>
+
+  <script>
+    import { api } from '../lib/api';
+    (function () {
+      const form = document.getElementById('pform');
+      if (!form) return;
+      const emailEl = document.getElementById('p-email');
+      const nameEl = document.getElementById('p-name');
+      const msg = document.getElementById('pmsg');
+      const fail = (t) => { msg.textContent = t; msg.classList.add('err'); };
+
+      document.querySelectorAll('.ptier-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          msg.textContent = ''; msg.classList.remove('err');
+          const email = (emailEl.value || '').trim();
+          const name = (nameEl.value || '').trim();
+          if (!/.+@.+\..+/.test(email)) { emailEl.focus(); return fail('Please enter your email above first.'); }
+          const hp = form.querySelector('[name=hp_check]').value;
+          btn.disabled = true; msg.textContent = 'Taking you to secure checkout…';
+          try {
+            const r = await fetch(api('/api/paystack/subscribe'), {
+              method: 'POST', headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ email, name, tier: btn.dataset.tier, hp_check: hp }),
+            });
+            const data = await r.json();
+            if (data.authorization_url) { window.location.href = data.authorization_url; return; }
+            btn.disabled = false;
+            fail(data.error === 'invalid_tier' || data.error === 'not_configured'
+              ? 'Partner sign-up is switching on shortly — please try again soon.'
+              : 'Sorry, we couldn’t start that just now. Please try again.');
+          } catch { btn.disabled = false; fail('Network error — please check your connection and try again.'); }
+        });
+      });
+
+      // Live collective counter — churches funded so far (R50,000 per build).
+      fetch(api('/api/paystack/summary')).then((r) => r.json()).then((s) => {
+        let cents = 0;
+        const p = (s && s.projects) || {};
+        for (const k in p) cents += (p[k].raisedCents || 0);
+        const churches = Math.floor(cents / 5000000);
+        const el = document.getElementById('p-churches');
+        if (el) el.textContent = churches > 0
+          ? (churches + (churches === 1 ? ' church online' : ' churches online'))
+          : 'their first church — be the first';
+      }).catch(() => {});
+    })();
+  </script>
+</BaseLayout>
