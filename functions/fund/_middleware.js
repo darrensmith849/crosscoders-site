@@ -1,7 +1,8 @@
 // Cloudflare Pages middleware — soft password gate for the investor preview.
 // Scoped ONLY to /fund/* : it does not touch any public page or the /api functions.
-// Password: "Crosscoders" (matched case-insensitively, trimmed).
-const PASSWORD = 'crosscoders';
+// Password: set FUND_PASSWORD in the Cloudflare Pages env (Settings → Environment
+// variables) — it falls back to the default below only if that's unset. Case-insensitive.
+const FALLBACK_PASSWORD = 'crosscoders';
 const COOKIE = 'kc_fund';
 const TOKEN = 'kc-fund-ok';
 
@@ -13,7 +14,8 @@ export async function onRequest(context) {
   if (request.method === 'POST') {
     const form = await request.formData().catch(() => null);
     const pw = ((form && form.get('password')) || '').toString().trim().toLowerCase();
-    if (pw === PASSWORD) {
+    const expected = ((context.env && context.env.FUND_PASSWORD) || FALLBACK_PASSWORD).toString().trim().toLowerCase();
+    if (pw === expected) {
       return new Response(null, {
         status: 303,
         headers: {
