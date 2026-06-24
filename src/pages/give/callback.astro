@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ChurchArt from '../../components/ChurchArt.astro';
 import { queue } from '../../lib/content';
+import { API_BASE } from '../../lib/api';
 
 // Builds people can still fund — rendered as selectable cards in the carousel.
 const projects = queue
@@ -18,7 +19,7 @@ const projects = queue
 
       <!-- Reassurance — shown the moment we confirm the gift -->
       <div class="cb-reassure" id="cb-reassure" hidden>
-        <p class="cb-sub">Nothing more is needed — it's already at work. If you'd like to make it personal, you have <b><span id="cb-timer">24:00:00</span></b> to choose a build and how you're shown. Otherwise it stays in the general fund, used at our discretion.</p>
+        <p class="cb-sub">Nothing more is needed — it's already at work, and a thank-you is on its way to your inbox. If you'd like to make it personal, you have <b><span id="cb-timer">24:00:00</span></b> to choose a build and how you're shown. Otherwise it stays in the general fund, used at our discretion.</p>
       </div>
 
       <!-- Personalization — only when we have an allocation token -->
@@ -129,7 +130,7 @@ const projects = queue
   .cb-home { margin-top: 26px; display: none; }
 </style>
 
-<script define:vars={{ projects }}>
+<script define:vars={{ projects, apiBase: API_BASE }}>
   (function () {
     const params = new URLSearchParams(location.search);
     const ref = params.get('reference') || params.get('trxref');
@@ -177,7 +178,7 @@ const projects = queue
 
     // Fill each card's funding + benefactors from the live summary.
     function hydrateCards() {
-      fetch('/api/paystack/summary').then((r) => r.json()).then((s) => {
+      fetch(apiBase + '/api/paystack/summary').then((r) => r.json()).then((s) => {
         const data = (s && s.projects) || {};
         cards.forEach((card) => {
           const slug = card.dataset.slug;
@@ -216,7 +217,7 @@ const projects = queue
       tick();
     }
 
-    fetch('/api/paystack/verify?reference=' + encodeURIComponent(ref))
+    fetch(apiBase + '/api/paystack/verify?reference=' + encodeURIComponent(ref))
       .then((r) => r.json())
       .then((d) => {
         stopSpin();
@@ -252,7 +253,7 @@ const projects = queue
       };
       confirm.disabled = true; msg.textContent = 'Saving…';
       try {
-        const r = await fetch('/api/paystack/allocate', {
+        const r = await fetch(apiBase + '/api/paystack/allocate', {
           method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload),
         });
         const out = await r.json();

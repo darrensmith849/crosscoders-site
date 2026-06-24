@@ -14,9 +14,18 @@ const {
   description = brand.description,
   image = '/og.png',
 } = Astro.props;
-const site = Astro.site ?? new URL('https://crosscoders.pages.dev');
+const site = Astro.site ?? new URL('https://crosscoders.co.za');
 const ogImage = new URL(image, site).href;
 const canonical = new URL(Astro.url.pathname, site).href;
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: brand.name,
+  url: site.origin,
+  logo: new URL('/og.png', site).href,
+  description: brand.description,
+  email: brand.email,
+};
 ---
 
 <!doctype html>
@@ -26,6 +35,9 @@ const canonical = new URL(Astro.url.pathname, site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#13B24A" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -46,6 +58,7 @@ const canonical = new URL(Astro.url.pathname, site).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={`${brand.name} — ${brand.org}`} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgLd)} />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>

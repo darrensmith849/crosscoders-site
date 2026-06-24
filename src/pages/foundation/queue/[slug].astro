@@ -66,6 +66,8 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     </div>
   </section>
 
+  <div class="wrap"><p style="max-width:920px;margin:16px auto 0;font-size:.8rem;color:var(--ink-mute);text-align:center;line-height:1.55;font-style:italic">Illustrative example while we onboard our first real churches. Card giving is live — gifts support the Kingdom Come Foundation's free builds.</p></div>
+
   <section class="psec">
     <div class="wrap qdetail">
       <article class="qstory">
@@ -164,6 +166,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
   </style>
 
   <script>
+    import { api } from '../../../lib/api';
     (async function () {
       const card = document.querySelector('.qcard[data-slug]');
       const slug = card && card.getAttribute('data-slug');
@@ -172,7 +175,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
       const fmt = (n) => 'R' + Math.round(n).toLocaleString('en-ZA');
       const set = (sel, val) => { const el = document.querySelector(sel); if (el) el.textContent = val; };
       try {
-        const r = await fetch('/api/paystack/benefactors?project=' + encodeURIComponent(slug));
+        const r = await fetch(api('/api/paystack/benefactors?project=' + encodeURIComponent(slug)));
         const d = await r.json();
         const raised = (d.raisedCents || 0) / 100;
         const pct = goal ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
@@ -226,7 +229,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
         data.intent = 'follow'; data.church = slug; data.churchName = name; data.source = 'Queue follow — ' + name;
         const orig = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sending…';
         try {
-          const r = await fetch('/api/pledge', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+          const r = await fetch(api('/api/pledge'), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
           const j = await r.json().catch(() => ({}));
           if (!r.ok || !j.ok) throw new Error();
           form.outerHTML = '<div class="apply-done"><h3 class="serif">You’re following ' + name + '.</h3><p>We’ll email you as this build moves forward — funded, building, launched.</p></div>';

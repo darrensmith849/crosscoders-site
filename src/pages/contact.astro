@@ -15,7 +15,8 @@ const faq = faqCategories.find((c) => c.category === 'Working with us')!.items;
 
   <section class="psec">
     <div class="wrap formwrap">
-      <form action="#" method="post">
+      <form data-contactform novalidate>
+        <input type="text" name="hp_check" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" data-1p-ignore data-lpignore="true" data-form-type="other" />
         <div class="field"><label>Your name *</label><input name="name" required /></div>
         <div class="field"><label>Organisation</label><input name="org" /></div>
         <div class="field"><label>Email *</label><input name="email" type="email" required /></div>
@@ -52,4 +53,29 @@ const faq = faqCategories.find((c) => c.category === 'Working with us')!.items;
     c2={{ t: 'We reply', s: 'by email, fast' }}
     c3={{ big: '0', s: 'pressure', up: 'promise' }}
   />
+
+  <script>
+    import { api } from '../lib/api';
+    const f = document.querySelector('[data-contactform]');
+    if (f) {
+      f.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = f.querySelector('button[type=submit]');
+        const data = Object.fromEntries(new FormData(f).entries());
+        data.source = 'Contact form';
+        const orig = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sending…';
+        try {
+          const r = await fetch(api('/api/contact'), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok || !j.ok) throw new Error();
+          f.innerHTML = '<div class="apply-done"><h3 class="serif">Thank you — we\'ve got it.</h3><p>A real person reads every message and will reply by email. No bots, no pressure.</p></div>';
+        } catch {
+          btn.disabled = false; btn.innerHTML = orig;
+          let m = f.querySelector('.apply-err');
+          if (!m) { m = document.createElement('p'); m.className = 'apply-err'; btn.insertAdjacentElement('afterend', m); }
+          m.textContent = 'Sorry — something went wrong. Please email daniel@crosscoders.co.za and we\'ll sort it out.';
+        }
+      });
+    }
+  </script>
 </BaseLayout>

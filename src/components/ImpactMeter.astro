@@ -35,8 +35,8 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
       </div>
       <div class="im-sld"><input type="range" id="im-range" min="50" max="1000" step="50" value="100" aria-label="Gift amount" /><span class="im-amt" id="im-amt">R100</span></div>
       <div class="im-impact" id="im-impact">Your R100 would help reach more people on the way to the next free church build.</div>
-      <a class="btn btn-primary im-give" href="/foundation/support" id="im-give">Pledge R100 <span class="arrow">→</span></a>
-      <p class="im-note">Giving opens once the Foundation is registered — pledge now and we'll be in touch. Tiers are illustrative until real build costs are confirmed.</p>
+      <a class="btn btn-primary im-give" href="/give?amount=100" id="im-give">Give R100 <span class="arrow">→</span></a>
+      <p class="im-note">Give securely by card in under a minute — every gift funds free builds for churches. Tiers are illustrative until real build costs are confirmed; Kingdom Come Foundation is in formation, so gifts are not yet tax-deductible.</p>
     </div>
   </div>
 </section>
@@ -78,7 +78,7 @@ const tierPos = give.tiers.map((_, i) => Math.round(((i + 1) / give.tiers.length
       for (let i = 0; i < tiers.length; i++) tiers[i].classList.toggle('on', proj >= give.tiers[i].amount);
       const people = Math.round(g * ppb / cpb);
       impact.innerHTML = 'Your <b>R' + g.toLocaleString() + '</b> would help reach about <b>' + people + (people === 1 ? ' person' : ' people') + '</b> — on the way to the next free church build.';
-      amt.textContent = 'R' + g.toLocaleString(); if (+range.value !== g) range.value = g; giveBtn.innerHTML = 'Pledge R' + g.toLocaleString() + ' <span class="arrow">→</span>';
+      amt.textContent = 'R' + g.toLocaleString(); if (+range.value !== g) range.value = g; giveBtn.innerHTML = 'Give R' + g.toLocaleString() + ' <span class="arrow">→</span>'; giveBtn.href = '/give?amount=' + g;
       setChips(g);
     }
     range.addEventListener('input', () => { customMode = false; customWrap.hidden = true; update(+range.value); });

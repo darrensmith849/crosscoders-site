@@ -28,24 +28,24 @@ export const ctas = {
 // Impact meter config — figures are ILLUSTRATIVE until real build costs are set.
 // `current` is the real amount raised (0 at launch = pledge mode → "be the first").
 export const give = {
-  goal: 30000,
+  goal: 25000,
   current: 0,
-  costPerBuild: 10000,
+  costPerBuild: 5000,
   peoplePerBuild: 120,
   illustrative: true,
   tiers: [
-    { amount: 10000, label: '1 church' },
-    { amount: 20000, label: '2 churches' },
-    { amount: 30000, label: '3 · goal' },
+    { amount: 5000, label: '1 build' },
+    { amount: 15000, label: '3 builds' },
+    { amount: 25000, label: '5 · goal' },
   ],
 };
 
 // Quick "fund a piece" shortcuts on each build's campaign card.
 // Placeholder amounts — tune per build once real costs are set.
 export const fundElements = [
-  { amount: 500, label: 'a page' },
-  { amount: 1500, label: 'online giving' },
-  { amount: 3000, label: 'the full build' },
+  { amount: 500, label: 'a kickstart' },
+  { amount: 1500, label: 'real momentum' },
+  { amount: 3000, label: 'a major lift' },
 ];
 
 export type Faq = { q: string; a: string };
@@ -254,7 +254,7 @@ export const queue: QueueChurch[] = [
     tagline: 'A 300-strong township church with no way to be found online.',
     need: ['Website with sermons & events', 'Online giving', 'A “plan your visit” page'],
     goal: 2500,
-    raised: 1850,
+    raised: 0,
     story: [
       'Grace Chapel has served Mdantsane for over twenty years, but until now you couldn’t find them anywhere online — no website, no way to give, no way for a newcomer to know when services start.',
       'Their pastor runs everything from a personal phone. Every week, visitors who searched for “church near me” simply never found them.',
@@ -274,7 +274,7 @@ export const queue: QueueChurch[] = [
     tagline: 'A growing congregation that lives on WhatsApp and needs a real home.',
     need: ['A branded church app', 'Push notifications & events', 'Check-in for kids & volunteers'],
     goal: 4000,
-    raised: 980,
+    raised: 0,
     story: [
       'Hope Community has grown faster than its admin can keep up. Announcements, rosters and prayer requests all live in a tangle of WhatsApp groups.',
       'They need a single home: a simple app for their people, with events, giving, and safe check-in for children and volunteers.',
@@ -314,7 +314,7 @@ export const queue: QueueChurch[] = [
     tagline: 'A feeding-and-discipleship mission drowning in spreadsheets.',
     need: ['A donor & supporter platform', 'Automated thank-yous & receipts', 'Impact reporting'],
     goal: 6000,
-    raised: 2200,
+    raised: 0,
     story: [
       'New Life feeds and disciples families across Limpopo, funded entirely by a faithful base of small donors — tracked, painfully, in a dozen spreadsheets.',
       'They lose hours every week to manual receipts and reporting, and donors rarely hear what their giving achieved.',
@@ -334,7 +334,7 @@ export const queue: QueueChurch[] = [
     tagline: 'Our first free build — live, and theirs to keep.',
     need: ['Website with media & giving', 'Self-serve CMS', 'SEO foundations'],
     goal: 2500,
-    raised: 2500,
+    raised: 0,
     story: [
       'Cornerstone was the proof that this works. A small fellowship with a big heart and a budget that never stretched to a website.',
       'In a matter of weeks we built and launched their site — sermons, events and online giving — and trained their team to run it themselves.',

@@ -68,6 +68,7 @@ const faq = [
   </section>
 
   <script>
+    import { api } from '../../lib/api';
     const f = document.querySelector('[data-applyform]');
     if (f) {
       f.addEventListener('submit', async (e) => {
@@ -77,7 +78,7 @@ const faq = [
         data.source = 'Foundation apply form';
         const orig = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sending…';
         try {
-          const r = await fetch('/api/apply', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+          const r = await fetch(api('/api/apply'), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
           const j = await r.json().catch(() => ({}));
           if (!r.ok || !j.ok) throw new Error();
           f.innerHTML = '<div class="apply-done"><h3 class="serif">Thank you — we\'ve got it.</h3><p>We read every application and will be in touch by email. No pressure, no catch.</p></div>';
