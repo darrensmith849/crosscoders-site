@@ -68,6 +68,7 @@ export const partnerTiers = [
     id: 'partner',
     name: 'Partner',
     amount: 1000,
+    featured: true,
     tagline: 'A serious share of a full build, every single year.',
     includes: [
       'Everything in Builder',
@@ -80,13 +81,24 @@ export const partnerTiers = [
     id: 'patron',
     name: 'Patron',
     amount: 5000,
-    featured: true,
     tagline: 'Put a whole church online a year — on your own.',
     includes: [
       'Everything in Partner',
       'Named as a lead benefactor',
       'A personal update from a church you helped launch',
       'An annual impact call with the founders',
+    ],
+  },
+  {
+    id: 'cornerstone',
+    name: 'Cornerstone',
+    amount: 15000,
+    tagline: 'Carry whole churches online — several, every single year.',
+    includes: [
+      'Everything in Patron',
+      'Funds three or more church builds a year',
+      'Dedicate a build in your name, or in someone’s honour',
+      'A direct line to the founders + first look at new builds',
     ],
   },
 ];

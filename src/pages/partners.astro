@@ -98,7 +98,7 @@ const capLabel = (m: number) => {
     .pfield span i { color: var(--ink-mute); font-style: normal; }
     .pfield input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 12px 14px; transition: border-color .15s, box-shadow .15s; }
     .pfield input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
-    .ptiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+    .ptiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 16px; align-items: stretch; }
     .ptier { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 24px 28px; display: flex; flex-direction: column; position: relative; }
     .ptier.feat { border: 2px solid var(--forest); box-shadow: var(--shadow); }
     .pbadge { position: absolute; top: -12px; left: 24px; background: var(--forest); color: #fff; font-size: .72rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
@@ -128,7 +128,7 @@ const capLabel = (m: number) => {
     .pcollective b { color: var(--forest-deep); }
     .pnote { margin-top: 16px; font-size: .8rem; line-height: 1.6; color: var(--ink-mute); text-align: center; max-width: 640px; margin: 16px auto 0; }
     .pnote b { color: var(--ink-soft); }
-    @media (max-width: 860px) { .ptiers { grid-template-columns: 1fr; } .prow { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .prow { grid-template-columns: 1fr; } }
   </style>
 
   <script>
