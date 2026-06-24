@@ -36,6 +36,14 @@ const capLabel = (m: number) => {
           <label class="pfield"><span>Email</span><input type="email" id="p-email" autocomplete="email" placeholder="you@email.com" required /></label>
         </div>
 
+        <div class="psmall">
+          <button type="button" class="psmall-toggle" id="psmall-toggle">Want to start smaller? Give any amount from R50 / month <span class="arrow">→</span></button>
+          <div class="psmall-panel" id="psmall-panel" hidden>
+            <label class="psmall-field"><span>R</span><input type="number" id="psmall-amount" min="50" step="10" value="250" inputmode="numeric" aria-label="Your monthly amount" /><span class="psmall-per">/ month</span></label>
+            <button type="button" class="btn btn-ghost pout psmall-go" id="psmall-go">Start as a partner <span class="arrow">→</span></button>
+          </div>
+        </div>
+
         <div class="ptiers">
           {partnerTiers.map((t) => (
             <div class={`ptier${t.featured ? ' feat' : ''}`}>
@@ -98,6 +106,15 @@ const capLabel = (m: number) => {
     .pfield span i { color: var(--ink-mute); font-style: normal; }
     .pfield input { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 12px 14px; transition: border-color .15s, box-shadow .15s; }
     .pfield input:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px rgba(19,178,74,.12); }
+    .psmall { text-align: center; margin: -8px auto 28px; max-width: 560px; }
+    .psmall-toggle { background: none; border: none; color: var(--forest-deep); font: inherit; font-size: .95rem; cursor: pointer; padding: 4px; }
+    .psmall-toggle:hover { text-decoration: underline; }
+    .psmall-panel { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+    .psmall-panel[hidden] { display: none; }
+    .psmall-field { display: inline-flex; align-items: center; gap: 6px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 11px; padding: 8px 12px; }
+    .psmall-field > span { color: var(--ink-soft); font-size: .95rem; }
+    .psmall-field input { width: 92px; font: inherit; font-size: 1rem; color: var(--ink); background: none; border: none; outline: none; }
+    .psmall-per { color: var(--ink-mute) !important; font-size: .85rem !important; }
     .ptiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 16px; align-items: stretch; }
     .ptier { background: var(--linen); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 24px 28px; display: flex; flex-direction: column; position: relative; }
     .ptier.feat { border: 2px solid var(--forest); box-shadow: var(--shadow); }
@@ -141,27 +158,40 @@ const capLabel = (m: number) => {
       const msg = document.getElementById('pmsg');
       const fail = (t) => { msg.textContent = t; msg.classList.add('err'); };
 
+      async function subscribe(tier, btn, extra) {
+        msg.textContent = ''; msg.classList.remove('err');
+        const email = (emailEl.value || '').trim();
+        const name = (nameEl.value || '').trim();
+        if (!/.+@.+\..+/.test(email)) { emailEl.focus(); return fail('Please enter your email above first.'); }
+        const hp = form.querySelector('[name=hp_check]').value;
+        btn.disabled = true; msg.textContent = 'Taking you to secure checkout…';
+        try {
+          const r = await fetch(api('/api/paystack/subscribe'), {
+            method: 'POST', headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(Object.assign({ email, name, tier, hp_check: hp }, extra || {})),
+          });
+          const data = await r.json();
+          if (data.authorization_url) { window.location.href = data.authorization_url; return; }
+          btn.disabled = false;
+          fail(data.error === 'invalid_amount' ? 'Please enter at least R50 a month.'
+            : (data.error === 'invalid_tier' || data.error === 'not_configured') ? 'Partner sign-up is switching on shortly — please try again soon.'
+            : 'Sorry, we couldn’t start that just now. Please try again.');
+        } catch { btn.disabled = false; fail('Network error — please check your connection and try again.'); }
+      }
+
       document.querySelectorAll('.ptier-btn').forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          msg.textContent = ''; msg.classList.remove('err');
-          const email = (emailEl.value || '').trim();
-          const name = (nameEl.value || '').trim();
-          if (!/.+@.+\..+/.test(email)) { emailEl.focus(); return fail('Please enter your email above first.'); }
-          const hp = form.querySelector('[name=hp_check]').value;
-          btn.disabled = true; msg.textContent = 'Taking you to secure checkout…';
-          try {
-            const r = await fetch(api('/api/paystack/subscribe'), {
-              method: 'POST', headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ email, name, tier: btn.dataset.tier, hp_check: hp }),
-            });
-            const data = await r.json();
-            if (data.authorization_url) { window.location.href = data.authorization_url; return; }
-            btn.disabled = false;
-            fail(data.error === 'invalid_tier' || data.error === 'not_configured'
-              ? 'Partner sign-up is switching on shortly — please try again soon.'
-              : 'Sorry, we couldn’t start that just now. Please try again.');
-          } catch { btn.disabled = false; fail('Network error — please check your connection and try again.'); }
-        });
+        btn.addEventListener('click', () => subscribe(btn.dataset.tier, btn));
+      });
+
+      const stoggle = document.getElementById('psmall-toggle');
+      const spanel = document.getElementById('psmall-panel');
+      const samount = document.getElementById('psmall-amount');
+      const sgo = document.getElementById('psmall-go');
+      if (stoggle && spanel) stoggle.addEventListener('click', () => { spanel.hidden = !spanel.hidden; if (!spanel.hidden && samount) samount.focus(); });
+      if (sgo) sgo.addEventListener('click', () => {
+        const amt = Math.floor(Number(samount.value));
+        if (!amt || amt < 50) { samount.focus(); return fail('Please enter at least R50 a month.'); }
+        subscribe('custom', sgo, { amount: amt });
       });
 
       // Live collective counter — churches funded so far (R50,000 per build).

@@ -53,25 +53,12 @@ export const fundElements = [
 // church" is the R50,000 ask on /give. Impact lines stay honest + collective.
 export const partnerTiers = [
   {
-    id: 'builder',
-    name: 'Builder',
-    amount: 250,
-    tagline: 'Lay a brick a month — accessible, and it compounds.',
-    includes: [
-      'Your gift pools to fund the next church online',
-      'Your name on the benefactor wall',
-      'Monthly impact updates',
-      'Founding Partner status — first 50',
-    ],
-  },
-  {
     id: 'partner',
     name: 'Partner',
     amount: 1000,
-    featured: true,
     tagline: 'A serious share of a full build, every single year.',
     includes: [
-      'Everything in Builder',
+      'Your name on the wall + monthly updates',
       'Quarterly impact reports',
       'A personal thank-you from the team',
       'Help choose which church is funded next',
@@ -81,6 +68,7 @@ export const partnerTiers = [
     id: 'patron',
     name: 'Patron',
     amount: 5000,
+    featured: true,
     tagline: 'Put a whole church online a year — on your own.',
     includes: [
       'Everything in Partner',
