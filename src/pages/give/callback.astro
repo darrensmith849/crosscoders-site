@@ -72,6 +72,7 @@ const projects = queue
       </div>
 
       <a class="btn btn-ghost cb-home" id="cb-home" href="/">Back to home <span class="arrow">→</span></a>
+      <button type="button" class="btn btn-ghost cb-share" id="cb-share" hidden>Share this 💚</button>
     </div>
   </section>
 </BaseLayout>
@@ -128,6 +129,7 @@ const projects = queue
   .cb-msg { min-height: 1.2em; margin-top: 12px; font-size: .9rem; color: var(--ink-soft); text-align: center; }
   .cb-msg.err { color: #B4452F; }
   .cb-home { margin-top: 26px; display: none; }
+  .cb-share { margin: 26px 0 0 10px; }
 </style>
 
 <script define:vars={{ projects, apiBase: API_BASE }}>
@@ -140,6 +142,12 @@ const projects = queue
     const panel = $('cb-personalize'), carousel = $('cb-carousel'), consent = $('cb-consent');
     const named = $('cb-named'), display = $('cb-display'), emails = $('cb-emails');
     const confirm = $('cb-confirm'), msg = $('cb-msg'), pickname = $('cb-pickname');
+    const shareBtn = $('cb-share');
+    if (shareBtn) shareBtn.addEventListener('click', async () => {
+      const sd = { title: 'CrossCoders', text: 'I just helped fund free software for a church through CrossCoders 💚', url: 'https://crosscoders.co.za/foundation' };
+      try { if (navigator.share) { await navigator.share(sd); return; } } catch (e) { return; }
+      window.open('https://wa.me/?text=' + encodeURIComponent(sd.text + ' ' + sd.url), '_blank');
+    });
 
     const stopSpin = () => { spin.style.display = 'none'; };
     const showHome = () => { home.style.display = 'inline-flex'; };
@@ -227,6 +235,7 @@ const projects = queue
           if (d.name) display.value = d.name;
           if (d.project) { const c0 = carousel.querySelector('.cb-card[data-slug="' + d.project + '"]'); if (c0) c0.click(); }
           reassure.hidden = false;
+          if (shareBtn) shareBtn.hidden = false;
           startTimer(d.paid_at);
           if (token) { panel.hidden = false; hydrateCards(); }
           else { showHome(); }

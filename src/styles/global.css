@@ -38,6 +38,9 @@ h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-.015em;
 .btn-primary:hover{background:var(--forest-deep);box-shadow:var(--fglow)}
 .btn-ghost{color:var(--ink)}
 .btn .arrow{transition:transform .25s ease}.btn:hover .arrow{transform:translateX(5px)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--forest);outline-offset:2px;border-radius:3px}
+.skip-link{position:absolute;left:-9999px;top:8px;z-index:200;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:500;font-size:.9rem}
+.skip-link:focus{left:8px}
 header{position:fixed;top:0;left:0;right:0;z-index:50;background:transparent}
 nav{display:flex;align-items:center;justify-content:space-between;height:76px}
 .brand{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-size:1.34rem;font-weight:600;letter-spacing:-.02em}
