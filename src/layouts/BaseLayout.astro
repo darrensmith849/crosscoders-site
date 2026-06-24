@@ -69,5 +69,14 @@ const orgLd = {
     <main id="main"><slot /></main>
     <Footer />
     <script>import '../scripts/demos.js';</script>
+    <script>
+      // a11y: associate each .field label with its control (apply/contact/support forms)
+      let _f = 0;
+      for (const field of document.querySelectorAll('.field')) {
+        const label = field.querySelector('label');
+        const ctrl = field.querySelector('input, select, textarea');
+        if (label && ctrl && !ctrl.id && !label.htmlFor) { const id = 'fld-' + (++_f); ctrl.id = id; label.htmlFor = id; }
+      }
+    </script>
   </body>
 </html>
