@@ -8,7 +8,7 @@ import type { Segment } from '../../lib/pages';
 
 interface Media { img: string; alt: string; portrait?: boolean; card: { kind?: 'status' | 'avatar' | 'stat'; t?: string; s?: string; big?: string; up?: string } }
 const media: Record<string, Media> = {
-  churches: { img: '/img/ws-06.jpg', alt: 'A church community talking and laughing together over coffee', portrait: true, card: { kind: 'avatar', t: 'New member', s: 'Sarah just joined' } },
+  churches: { img: '/img/grace-chapel.jpg', alt: 'A small township church with a cross at golden hour, members gathered outside', card: { kind: 'avatar', t: 'New member', s: 'Sarah just joined' } },
   ministries: { img: '/img/ws-08.jpg', alt: 'A ministry team collaborating in a bright, plant-filled workspace', card: { kind: 'stat', big: '▲ 12%', s: 'supporters this month' } },
   nonprofits: { img: '/img/ws-02.jpg', alt: 'A Christian-run business team working together over laptops in a bright office', card: { kind: 'status', t: 'Automated', s: 'hours back every week' } },
   business: { img: '/img/ws-10.jpg', alt: 'A startup team building together in a warm, focused office', card: { kind: 'status', t: 'Shipped', s: 'live in 4 minutes' } },
