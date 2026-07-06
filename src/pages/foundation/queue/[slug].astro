@@ -31,20 +31,24 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
           <span class={`qpill qpill-${stageMeta[c.stage].tone}`}>{stageMeta[c.stage].label}</span>
         </div>
 
-        <div class="qbar lg"><span data-bar style="width:0%"></span></div>
+        {!shipped && (
+          <>
+            <div class="qbar lg"><span data-bar style="width:0%"></span></div>
 
-        <div class="qcard-raised">
-          <span class="qcard-amt"><b data-raised>{R(0)}</b> raised</span>
-          <div class="qcard-prog"><b data-pct>0%</b> of {R(c.goal)} &nbsp;·&nbsp; <b data-togo>{R(c.goal)}</b> to go</div>
-          <div class="qcard-backers"><b data-backers>0</b> backers</div>
-        </div>
+            <div class="qcard-raised">
+              <span class="qcard-amt"><b data-raised>{R(0)}</b> raised</span>
+              <div class="qcard-prog"><b data-pct>0%</b> of {R(c.goal)} &nbsp;·&nbsp; <b data-togo>{R(c.goal)}</b> to go</div>
+              <div class="qcard-backers"><b data-backers>0</b> backers</div>
+            </div>
+          </>
+        )}
 
         <h1 class="serif qcard-title">{c.name}</h1>
         <p class="qcard-meta">{c.kind} · {c.region}</p>
         <p class="qcard-desc">{c.tagline}</p>
 
         {shipped ? (
-          <div class="qcard-done">✓ Fully funded — live and theirs to keep.</div>
+          <div class="qcard-done">✓ Fully funded — live and theirs to keep.{c.liveUrl && (<><br /><a href={c.liveUrl} target="_blank" rel="noopener" style="color:var(--forest-deep);text-decoration:underline;font-weight:600">Visit the live site →</a></>)}</div>
         ) : (
           <div>
             <a class="btn btn-primary qcard-cta" href={`/give?project=${c.slug}`}>Fund this build <span class="arrow">→</span></a>
@@ -66,7 +70,7 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     </div>
   </section>
 
-  <div class="wrap"><p style="max-width:920px;margin:16px auto 0;font-size:.8rem;color:var(--ink-mute);text-align:center;line-height:1.55;font-style:italic">Illustrative example while we onboard our first real churches. Card giving is live — gifts support the Kingdom Come Foundation's free builds.</p></div>
+  <div class="wrap"><p style="max-width:920px;margin:16px auto 0;font-size:.8rem;color:var(--ink-mute);text-align:center;line-height:1.55;font-style:italic">{c.liveUrl ? <>A real, completed CrossCoders build — <a href={c.liveUrl} target="_blank" rel="noopener" style="color:var(--forest-deep)">see it live</a>. Card giving here supports the Kingdom Come Foundation's free builds for churches.</> : <>Illustrative example while we onboard our first real churches. Card giving is live — gifts support the Kingdom Come Foundation's free builds.</>}</p></div>
 
   <section class="psec">
     <div class="wrap qdetail">

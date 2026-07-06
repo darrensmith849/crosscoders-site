@@ -275,6 +275,7 @@ export type QueueChurch = {
   region: string;
   art: string; // ChurchArt illustration kind
   image?: string; // optional real photo (overrides illustration)
+  liveUrl?: string; // real, completed build → link to the live site (marks it real, not illustrative)
   stage: QueueStage;
   tagline: string;
   need: string[];
@@ -285,6 +286,27 @@ export type QueueChurch = {
 };
 
 export const queue: QueueChurch[] = [
+  {
+    slug: 'all-the-glory',
+    name: 'All The Glory',
+    kind: 'Worship music ministry',
+    category: 'ministry',
+    region: 'South Africa',
+    art: 'chapel',
+    image: '/img/all-the-glory.jpg',
+    liveUrl: 'https://www.alltheglory.co.za',
+    stage: 'shipped',
+    tagline: 'Worship music born from struggle — honest songs of pain, freedom and hope.',
+    need: ['A home for the album & story', 'Streaming & video links', 'A place to share the testimony'],
+    goal: 50000,
+    raised: 50000,
+    story: [
+      'All The Glory is a worship-music ministry born out of one man’s road through addiction and into freedom — honest songs of pain, grace and hope, held together by one line: “The light shines in the darkness, and the darkness has not overcome it.”',
+      'The music and the testimony were there; what was missing was a home for them online — somewhere to send people to hear the album, read the story behind it, and follow along.',
+      'CrossCoders designed and built alltheglory.co.za and gave it free — a fast, beautiful home for the album “From Darkness to Light”, the story, and links to every streaming platform, so the message travels further than the music alone.',
+    ],
+    outcome: 'A living home for the music and the testimony — online, shareable, and reaching people the songs alone couldn’t.',
+  },
   {
     slug: 'grace-chapel',
     name: 'Grace Chapel',
