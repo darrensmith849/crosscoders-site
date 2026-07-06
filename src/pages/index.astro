@@ -6,7 +6,8 @@ import PhoneDuo from '../components/demos/PhoneDuo.astro';
 import Dashboard from '../components/demos/Dashboard.astro';
 import AgentChat from '../components/demos/AgentChat.astro';
 import ReliefBand from '../components/ReliefBand.astro';
-import { ctas, products } from '../lib/content';
+import QueueGrid from '../components/QueueGrid.astro';
+import { ctas, products, queue } from '../lib/content';
 
 const icons: Record<string, string> = {
   app: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>',
@@ -30,6 +31,16 @@ const logos: [string, string][] = [
 const loop = [...logos, ...logos];
 
 const appsProduct = products.find((p) => p.slug === 'web-mobile-apps');
+
+// Homepage "in build" strip — lead with the church(es) actively in build, then top up with the
+// rest of the active pipeline (funding → approved, never shipped) so the strip always looks full.
+// Only one church sits in 'building' today; a strict stage==='building' filter would show a lone
+// card. To feature ONLY in-build projects, replace the filter body with: c.stage === 'building'.
+const stageRank: Record<string, number> = { building: 0, funding: 1, approved: 2, shipped: 9 };
+const currentBuilds = [...queue]
+  .filter((c) => c.stage !== 'shipped')
+  .sort((a, b) => stageRank[a.stage] - stageRank[b.stage])
+  .slice(0, 3);
 ---
 
 <BaseLayout>
@@ -136,6 +147,20 @@ const appsProduct = products.find((p) => p.slug === 'web-mobile-apps');
       <div class="big rev">Every church deserves a home online — <span class="us-brass">not just</span> the ones who can afford it.</div>
       <p class="body rev">Great technology shouldn't be a luxury. By pairing our skills with AI, we deliver exceptional work at a fraction of the usual cost — and give a huge amount of it away. Every paid project helps fund the next free build for an under-resourced church or ministry.</p>
       <a class="btn btn-ghost lk rev" href="/foundation">Apply for a free build <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head center rev">
+        <span class="eyebrow center">In the queue now</span>
+        <h2 class="serif">The churches we're building for.</h2>
+        <p>Real ministries in our pipeline — one in build, more raising support. Follow along, or help fund the next.</p>
+      </div>
+      <QueueGrid items={currentBuilds} />
+      <div style="text-align:center;margin-top:36px">
+        <a class="btn btn-ghost" href="/foundation/queue">See the whole queue <span class="arrow">→</span></a>
+      </div>
     </div>
   </section>
 

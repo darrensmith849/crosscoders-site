@@ -14,6 +14,7 @@ Your job: answer questions about CrossCoders and the Foundation, help a visitor 
 
 export async function onRequestPost({ request, env }) {
   if (!env.OPENAI_API_KEY) return json({ error: 'not_configured' }, 500);
+  if (paidAiDisabled(env)) return json({ error: 'not_configured' }, 500); // NO_PAID_AI cost kill-switch
 
   let messages;
   try {
@@ -46,6 +47,13 @@ export async function onRequestPost({ request, env }) {
   } catch {
     return json({ error: 'fetch_failed' }, 502);
   }
+}
+
+// Master cost kill-switch (mirrors the backend NO_PAID_AI). Set env.NO_PAID_AI=1 in the
+// Cloudflare Pages env to hard-disable this OpenAI proxy during the testing phase.
+function paidAiDisabled(env) {
+  const v = String(env.NO_PAID_AI ?? '').trim().toLowerCase();
+  return v === '1' || v === 'true' || v === 'yes' || v === 'on';
 }
 
 function json(obj, status = 200) {
