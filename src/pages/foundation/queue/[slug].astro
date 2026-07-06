@@ -22,6 +22,9 @@ const others = queue.filter((x) => x.slug !== c.slug).slice(0, 3);
     <div class="wrap qhero-in">
       <div class="qhero-art">
         {c.image ? <img src={c.image} alt={c.name} /> : <ChurchArt kind={c.art} />}
+        {c.imageCredit && (
+          <p class="qhero-credit" style="margin:8px 4px 0;font-size:.72rem;color:var(--ink-mute);text-align:right;font-style:italic">Artwork: {c.imageCreditUrl ? <a href={c.imageCreditUrl} target="_blank" rel="noopener" style="color:var(--ink-mute);text-decoration:underline">{c.imageCredit}</a> : c.imageCredit}</p>
+        )}
       </div>
 
       <!-- Campaign card: bar → raised(+% / to go) → title → description → button → fund-a-piece -->

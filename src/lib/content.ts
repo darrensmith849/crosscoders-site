@@ -276,6 +276,8 @@ export type QueueChurch = {
   art: string; // ChurchArt illustration kind
   image?: string; // optional real photo (overrides illustration)
   liveUrl?: string; // real, completed build → link to the live site (marks it real, not illustrative)
+  imageCredit?: string; // artwork/photo credit (e.g. the painting's artist)
+  imageCreditUrl?: string; // link for the credit
   stage: QueueStage;
   tagline: string;
   need: string[];
@@ -295,6 +297,8 @@ export const queue: QueueChurch[] = [
     art: 'chapel',
     image: '/img/all-the-glory.jpg',
     liveUrl: 'https://www.alltheglory.co.za',
+    imageCredit: 'Debbie Clark',
+    imageCreditUrl: 'https://debbieclarkart.com',
     stage: 'shipped',
     tagline: 'Worship music born from struggle — honest songs of pain, freedom and hope.',
     need: ['A home for the album & story', 'Streaming & video links', 'A place to share the testimony'],
