@@ -551,6 +551,10 @@ footer .brand-sub{color:var(--cream-dim)}
 .qhero-art{min-height:340px;background:linear-gradient(168deg,#ECF4E6,#F1E7CF);border:1px solid var(--line);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .qhero-art .churchart{width:80%;height:88%}
 .qhero-art img{width:100%;height:100%;object-fit:cover}
+.qhero-col{display:flex;flex-direction:column}
+.qhero-col>.qhero-art{flex:1}
+.qhero-credit{margin:8px 2px 0;font-size:.72rem;color:var(--ink-mute);text-align:right;font-style:italic}
+.qhero-credit a{color:var(--ink-mute);text-decoration:underline}
 .qback{display:inline-block;font-size:.84rem;color:var(--ink-mute);text-decoration:none;margin-bottom:14px}
 .qback:hover{color:var(--forest-deep)}
 .qhero-tx .qpill{position:static;display:inline-block;margin-bottom:14px}
