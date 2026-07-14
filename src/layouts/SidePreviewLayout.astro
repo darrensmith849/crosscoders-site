@@ -1,0 +1,51 @@
+---
+import '../styles/side-previews.css';
+import { sidePreviewNav } from '../sidePreviews';
+
+interface Props {
+  title?: string;
+  description?: string;
+  theme?: string;
+}
+
+const {
+  title = 'Side Preview Lab',
+  description = 'View-only website previews for review.',
+  theme = 'preview',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://crosscoders.co.za').href;
+---
+
+<!doctype html>
+<html lang="en" data-side-preview={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11100e" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <script is:inline>document.documentElement.classList.add('sp-js');</script>
+  </head>
+  <body class="sp-body">
+    <a class="sp-skip" href="#main">Skip to content</a>
+    <header class="sp-global" data-reveal>
+      <a class="sp-brand" href="/template-previews" aria-label="Side preview gallery">
+        <span>View-only</span>
+        <b>Side Preview Lab</b>
+      </a>
+      <nav class="sp-global-links" aria-label="Side preview navigation">
+        {sidePreviewNav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <script src="/scripts/side-previews.js" defer></script>
+  </body>
+</html>

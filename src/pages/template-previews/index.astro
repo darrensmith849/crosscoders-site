@@ -1,0 +1,24 @@
+---
+import SidePreviewLayout from '../../layouts/SidePreviewLayout.astro';
+import PreviewCard from '../../components/sidePreviews/PreviewCard.astro';
+import { sidePreviews } from '../../sidePreviews';
+---
+
+<SidePreviewLayout title="Side Preview Lab | CrossCoders" description="Three view-only website previews for review." theme="gallery">
+  <section class="sp-gallery-hero">
+    <div data-reveal>
+      <p class="sp-kicker">View-only side previews</p>
+      <h1>Three directions, kept out of the engine.</h1>
+      <p>These pages are only for review. They are not wired into the build engine, backend workflow or existing template system.</p>
+    </div>
+    <aside data-reveal>
+      <span>3 previews</span>
+      <strong>Vault. Spatial. Editorial.</strong>
+      <p>Each one has its own layout language, motion personality, visual system and CTA flow.</p>
+    </aside>
+  </section>
+
+  <section class="sp-gallery-grid" aria-label="View-only preview cards">
+    {sidePreviews.map((preview) => <PreviewCard preview={preview} />)}
+  </section>
+</SidePreviewLayout>
