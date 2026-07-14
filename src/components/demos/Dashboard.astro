@@ -6,6 +6,29 @@ const { url = 'grace.app/dashboard' } = Astro.props;
 <div class="browser" data-demo="dash">
   <div class="bbar"><span class="dot" style="background:#E06A57"></span><span class="dot" style="background:#E8B84B"></span><span class="dot" style="background:#3FD174"></span><span class="url">{url}</span></div>
   <div class="dash">
+    <form class="engine-card" data-engine-form>
+      <div class="engine-top">
+        <div>
+          <div class="engine-eyebrow">Business intake engine</div>
+          <label class="engine-label" for="business-url">Add a business URL</label>
+        </div>
+        <span class="engine-badge" data-engine-status>Ready</span>
+      </div>
+      <div class="engine-inputrow">
+        <input id="business-url" name="businessUrl" type="text" inputmode="url" placeholder="business.co.za or facebook.com/business" value="https://facebook.com/gracecoffee" aria-describedby="engine-help" />
+        <button class="engine-run" type="submit">Kick off</button>
+      </div>
+      <div class="engine-switch" role="radiogroup" aria-label="Business source type">
+        <button class="active" type="button" data-engine-mode="improve" aria-pressed="true">Website to improve</button>
+        <button type="button" data-engine-mode="new" aria-pressed="false">No website yet</button>
+      </div>
+      <p id="engine-help" class="engine-help">Use the website URL, or a Facebook/social page if the business has no site.</p>
+      <div class="engine-steps" aria-live="polite">
+        <span data-engine-step="source">Read source</span>
+        <span data-engine-step="brief">Build brief</span>
+        <span data-engine-step="queue">Queue build</span>
+      </div>
+    </form>
     <div class="kpis">
       <div class="kpi"><div class="kl">Members</div><div class="kv" data-to="2480">0</div><div class="kd">▲ 38 this week</div></div>
       <div class="kpi"><div class="kl">Given / mo</div><div class="kv" data-to="18420" data-pre="R">R0</div><div class="kd">▲ 12%</div></div>
@@ -21,6 +44,7 @@ const { url = 'grace.app/dashboard' } = Astro.props;
       </svg>
     </div>
     <div class="dact">
+      <div class="actrow engine-activity"><span class="ad"></span><span><b>Business engine</b> · Grace Coffee queued</span><span class="at">ready</span></div>
       <div class="actrow"><span class="ad"></span><span><b>New member</b> · Sarah M. joined</span><span class="at">now</span></div>
       <div class="actrow"><span class="ad"></span><span><b>R50 gift</b> · General Fund</span><span class="at">2m</span></div>
       <div class="actrow"><span class="ad"></span><span><b>Event signup</b> · Youth camp · +3</span><span class="at">5m</span></div>

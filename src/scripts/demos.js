@@ -117,6 +117,48 @@ if (!reduce) { const cg = document.createElement('div'); cg.className = 'cglow';
 // ANALYTICS DASHBOARD ------------------------------------------------------
 (function () {
   const root = document.querySelector('[data-demo="dash"]'); if (!root) return;
+  const form = root.querySelector('[data-engine-form]');
+  const status = root.querySelector('[data-engine-status]');
+  const modeButtons = [...root.querySelectorAll('[data-engine-mode]')];
+  const engineActivity = root.querySelector('.engine-activity');
+  let engineMode = 'improve';
+
+  const setEngineMode = (mode) => {
+    engineMode = mode;
+    modeButtons.forEach((button) => {
+      const active = button.dataset.engineMode === mode;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    if (status) status.textContent = mode === 'new' ? 'Social source' : 'Site source';
+  };
+
+  modeButtons.forEach((button) => button.addEventListener('click', () => setEngineMode(button.dataset.engineMode)));
+  if (form) form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const input = form.querySelector('input[name="businessUrl"]');
+    const url = input?.value.trim();
+    if (!url) { if (status) status.textContent = 'Add URL'; input?.focus(); return; }
+    const steps = ['source', 'brief', 'queue'].map((name) => root.querySelector(`[data-engine-step="${name}"]`));
+    steps.forEach((step) => step?.classList.remove('done'));
+    if (status) status.textContent = 'Starting';
+    if (engineActivity) {
+      const label = engineMode === 'new' ? 'New website engine' : 'Improvement engine';
+      const host = url.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+      const body = engineActivity.querySelector('span:nth-child(2)');
+      const strong = document.createElement('b');
+      strong.textContent = label;
+      body?.replaceChildren(strong, document.createTextNode(` · ${host} queued`));
+      engineActivity.querySelector('.at').textContent = 'now';
+      engineActivity.classList.add('show');
+    }
+    for (const [i, step] of steps.entries()) {
+      await wait(reduce ? 0 : 380);
+      step?.classList.add('done');
+      if (status) status.textContent = ['Reading', 'Briefing', 'Queued'][i];
+    }
+  });
+
   onView(root, () => {
     root.querySelectorAll('.kv').forEach((el) => countUp(el, +el.dataset.to, { prefix: el.dataset.pre || '', suffix: el.dataset.suf || '' }));
     drawPath(root.querySelector('.dline'), 1300);
