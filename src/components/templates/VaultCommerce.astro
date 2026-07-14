@@ -1,0 +1,129 @@
+---
+const drops = [
+  ['Cards', 'Archive rookie set', '$420', 'Verified', 'cards'],
+  ['Watches', 'Field chronograph', '$1,850', 'Authenticated', 'watches'],
+  ['Art', 'Numbered print run', '$690', 'Private drop', 'art'],
+  ['Books', 'Signed first issue', '$240', 'Vault held', 'books'],
+  ['Objects', 'Studio tool kit', '$520', 'Available', 'objects'],
+  ['Culture', 'Event pass archive', '$110', 'Limited', 'culture'],
+];
+const services = ['Source it', 'Sell to us', 'Authenticate', 'Trade', 'Vault storage'];
+---
+
+<div class="tpl-page vc-page">
+  <nav class="template-nav vc-nav" aria-label="Vault Commerce navigation">
+    <a href="/templates">Vault & Co</a>
+    <div>
+      <a href="#vc-drops">Drops</a>
+      <a href="#vc-services">Services</a>
+      <a href="#vc-request">Request hunt</a>
+    </div>
+  </nav>
+
+  <div class="vc-ticker" aria-hidden="true">
+    <span>Private drops / authenticated goods / verified inventory / collector services /</span>
+    <span>Private drops / authenticated goods / verified inventory / collector services /</span>
+  </div>
+
+  <section class="vc-hero">
+    <div class="vc-hero-copy" data-reveal>
+      <p class="tpl-eyebrow">Authenticated goods / private drops</p>
+      <h1>Rare inventory. Verified before it reaches the shelf.</h1>
+      <p>A collector-commerce template for brands that trade in trust, rarity and sharp inventory presentation.</p>
+      <div class="tpl-actions">
+        <a class="tpl-btn primary" href="#vc-drops">Browse inventory</a>
+        <a class="tpl-btn ghost" href="#vc-request">Request a hunt</a>
+      </div>
+    </div>
+    <article class="vc-specimen" data-reveal>
+      <span>Vault item / 001</span>
+      <div class="vc-item-image"></div>
+      <h2>Specimen card</h2>
+      <dl>
+        <div><dt>Status</dt><dd>Verified</dd></div>
+        <div><dt>Grade</dt><dd>Near mint</dd></div>
+        <div><dt>Price</dt><dd>$420</dd></div>
+      </dl>
+      <b>Authenticity badge</b>
+    </article>
+  </section>
+
+  <section class="vc-trust">
+    {['Chain of custody', 'Condition report', 'Private sourcing', 'Secure handover'].map((item) => <span data-reveal>{item}</span>)}
+  </section>
+
+  <section class="tpl-section vc-drops" id="vc-drops" data-filter-set>
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Latest drops</p>
+      <h2>Inventory built around rarity and proof.</h2>
+    </div>
+    <div class="vc-filters" role="group" aria-label="Inventory filters" data-reveal>
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      {['cards', 'watches', 'art', 'books', 'objects', 'culture'].map((filter) => (
+        <button type="button" data-filter={filter} aria-pressed="false">{filter}</button>
+      ))}
+    </div>
+    <div class="vc-inventory">
+      {drops.map(([category, name, price, status, filter]) => (
+        <article data-filter-item={filter} data-reveal>
+          <div class="vc-product-image"></div>
+          <span>{status}</span>
+          <h3>{name}</h3>
+          <p>{category}</p>
+          <strong>{price}</strong>
+          <a href="#vc-request">Enquire</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="tpl-section vc-services" id="vc-services">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Services network</p>
+      <h2>More than a product grid.</h2>
+    </div>
+    <div class="vc-service-grid">
+      {services.map((service, index) => (
+        <article data-reveal>
+          <span>0{index + 1}</span>
+          <h3>{service}</h3>
+          <p>Placeholder module for the collector service, process and intake CTA.</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="vc-culture" data-reveal>
+    <div>
+      <p class="tpl-eyebrow">Culture log</p>
+      <h2>Drops need context, not just stock.</h2>
+    </div>
+    <article>
+      <span>Log 014</span>
+      <h3>How private inventory gets evaluated before release.</h3>
+      <p>Use this editorial rail for condition notes, founder commentary, collection stories and drop education.</p>
+    </article>
+  </section>
+
+  <section class="vc-request" id="vc-request" data-reveal>
+    <div>
+      <p class="tpl-eyebrow">Request / hunt CTA</p>
+      <h2>Looking for something specific?</h2>
+      <p>Capture collector intent before the item exists in inventory.</p>
+    </div>
+    <form onsubmit="return false">
+      <label>Email<input type="email" placeholder="collector@example.com" /></label>
+      <label>Target item<input type="text" placeholder="What should we source?" /></label>
+      <button type="submit">Request hunt</button>
+    </form>
+  </section>
+
+  <section class="vc-newsletter" data-reveal>
+    <span>Drop alerts</span>
+    <strong>Get notified before inventory opens publicly.</strong>
+    <form onsubmit="return false">
+      <input type="email" placeholder="you@example.com" />
+      <button type="submit">Join list</button>
+    </form>
+  </section>
+</div>

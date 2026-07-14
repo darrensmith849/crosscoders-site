@@ -1,0 +1,153 @@
+---
+const workflow = ['Connect', 'Monitor', 'Prioritise', 'Act', 'Report'];
+const features = [
+  ['Unified dashboard', 'Bring metrics, work and alerts into one product surface.'],
+  ['Smart alerts', 'Highlight what changed and what needs attention.'],
+  ['Campaign tracking', 'Track activity across channels, teams and outcomes.'],
+  ['Team workflow', 'Assign, discuss and close the loop inside the tool.'],
+  ['Reporting', 'Turn live activity into clean executive summaries.'],
+  ['Permissions', 'Control access by role, workspace or client account.'],
+];
+const integrations = ['CRM', 'Email', 'Analytics', 'Payments', 'Docs', 'Chat', 'Data warehouse', 'Calendar'];
+---
+
+<div class="tpl-page mc-page">
+  <nav class="template-nav mc-nav" aria-label="Mission Control navigation">
+    <a href="/templates">Meridian Platform</a>
+    <div>
+      <a href="#mc-workflow">Workflow</a>
+      <a href="#mc-features">Features</a>
+      <a href="#mc-pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <section class="mc-hero">
+    <div class="mc-copy" data-reveal>
+      <p class="tpl-eyebrow">Operating system for modern teams</p>
+      <h1>One place to see what changed, what matters, and what to do next.</h1>
+      <p>A clean SaaS template for platforms that need to show product value quickly through dashboards, workflows and measurable outcomes.</p>
+      <div class="tpl-actions">
+        <a class="tpl-btn primary" href="#mc-pricing">Book a demo</a>
+        <a class="tpl-btn ghost" href="#mc-features">View product tour</a>
+      </div>
+    </div>
+    <div class="mc-dashboard" data-reveal aria-label="Dashboard mockup">
+      <div class="mc-topbar"></div>
+      <div class="mc-chart"><span></span><span></span><span></span><span></span></div>
+      <aside>
+        <b>Live activity</b>
+        <b>Performance</b>
+        <b>Tasks</b>
+        <b>Alerts</b>
+      </aside>
+    </div>
+  </section>
+
+  <section class="mc-proof">
+    {['Workspace-ready', 'Role permissions', 'Clean reporting', 'Fast onboarding'].map((item) => <span data-reveal>{item}</span>)}
+  </section>
+
+  <section class="tpl-section mc-problem">
+    <article data-reveal>
+      <p class="tpl-eyebrow">Problem</p>
+      <h2>Teams lose time moving between dashboards, messages and reports.</h2>
+    </article>
+    <article data-reveal>
+      <p class="tpl-eyebrow">Solution</p>
+      <h2>Give them one system that turns activity into decisions.</h2>
+    </article>
+  </section>
+
+  <section class="tpl-section mc-workflow" id="mc-workflow">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Workflow</p>
+      <h2>From signal to action.</h2>
+    </div>
+    <div class="mc-workflow-row">
+      {workflow.map((step, index) => (
+        <article data-reveal>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <h3>{step}</h3>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="tpl-section mc-features" id="mc-features" data-tabset>
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Feature modules</p>
+      <h2>Show the product without needing real screenshots.</h2>
+    </div>
+    <div class="mc-feature-tabs" data-reveal>
+      <div role="group" aria-label="Feature tabs">
+        {features.slice(0, 3).map(([title], index) => (
+          <button type="button" aria-pressed={index === 0 ? 'true' : 'false'} data-tab-button={String(index)}>{title}</button>
+        ))}
+      </div>
+      {features.slice(0, 3).map(([title, text], index) => (
+        <article data-tab-panel={String(index)} hidden={index !== 0}>
+          <h3>{title}</h3>
+          <p>{text}</p>
+          <div class="mc-mini-ui"><span></span><span></span><span></span></div>
+        </article>
+      ))}
+    </div>
+    <div class="mc-feature-grid">
+      {features.slice(3).map(([title, text]) => (
+        <article data-reveal>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="mc-metrics" data-reveal>
+    <div><span>32%</span><p>Placeholder improvement metric</p></div>
+    <div><span>4.8h</span><p>Time saved per weekly workflow</p></div>
+    <div><span>99.9%</span><p>Uptime placeholder for SaaS proof</p></div>
+  </section>
+
+  <section class="tpl-section mc-integrations">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Integrations</p>
+      <h2>Connect the tools teams already use.</h2>
+    </div>
+    <div class="mc-integration-grid">
+      {integrations.map((item) => <span data-reveal>{item}</span>)}
+    </div>
+  </section>
+
+  <section class="tpl-section mc-security">
+    <article data-reveal>
+      <p class="tpl-eyebrow">Security / trust</p>
+      <h2>Make trust visible before procurement asks.</h2>
+      <p>Use this area for permissions, audit logs, data retention, access control and support terms.</p>
+    </article>
+  </section>
+
+  <section class="mc-pricing" id="mc-pricing">
+    {['Starter', 'Growth', 'Scale'].map((plan, index) => (
+      <article data-reveal>
+        <span>{index === 1 ? 'Most common' : 'Plan'}</span>
+        <h3>{plan}</h3>
+        <strong>{['$49', '$149', 'Custom'][index]}</strong>
+        <p>{['For first teams', 'For growing teams', 'For complex workspaces'][index]}</p>
+        <a href="#mc-faq">Book demo</a>
+      </article>
+    ))}
+  </section>
+
+  <section class="tpl-section mc-faq" id="mc-faq">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">FAQ</p>
+      <h2>Answer buying questions early.</h2>
+    </div>
+    {['How long does onboarding take?', 'Can roles be restricted?', 'Does it support multiple workspaces?'].map((question) => (
+      <details data-reveal>
+        <summary>{question}</summary>
+        <p>Replace this with a concise answer that reduces sales friction and builds product confidence.</p>
+      </details>
+    ))}
+  </section>
+</div>

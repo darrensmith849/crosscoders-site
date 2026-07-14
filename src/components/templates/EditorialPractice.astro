@@ -1,0 +1,140 @@
+---
+const stats = [['Since', '2016'], ['Projects', '128'], ['Countries', '12'], ['Satisfaction', 'Client reported'], ['Awards', 'Placeholder']];
+const principles = [
+  ['Considered', 'Every engagement starts with clear diagnosis, context and a point of view.'],
+  ['Crafted', 'Work is shaped with care across strategy, delivery and communication.'],
+  ['Lasting', 'The aim is useful work that holds up after launch, handover or publication.'],
+];
+const services = [
+  ['Strategy', 'Positioning, discovery, product framing and decision support.'],
+  ['Design', 'Identity, digital systems, spaces, service design and communication.'],
+  ['Advisory', 'Senior guidance for teams navigating high-stakes change.'],
+  ['Delivery', 'Implementation support, documentation, supplier coordination and launch.'],
+  ['Audit', 'A clear assessment of what works, what is weak and what should change.'],
+  ['Support', 'Ongoing retainers, workshops and practical improvement cycles.'],
+];
+---
+
+<div class="tpl-page ep-page">
+  <nav class="template-nav ep-nav" aria-label="Editorial Practice navigation">
+    <a href="/templates">Editorial Practice</a>
+    <div>
+      <a href="#ep-services">Services</a>
+      <a href="#ep-cases">Cases</a>
+      <a href="#ep-consult">Consultation</a>
+    </div>
+  </nav>
+
+  <section class="ep-hero">
+    <div class="ep-hero-copy" data-reveal>
+      <p class="tpl-eyebrow">Independent practice</p>
+      <h1>Clear thinking, carefully delivered.</h1>
+      <p>A premium template for expert-led practices that need trust, taste and a portfolio of work.</p>
+      <div class="tpl-actions">
+        <a class="tpl-btn primary" href="#ep-consult">Start a project</a>
+        <a class="tpl-btn ghost" href="#ep-services">View services</a>
+      </div>
+    </div>
+    <article class="ep-featured" data-reveal>
+      <div class="ep-image"></div>
+      <p>Featured project</p>
+      <h2>Northline advisory system</h2>
+      <dl>
+        <div><dt>Category</dt><dd>Strategy / Delivery</dd></div>
+        <div><dt>Year</dt><dd>2026</dd></div>
+        <div><dt>Outcome</dt><dd>Sharper operating model</dd></div>
+      </dl>
+    </article>
+  </section>
+
+  <section class="ep-stat-row" aria-label="Practice stats">
+    {stats.map(([label, value]) => <p data-reveal><span>{label}</span><strong>{value}</strong></p>)}
+  </section>
+
+  <section class="tpl-section ep-about">
+    <div data-reveal>
+      <p class="tpl-eyebrow">Philosophy</p>
+      <h2>Expert work should feel calm, legible and deeply considered.</h2>
+    </div>
+    <p data-reveal>This template is built for practices that need credibility without noise: a strong point of view, visible process and enough proof to start a serious conversation.</p>
+  </section>
+
+  <section class="tpl-section ep-principles">
+    {principles.map(([title, text], index) => (
+      <article data-reveal>
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="tpl-section ep-services" id="ep-services">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Services</p>
+      <h2>Six ways the practice can help.</h2>
+    </div>
+    <div class="ep-service-list">
+      {services.map(([title, text]) => (
+        <details data-reveal>
+          <summary>{title}</summary>
+          <p>{text}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="tpl-section ep-cases" id="ep-cases">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Case studies</p>
+      <h2>Selected work index.</h2>
+    </div>
+    <div class="ep-case-grid">
+      {['Atelier Row', 'Northline civic', 'Signal Works'].map((name, index) => (
+        <article data-reveal>
+          <span>0{index + 1}</span>
+          <h3>{name}</h3>
+          <p>{['Practice system', 'Spatial strategy', 'Digital service'][index]}</p>
+          <a href="#ep-consult">View outline</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ep-quote" data-reveal>
+    <blockquote>
+      <p>"The strongest professional sites do not shout. They clarify why the practice should be trusted."</p>
+      <cite>Founder profile panel</cite>
+    </blockquote>
+  </section>
+
+  <section class="tpl-section ep-journal">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Journal</p>
+      <h2>Insights that prove how the team thinks.</h2>
+    </div>
+    <div class="ep-journal-grid">
+      {['How to frame a complex brief', 'What a good audit actually includes', 'Why delivery needs taste'].map((title) => (
+        <article data-reveal>
+          <span>Insight</span>
+          <h3>{title}</h3>
+          <p>Short editorial placeholder for a useful article, note or practice memo.</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="ep-consult" id="ep-consult" data-reveal>
+    <div>
+      <p class="tpl-eyebrow">Consultation</p>
+      <h2>Start with a clear first conversation.</h2>
+      <p>Use this block for lead qualification, project fit and next-step scheduling.</p>
+    </div>
+    <form onsubmit="return false">
+      <label>Name<input type="text" placeholder="Your name" /></label>
+      <label>Email<input type="email" placeholder="you@example.com" /></label>
+      <label>Project type<input type="text" placeholder="Strategy, design, advisory..." /></label>
+      <button type="submit">Request consultation</button>
+    </form>
+  </section>
+</div>

@@ -1,0 +1,143 @@
+---
+const specs = ['40 hr battery', '12 mm driver', '48 g frame', 'Magnetic dock'];
+const features = [
+  ['Performance', 'Show measurable product value through crisp specs, benefits and configuration options.'],
+  ['Comfort', 'Use considered product storytelling for materials, ergonomics and daily use.'],
+  ['Build quality', 'Explain the details that make a premium product feel trustworthy.'],
+];
+const range = [
+  ['Core', 'Entry configuration', '$199', 'Essential performance for everyday customers.', ['2 colours', 'Standard dock', '1 year cover']],
+  ['Air', 'Lightweight edition', '$249', 'Reduced weight and extended all-day comfort.', ['3 colours', 'Travel case', 'Fast charge']],
+  ['Pro', 'Flagship edition', '$349', 'Advanced materials and the strongest feature set.', ['Adaptive controls', 'Premium dock', '2 year cover']],
+  ['Studio', 'Reference edition', '$499', 'A specialist configuration for enthusiasts.', ['Studio profile', 'Hard case', 'Priority support']],
+];
+const reviews = [
+  ['The template makes the product easy to understand without flattening the brand.', 'Retail founder'],
+  ['Specs, comparison and trust all sit in one calm buying path.', 'Product lead'],
+  ['The sticky CTA keeps conversion close without feeling pushy.', 'Growth strategist'],
+];
+---
+
+<div class="tpl-page ps-page">
+  <nav class="template-nav ps-nav" aria-label="Product Signal navigation">
+    <a href="/templates">Product Signal</a>
+    <div>
+      <a href="#ps-range">Range</a>
+      <a href="#ps-technology">Details</a>
+      <a href="#ps-compare">Compare</a>
+    </div>
+  </nav>
+
+  <section class="ps-hero" id="top">
+    <div class="ps-hero-copy" data-reveal>
+      <p class="tpl-eyebrow">Engineered for focus</p>
+      <h1>Make the product disappear. Let the experience stay.</h1>
+      <p>A premium product template for brands that need to communicate precision, restraint, performance and trust.</p>
+      <div class="tpl-actions">
+        <a class="tpl-btn primary" href="#ps-range">Explore the range</a>
+        <a class="tpl-btn ghost" href="#ps-technology">See the details</a>
+      </div>
+    </div>
+    <div class="ps-stage" data-reveal>
+      <div class="ps-product" aria-label="Abstract product render">
+        <span></span>
+        <span></span>
+      </div>
+      {specs.map((spec, index) => <i class={`ps-chip chip-${index + 1}`}>{spec}</i>)}
+    </div>
+  </section>
+
+  <section class="ps-proof" aria-label="Product proof strip">
+    {specs.map((spec) => <span data-reveal>{spec}</span>)}
+  </section>
+
+  <section class="tpl-section ps-triptych">
+    {features.map(([title, text]) => (
+      <article data-reveal>
+        <div class="ps-feature-mark"></div>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="tpl-section ps-range" id="ps-range">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Product range</p>
+      <h2>Four configurations, one product story.</h2>
+      <p>Use this section for variants, bundles, plans or collection cards without losing premium focus.</p>
+    </div>
+    <div class="ps-range-grid">
+      {range.map(([name, category, price, benefit, items]) => (
+        <article class="ps-product-card" data-reveal>
+          <p>{category}</p>
+          <h3>{name}</h3>
+          <strong>{price}</strong>
+          <span>{benefit}</span>
+          <ul>{items.map((item) => <li>{item}</li>)}</ul>
+          <a href="#ps-final">Configure</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="tpl-section ps-tech" id="ps-technology" data-tabset>
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Technology / material breakdown</p>
+      <h2>Every detail has a job.</h2>
+    </div>
+    <div class="ps-tabs" data-reveal>
+      <div class="ps-tab-buttons" role="group" aria-label="Product detail tabs">
+        {['Acoustic core', 'Material shell', 'Control surface'].map((tab, index) => (
+          <button type="button" aria-pressed={index === 0 ? 'true' : 'false'} data-tab-button={String(index)}>{tab}</button>
+        ))}
+      </div>
+      <div class="ps-tab-panel" data-tab-panel="0">
+        <h3>Signal path</h3>
+        <p>Explain the core product technology with a diagram-like panel, plain-language benefit and supporting stats.</p>
+      </div>
+      <div class="ps-tab-panel" data-tab-panel="1" hidden>
+        <h3>Material stack</h3>
+        <p>Use layered blocks for material, finish, durability and tactile details that support the premium claim.</p>
+      </div>
+      <div class="ps-tab-panel" data-tab-panel="2" hidden>
+        <h3>Interaction</h3>
+        <p>Show gestures, buttons, modes or controls in a way customers can understand before purchase.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tpl-section ps-comparison" id="ps-compare">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Comparison</p>
+      <h2>Help buyers choose quickly.</h2>
+    </div>
+    <div class="ps-table" data-reveal>
+      <div><b>Model</b><b>Battery</b><b>Material</b><b>Best for</b></div>
+      <div><span>Core</span><span>28 hr</span><span>Poly shell</span><span>Everyday use</span></div>
+      <div><span>Air</span><span>36 hr</span><span>Light frame</span><span>Travel</span></div>
+      <div><span>Pro</span><span>40 hr</span><span>Alloy detail</span><span>Performance</span></div>
+      <div><span>Studio</span><span>44 hr</span><span>Reference build</span><span>Specialists</span></div>
+    </div>
+  </section>
+
+  <section class="tpl-section ps-reviews">
+    {reviews.map(([quote, source]) => (
+      <blockquote data-reveal>
+        <p>{quote}</p>
+        <cite>{source}</cite>
+      </blockquote>
+    ))}
+  </section>
+
+  <section class="ps-final" id="ps-final" data-reveal>
+    <p class="tpl-eyebrow">Ready for launch</p>
+    <h2>Build a product page that sells through clarity.</h2>
+    <a class="tpl-btn primary" href="#top">Back to product stage</a>
+  </section>
+
+  <div class="ps-sticky">
+    <span>Product Signal</span>
+    <a href="#ps-range">Explore range</a>
+  </div>
+</div>

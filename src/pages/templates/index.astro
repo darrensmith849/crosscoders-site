@@ -1,0 +1,24 @@
+---
+import TemplateLabLayout from '../../layouts/TemplateLabLayout.astro';
+import TemplateCard from '../../components/templates/TemplateCard.astro';
+import { templateCards } from '../../templates';
+---
+
+<TemplateLabLayout title="Template Lab | CrossCoders" description="Five premium website foundations for future client builds." theme="lab">
+  <section class="tl-gallery-hero">
+    <div data-reveal>
+      <p class="tl-kicker">Premium template pack</p>
+      <h1>Template Lab</h1>
+      <p>Five premium website foundations for future client builds. Each system has its own layout, rhythm, colour language, motion pattern and conversion flow.</p>
+    </div>
+    <aside data-reveal>
+      <span>5 systems</span>
+      <strong>Not one layout recoloured five times.</strong>
+      <p>Built as reusable foundations for product, place, practice, commerce and platform brands.</p>
+    </aside>
+  </section>
+
+  <section class="tl-gallery-grid" aria-label="Template previews">
+    {templateCards.map((template) => <TemplateCard template={template} />)}
+  </section>
+</TemplateLabLayout>

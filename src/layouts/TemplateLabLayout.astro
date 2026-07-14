@@ -1,0 +1,55 @@
+---
+import '../styles/templates.css';
+import { templateNav } from '../templates';
+
+interface Props {
+  title?: string;
+  description?: string;
+  theme?: string;
+}
+
+const {
+  title = 'Template Lab',
+  description = 'Five premium website foundations for future client builds.',
+  theme = 'lab',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://crosscoders.co.za').href;
+---
+
+<!doctype html>
+<html lang="en" data-template-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11100e" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <script is:inline>document.documentElement.classList.add('tpl-js');</script>
+  </head>
+  <body class="tpl-body">
+    <a class="tpl-skip" href="#main">Skip to content</a>
+    <header class="tpl-global" data-reveal>
+      <a class="tpl-brand" href="/templates" aria-label="Template Lab home">
+        <span>TL</span>
+        <b>Template Lab</b>
+      </a>
+      <nav class="tpl-global-links" aria-label="Template gallery">
+        {templateNav.slice(0, 6).map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <script src="/scripts/templates.js" defer></script>
+  </body>
+</html>

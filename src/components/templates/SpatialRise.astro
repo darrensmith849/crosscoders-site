@@ -1,0 +1,147 @@
+---
+const stats = [
+  ['Status', 'Now registering interest'],
+  ['Location', 'Northline district'],
+  ['Completion', 'Future release'],
+  ['Spaces', 'Studio / Suite / Office'],
+];
+const spaces = [
+  ['office', 'Office', '120-420 m2', 'Floors 4-8', 'Available'],
+  ['residence', 'Residence', '74-160 m2', 'Levels 9-14', 'Waitlist'],
+  ['suite', 'Suite', '45-90 m2', 'Garden edge', 'Available'],
+  ['studio', 'Studio', '38-60 m2', 'Lower court', 'Limited'],
+];
+const travel = [['Station', '4 min walk'], ['Airport', '22 min drive'], ['Waterfront', '9 min cycle'], ['Cultural quarter', '6 min walk']];
+---
+
+<div class="tpl-page sr-page">
+  <nav class="template-nav sr-nav" aria-label="Spatial Rise navigation">
+    <a href="/templates">Spatial Rise</a>
+    <div>
+      <a href="#sr-story">Story</a>
+      <a href="#sr-spaces">Spaces</a>
+      <button type="button" data-open-drawer="#srDrawer">Request info</button>
+    </div>
+  </nav>
+
+  <section class="sr-hero">
+    <div class="sr-hero-media" data-reveal>
+      <div class="sr-panel one"></div>
+      <div class="sr-panel two"></div>
+      <div class="sr-panel three"></div>
+    </div>
+    <div class="sr-hero-copy" data-reveal>
+      <p class="tpl-eyebrow">A place designed to be felt</p>
+      <h1>Architecture for the next chapter.</h1>
+      <p>A spatial template for developments, venues and destinations that need atmosphere, confidence and enquiry conversion.</p>
+      <div class="tpl-actions">
+        <a class="tpl-btn primary" href="#sr-story">Explore the project</a>
+        <button class="tpl-btn ghost" type="button" data-open-drawer="#srDrawer">Request information</button>
+      </div>
+    </div>
+    <span class="sr-scroll">Scroll / chapters</span>
+  </section>
+
+  <section class="sr-status">
+    {stats.map(([label, value]) => (
+      <div data-reveal>
+        <span>{label}</span>
+        <strong>{value}</strong>
+      </div>
+    ))}
+  </section>
+
+  <section class="tpl-section sr-story" id="sr-story">
+    <article class="sr-chapter" data-reveal>
+      <div class="sr-chapter-image"></div>
+      <div>
+        <p class="tpl-eyebrow">Chapter 01 / Project story</p>
+        <h2>Designed around arrival, light and a slower daily rhythm.</h2>
+        <p>The template uses large image chapters, concise editorial copy and enquiry prompts to guide visitors from atmosphere into action.</p>
+        <blockquote>"A spatial page should make the visitor feel the place before it asks them to enquire."</blockquote>
+      </div>
+    </article>
+    <article class="sr-chapter reverse" data-reveal>
+      <div>
+        <p class="tpl-eyebrow">Chapter 02 / Architecture</p>
+        <h2>Material, proportion and movement become the story.</h2>
+        <p>Use this chapter for facade logic, interior mood, sustainability notes, amenity design or hospitality details.</p>
+      </div>
+      <div class="sr-chapter-image warm"></div>
+    </article>
+  </section>
+
+  <section class="tpl-section sr-location">
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Location</p>
+      <h2>A destination connected to the daily map.</h2>
+    </div>
+    <div class="sr-map" data-reveal>
+      <div class="sr-map-card">
+        <span>Map placeholder</span>
+        <strong>Northline / civic edge</strong>
+      </div>
+      <div class="sr-travel">
+        {travel.map(([place, time]) => <p><b>{time}</b><span>{place}</span></p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="tpl-section sr-spaces" id="sr-spaces" data-filter-set>
+    <div class="tpl-section-head" data-reveal>
+      <p class="tpl-eyebrow">Spaces selector</p>
+      <h2>Let visitors compare the right space.</h2>
+    </div>
+    <div class="sr-filters" role="group" aria-label="Space filters" data-reveal>
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="office" aria-pressed="false">Office</button>
+      <button type="button" data-filter="residence" aria-pressed="false">Residence</button>
+      <button type="button" data-filter="suite" aria-pressed="false">Suite</button>
+      <button type="button" data-filter="studio" aria-pressed="false">Studio</button>
+    </div>
+    <div class="sr-space-grid">
+      {spaces.map(([type, name, size, floor, status]) => (
+        <article data-filter-item={type} data-reveal>
+          <span>{status}</span>
+          <h3>{name}</h3>
+          <p>{size}</p>
+          <p>{floor}</p>
+          <button type="button" data-open-drawer="#srDrawer">Enquire</button>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="tpl-section sr-gallery" aria-label="Gallery">
+    {['Lobby arrival', 'Garden court', 'Evening terrace'].map((item, index) => (
+      <button type="button" class={`sr-gallery-item tone-${index + 1}`} data-lightbox-source data-title={item} data-tone={`tone-${index + 1}`} data-reveal>
+        <span>{item}</span>
+      </button>
+    ))}
+  </section>
+
+  <section class="sr-enquiry" data-reveal>
+    <h2>Request the information pack.</h2>
+    <p>Use this CTA for property brochures, event enquiries, venue tours or registration forms.</p>
+    <button class="tpl-btn primary" type="button" data-open-drawer="#srDrawer">Request information</button>
+  </section>
+
+  <div class="tpl-drawer" id="srDrawer" aria-hidden="true">
+    <div>
+      <button type="button" data-close-drawer>Close</button>
+      <h2>Request information</h2>
+      <form onsubmit="return false">
+        <label>Name<input type="text" placeholder="Your name" /></label>
+        <label>Email<input type="email" placeholder="you@example.com" /></label>
+        <label>Interest<select><option>Office</option><option>Residence</option><option>Suite</option><option>Studio</option></select></label>
+        <button type="submit">Send enquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="tpl-lightbox" id="templateLightbox" aria-hidden="true">
+    <button type="button" data-close-drawer>Close</button>
+    <div class="lightbox-image" data-lightbox-image></div>
+    <h2 data-lightbox-title>Gallery view</h2>
+  </div>
+</div>

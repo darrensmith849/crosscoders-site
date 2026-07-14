@@ -1,0 +1,24 @@
+---
+interface TemplateCard {
+  slug: string;
+  name: string;
+  bestFor: string;
+  description: string;
+  tag: string;
+  className: string;
+}
+
+const { template } = Astro.props as { template: TemplateCard };
+---
+
+<a class={`tl-card ${template.className}`} href={`/templates/${template.slug}`} data-reveal>
+  <div class="tl-card-preview" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="tl-card-copy">
+    <p>{template.tag}</p>
+    <h2>{template.name}</h2>
+    <strong>Best for: {template.bestFor}</strong>
+    <span>{template.description}</span>
+  </div>
+</a>
