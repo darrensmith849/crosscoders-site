@@ -1,18 +1,45 @@
 ---
-const stats = [['Since', '2016'], ['Projects', '128'], ['Countries', '12'], ['Satisfaction', 'Client reported'], ['Awards', 'Placeholder']];
+const stats = [
+  ['Recognition', 'Selected client work'],
+  ['Engagement', 'Senior-led'],
+  ['Method', 'Diagnosis first'],
+  ['Output', 'Clear handover'],
+];
+
 const principles = [
-  ['Considered', 'Every engagement starts with clear diagnosis, context and a point of view.'],
-  ['Crafted', 'Work is shaped with care across strategy, delivery and communication.'],
-  ['Lasting', 'The aim is useful work that holds up after launch, handover or publication.'],
+  ['Clarity first', 'Every engagement begins by turning ambiguity into a practical frame for decisions.'],
+  ['Evidence over theatre', 'Recommendations are shaped from interviews, artefacts, constraints and the operating reality.'],
+  ['Taste in delivery', 'Implementation is not just execution. It is judgement, restraint and care under constraint.'],
 ];
+
 const services = [
-  ['Strategy', 'Positioning, discovery, product framing and decision support.'],
-  ['Design', 'Identity, digital systems, spaces, service design and communication.'],
-  ['Advisory', 'Senior guidance for teams navigating high-stakes change.'],
-  ['Delivery', 'Implementation support, documentation, supplier coordination and launch.'],
-  ['Audit', 'A clear assessment of what works, what is weak and what should change.'],
-  ['Support', 'Ongoing retainers, workshops and practical improvement cycles.'],
+  ['Strategy', 'Positioning, discovery, service framing and senior decision support.', 'When leadership needs a sharper frame before committing money, people or momentum.', 'Strategic brief, decision map and priority sequence.'],
+  ['Design', 'Identity, digital systems, spaces, service design and communication.', 'When the practice needs a more credible presence or a clearer client-facing system.', 'Creative direction, design system and launch-ready assets.'],
+  ['Advisory', 'Senior guidance for teams navigating change, risk or important decisions.', 'When internal teams need an outside perspective without losing ownership of the work.', 'Working sessions, recommendations and decision notes.'],
+  ['Delivery', 'Implementation support, supplier coordination, documentation and launch.', 'When the plan is agreed, but execution needs structure, standards and momentum.', 'Delivery plan, production oversight and handover pack.'],
+  ['Audit', 'A clear assessment of what works, what is weak and what should change next.', 'When existing work is hard to evaluate and the next useful action is unclear.', 'Evidence review, risk register and action plan.'],
+  ['Support', 'Ongoing retainers, workshops and practical improvement cycles.', 'When the work needs senior continuity after launch or during organisational change.', 'Advisory rhythm, workshop notes and improvement backlog.'],
 ];
+
+const cases = [
+  ['01', 'Northline advisory system', 'Strategy / Delivery', 'Sharper operating model'],
+  ['02', 'Atelier practice launch', 'Identity / Digital', 'Stronger trust signal'],
+  ['03', 'Civic service review', 'Audit / Advisory', 'Practical next-step roadmap'],
+  ['04', 'Studio operations manual', 'Design / Support', 'Clearer internal rituals'],
+];
+
+const journal = [
+  ['How to frame a complex brief', 'A short note on turning unclear requirements into a decision-ready project frame.'],
+  ['What a good audit actually includes', 'A practical look at evidence, gaps, risk and the next useful action.'],
+  ['Why delivery needs taste', 'Why implementation is not just execution, but judgement under constraint.'],
+];
+
+const images = {
+  worktable: '/img/templates/editorial-practice/worktable.jpg',
+  blueprints: '/img/templates/editorial-practice/blueprints.jpg',
+  collaboration: '/img/templates/editorial-practice/collaboration.jpg',
+  founder: '/img/templates/editorial-practice/founder.jpg',
+};
 ---
 
 <div class="tpl-page ep-page">
@@ -29,14 +56,15 @@ const services = [
     <div class="ep-hero-copy" data-reveal>
       <p class="tpl-eyebrow">Independent practice</p>
       <h1>Clear thinking, carefully delivered.</h1>
-      <p>A premium template for expert-led practices that need trust, taste and a portfolio of work.</p>
+      <p>A premium template for expert-led practices that need trust, taste, visible process and a serious portfolio of work.</p>
       <div class="tpl-actions">
         <a class="tpl-btn primary" href="#ep-consult">Start a project</a>
         <a class="tpl-btn ghost" href="#ep-services">View services</a>
       </div>
     </div>
+
     <article class="ep-featured" data-reveal>
-      <div class="ep-image"></div>
+      <img src={images.worktable} alt="Architectural plans and work materials arranged on a studio table" />
       <p>Featured project</p>
       <h2>Northline advisory system</h2>
       <dl>
@@ -47,19 +75,33 @@ const services = [
     </article>
   </section>
 
-  <section class="ep-stat-row" aria-label="Practice stats">
+  <section class="ep-stat-row" aria-label="Practice credibility">
     {stats.map(([label, value]) => <p data-reveal><span>{label}</span><strong>{value}</strong></p>)}
   </section>
 
-  <section class="tpl-section ep-about">
+  <section class="ep-image-ledger" aria-label="Practice imagery">
+    <figure data-reveal>
+      <img src={images.blueprints} alt="Detailed project documents and architectural drawings spread across a desk" loading="lazy" />
+      <figcaption>Evidence, plans and working documents.</figcaption>
+    </figure>
+    <figure data-reveal>
+      <img src={images.collaboration} alt="Two professionals reviewing documents in a bright office" loading="lazy" />
+      <figcaption>Senior collaboration before delivery.</figcaption>
+    </figure>
+  </section>
+
+  <section class="ep-about ep-manifesto">
     <div data-reveal>
       <p class="tpl-eyebrow">Philosophy</p>
       <h2>Expert work should feel calm, legible and deeply considered.</h2>
     </div>
-    <p data-reveal>This template is built for practices that need credibility without noise: a strong point of view, visible process and enough proof to start a serious conversation.</p>
+    <article data-reveal>
+      <p>This template is built for practices that do not need noise to prove value. It gives the firm a strong point of view, visible process, thoughtful proof and enough clarity for the right client to start a serious conversation.</p>
+      <blockquote>Good advisory work turns uncertainty into a frame a team can actually move through.</blockquote>
+    </article>
   </section>
 
-  <section class="tpl-section ep-principles">
+  <section class="tpl-section ep-principles" aria-label="Practice principles">
     {principles.map(([title, text], index) => (
       <article data-reveal>
         <span>{String(index + 1).padStart(2, '0')}</span>
@@ -75,10 +117,17 @@ const services = [
       <h2>Six ways the practice can help.</h2>
     </div>
     <div class="ep-service-list">
-      {services.map(([title, text]) => (
-        <details data-reveal>
+      {services.map(([title, what, when, deliverable], index) => (
+        <details data-reveal open={index === 0}>
           <summary>{title}</summary>
-          <p>{text}</p>
+          <div class="ep-service-body">
+            <p>{what}</p>
+            <dl>
+              <div><dt>When it helps</dt><dd>{when}</dd></div>
+              <div><dt>Typical deliverable</dt><dd>{deliverable}</dd></div>
+            </dl>
+            <a href="#ep-consult">Discuss this service</a>
+          </div>
         </details>
       ))}
     </div>
@@ -89,23 +138,51 @@ const services = [
       <p class="tpl-eyebrow">Case studies</p>
       <h2>Selected work index.</h2>
     </div>
-    <div class="ep-case-grid">
-      {['Atelier Row', 'Northline civic', 'Signal Works'].map((name, index) => (
+    <div class="ep-case-index">
+      {cases.map(([number, name, category, outcome]) => (
         <article data-reveal>
-          <span>0{index + 1}</span>
+          <span>{number}</span>
           <h3>{name}</h3>
-          <p>{['Practice system', 'Spatial strategy', 'Digital service'][index]}</p>
-          <a href="#ep-consult">View outline</a>
+          <p>{category}</p>
+          <strong>{outcome}</strong>
+          <a href="#ep-consult">Discuss similar work</a>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="ep-quote" data-reveal>
+  <section class="ep-method" data-reveal>
+    <div>
+      <p class="tpl-eyebrow">Method</p>
+      <h2>From unclear brief to accountable delivery.</h2>
+      <p>The page gives expert firms a way to show how they think: diagnose the real issue, define the useful move, deliver with taste and leave the client with a system they understand.</p>
+    </div>
+    <ol>
+      <li><span>01</span><strong>Diagnose</strong><p>Understand the operating reality before proposing work.</p></li>
+      <li><span>02</span><strong>Frame</strong><p>Turn complexity into options, tradeoffs and an agreed path.</p></li>
+      <li><span>03</span><strong>Deliver</strong><p>Shape implementation with clear standards and visible ownership.</p></li>
+      <li><span>04</span><strong>Handover</strong><p>Leave decisions, assets and next steps documented properly.</p></li>
+    </ol>
+  </section>
+
+  <section class="ep-profile" data-reveal>
+    <figure>
+      <img src={images.founder} alt="Professional founder portrait in a calm office" loading="lazy" />
+    </figure>
     <blockquote>
       <p>"The strongest professional sites do not shout. They clarify why the practice should be trusted."</p>
       <cite>Founder profile panel</cite>
     </blockquote>
+    <aside>
+      <span>Profile</span>
+      <h2>Senior judgement, visible process.</h2>
+      <p>A founder or partner note gives the practice a human centre: what the team believes, how it works and why clients can trust the judgement behind the recommendations.</p>
+      <ul>
+        <li>Principal-led diagnosis</li>
+        <li>Evidence before recommendations</li>
+        <li>Clear handover, not dependency</li>
+      </ul>
+    </aside>
   </section>
 
   <section class="tpl-section ep-journal">
@@ -114,11 +191,11 @@ const services = [
       <h2>Insights that prove how the team thinks.</h2>
     </div>
     <div class="ep-journal-grid">
-      {['How to frame a complex brief', 'What a good audit actually includes', 'Why delivery needs taste'].map((title) => (
+      {journal.map(([title, text]) => (
         <article data-reveal>
           <span>Insight</span>
           <h3>{title}</h3>
-          <p>Short editorial placeholder for a useful article, note or practice memo.</p>
+          <p>{text}</p>
         </article>
       ))}
     </div>
@@ -128,12 +205,14 @@ const services = [
     <div>
       <p class="tpl-eyebrow">Consultation</p>
       <h2>Start with a clear first conversation.</h2>
-      <p>Use this block for lead qualification, project fit and next-step scheduling.</p>
+      <p>Capture project fit, intake quality and next-step scheduling without making the page feel sales-heavy.</p>
     </div>
     <form onsubmit="return false">
-      <label>Name<input type="text" placeholder="Your name" /></label>
-      <label>Email<input type="email" placeholder="you@example.com" /></label>
-      <label>Project type<input type="text" placeholder="Strategy, design, advisory..." /></label>
+      <label>Name<input type="text" name="name" /></label>
+      <label>Email<input type="email" name="email" /></label>
+      <label>Company<input type="text" name="company" /></label>
+      <label>Project type<input type="text" name="project-type" /></label>
+      <label class="ep-wide">What needs clarity?<textarea name="clarity" rows="5"></textarea></label>
       <button type="submit">Request consultation</button>
     </form>
   </section>
