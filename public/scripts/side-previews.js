@@ -1,5 +1,6 @@
 (function () {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('sp-ready');
 
   if (!reduce && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
@@ -60,10 +61,30 @@
       const title = lightbox.querySelector('[data-lightbox-title]');
       const image = lightbox.querySelector('[data-lightbox-image]');
       if (title) title.textContent = button.getAttribute('data-title') || 'Gallery view';
-      if (image) image.setAttribute('class', `lightbox-image ${button.getAttribute('data-tone') || ''}`);
+      if (image) {
+        image.setAttribute('class', `lightbox-image ${button.getAttribute('data-tone') || ''}`);
+        const src = button.getAttribute('data-image');
+        image.style.backgroundImage = src ? `url("${src}")` : '';
+      }
       setOpen(lightbox, true);
     });
   });
+
+  if (!reduce && window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('[data-tilt]').forEach((card) => {
+      card.addEventListener('pointermove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        card.style.setProperty('--tilt-x', `${(-y * 4).toFixed(2)}deg`);
+        card.style.setProperty('--tilt-y', `${(x * 5).toFixed(2)}deg`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.removeProperty('--tilt-x');
+        card.style.removeProperty('--tilt-y');
+      });
+    });
+  }
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;

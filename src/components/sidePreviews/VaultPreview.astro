@@ -1,13 +1,13 @@
 ---
 const drops = [
-  ['Trading cards', 'Archive rookie set', '$420', 'Verified', 'cards', 'Serial scan matched'],
-  ['Watches', 'Field chronograph', '$1,850', 'Authenticated', 'watches', 'Service history attached'],
-  ['Art prints', 'Numbered print run', '$690', 'Private drop', 'prints', 'Edition record checked'],
-  ['Rare books', 'Signed first issue', '$240', 'Vault held', 'books', 'Signature note reviewed'],
-  ['Design objects', 'Ceramic desk piece', '$520', 'Available', 'objects', 'Condition report filed'],
-  ['Studio tools', 'Limited brass ruler', '$110', 'Limited', 'tools', 'Archive label intact'],
-  ['Event archive items', 'Founders night pass', '$160', 'Verified', 'archive', 'Origin record logged'],
-  ['Signed editions', 'Press room monograph', '$310', 'Available', 'editions', 'Inscription verified'],
+  ['Trading cards', 'Archive rookie set', '$420', 'Verified', 'cards', 'Serial scan matched', '/template-previews/vault-commerce/trading-card-slab.svg'],
+  ['Watches', 'Field chronograph', '$1,850', 'Authenticated', 'watches', 'Service history attached', '/template-previews/vault-commerce/watch-dial.svg'],
+  ['Art prints', 'Numbered print run', '$690', 'Private drop', 'prints', 'Edition record checked', '/template-previews/vault-commerce/art-print.svg'],
+  ['Rare books', 'Signed first issue', '$240', 'Vault held', 'books', 'Signature note reviewed', '/template-previews/vault-commerce/rare-book.svg'],
+  ['Design objects', 'Ceramic desk piece', '$520', 'Available', 'objects', 'Condition report filed', '/template-previews/vault-commerce/design-object.svg'],
+  ['Studio tools', 'Limited brass ruler', '$110', 'Limited', 'tools', 'Archive label intact', '/template-previews/vault-commerce/studio-tool.svg'],
+  ['Event archive items', 'Founders night pass', '$160', 'Verified', 'archive', 'Origin record logged', '/template-previews/vault-commerce/event-pass.svg'],
+  ['Signed editions', 'Press room monograph', '$310', 'Available', 'editions', 'Inscription verified', '/template-previews/vault-commerce/signed-edition.svg'],
 ];
 
 const services = [
@@ -16,6 +16,12 @@ const services = [
   ['Authenticate', 'Create confidence around signatures, editions, serials, provenance and condition.'],
   ['Trade', 'Support collector-to-collector movement with proof and clean handover.'],
   ['Vault storage', 'Hold selected items safely until the next drop, sale or private request.'],
+];
+
+const culture = [
+  ['Issue 014', 'Proof notes', 'How private inventory gets evaluated before release.'],
+  ['Issue 015', 'Condition', 'Why grading language should be plain, visible and attached to every item.'],
+  ['Issue 016', 'Market', 'What collectors need before they trust a private drop.'],
 ];
 ---
 
@@ -30,8 +36,8 @@ const services = [
   </nav>
 
   <div class="vault-ticker" aria-hidden="true">
-    <span>Private drops / authenticated goods / verified inventory / collector services /</span>
-    <span>Private drops / authenticated goods / verified inventory / collector services /</span>
+    <span>Private drops / authenticated goods / verified inventory / condition reports / chain of custody / collector services /</span>
+    <span>Private drops / authenticated goods / verified inventory / condition reports / chain of custody / collector services /</span>
   </div>
 
   <section class="vault-hero">
@@ -46,12 +52,19 @@ const services = [
     </div>
 
     <div class="vault-stage" data-reveal>
-      <article class="vault-specimen" aria-label="Featured vault item">
+      <div class="vault-status-lights" aria-label="Vault status">
+        <span>Intake online</span>
+        <span>Proof locked</span>
+        <span>Drop armed</span>
+      </div>
+      <article class="vault-specimen" aria-label="Featured vault item" data-tilt>
         <div class="vault-specimen-top">
           <span>Vault item / 001</span>
           <b>Verified</b>
         </div>
-        <div class="vault-item-art"><i></i><i></i><i></i></div>
+        <div class="vault-item-art">
+          <img src="/template-previews/vault-commerce/trading-card-slab.svg" alt="" />
+        </div>
         <h2>Archive rookie set</h2>
         <dl>
           <div><dt>Status</dt><dd>Verified</dd></div>
@@ -70,6 +83,15 @@ const services = [
         <small>Condition report</small>
         <strong>Near mint</strong>
         <p>Edges clean. Surface mark under 2mm. Archive sleeve included.</p>
+      </aside>
+      <aside class="vault-provenance" aria-label="Provenance path">
+        <b>Provenance path</b>
+        <ol>
+          <li>Original owner logged</li>
+          <li>Archive sleeve photographed</li>
+          <li>Condition reviewed</li>
+          <li>Release approved</li>
+        </ol>
       </aside>
     </div>
   </section>
@@ -93,9 +115,9 @@ const services = [
       <button type="button" data-filter="tools" aria-pressed="false">Tools</button>
     </div>
     <div class="vault-grid">
-      {drops.map(([category, name, price, status, filter, proof]) => (
-        <article data-filter-item={filter} data-reveal>
-          <div class="vault-card-art"></div>
+      {drops.map(([category, name, price, status, filter, proof, asset]) => (
+        <article data-filter-item={filter} data-reveal data-tilt>
+          <div class="vault-card-art"><img src={asset} alt="" loading="lazy" /></div>
           <span>{status}</span>
           <h3>{name}</h3>
           <p>{category}</p>
@@ -108,11 +130,19 @@ const services = [
   </section>
 
   <section class="vault-feature" data-reveal>
-    <div class="vault-feature-art"></div>
+    <div class="vault-feature-art">
+      <img src="/template-previews/vault-commerce/signed-edition.svg" alt="" loading="lazy" />
+    </div>
     <div>
       <p>Featured specimen</p>
       <h2>Signed edition with documented handover.</h2>
-      <span>The feature block gives high-value pieces room for condition notes, proof language, provenance timeline and a collector-ready enquiry path.</span>
+      <span>A premium detail view for high-value pieces: image, condition notes, proof language, provenance timeline and a collector-ready enquiry path.</span>
+      <div class="vault-condition-grid" aria-label="Condition table">
+        <div><b>Surface</b><span>Clean</span></div>
+        <div><b>Edges</b><span>Minor wear</span></div>
+        <div><b>Edition</b><span>Numbered</span></div>
+        <div><b>Handover</b><span>Documented</span></div>
+      </div>
       <ol>
         <li>Intake photos</li>
         <li>Edition check</li>
@@ -157,11 +187,16 @@ const services = [
       <p>Culture log</p>
       <h2>Drops need context, not just stock.</h2>
     </div>
-    <article>
-      <span>Log 014</span>
-      <h3>How private inventory gets evaluated before release.</h3>
-      <p>Use the culture rail for collection stories, release notes, condition education and founder commentary around the market.</p>
-    </article>
+    <div class="vault-culture-grid">
+      {culture.map(([issue, tag, title]) => (
+        <article>
+          <span>{issue}</span>
+          <small>{tag}</small>
+          <h3>{title}</h3>
+          <p>Short-form editorial context for collectors who want to understand the proof behind a drop.</p>
+        </article>
+      ))}
+    </div>
   </section>
 
   <section class="vault-request" id="vault-request" data-reveal>
@@ -173,7 +208,11 @@ const services = [
     <form onsubmit="return false" aria-label="Request a hunt">
       <label>Email<input type="email" name="email" /></label>
       <label>Target item<input type="text" name="target" /></label>
+      <label>Category<select name="category"><option>Trading cards</option><option>Watches</option><option>Art prints</option><option>Rare books</option><option>Design objects</option><option>Studio tools</option><option>Event archive items</option><option>Signed editions</option></select></label>
       <label>Budget range<input type="text" name="budget" /></label>
+      <label>Condition preference<select name="condition"><option>Verified only</option><option>Near mint or better</option><option>Open to graded wear</option></select></label>
+      <label>Timeline<select name="timeline"><option>Ready now</option><option>Within 30 days</option><option>Long-term hunt</option></select></label>
+      <label class="vault-notes">Notes<textarea name="notes" rows="4"></textarea></label>
       <button type="submit">Request hunt</button>
     </form>
   </section>

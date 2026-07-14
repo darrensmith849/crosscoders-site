@@ -19,6 +19,15 @@ const spaces = [
   ['suite', 'Suite', '45-90 m2', 'Garden edge', 'Available'],
   ['studio', 'Studio', '38-60 m2', 'Lower court', 'Limited'],
 ];
+
+const gallery = [
+  ['Lobby arrival', 'tone-1', '/template-previews/spatial-rise/lobby-arrival.svg'],
+  ['Garden court', 'tone-2', '/template-previews/spatial-rise/garden-court.svg'],
+  ['Evening terrace', 'tone-3', '/template-previews/spatial-rise/shared-terrace.svg'],
+  ['Material study', 'tone-4', '/template-previews/spatial-rise/material-study.svg'],
+  ['Facade detail', 'tone-5', '/template-previews/spatial-rise/facade-study.svg'],
+  ['Spatial plan', 'tone-6', '/template-previews/spatial-rise/spatial-plan.svg'],
+];
 ---
 
 <div class="spatial-page">
@@ -32,7 +41,10 @@ const spaces = [
   </nav>
 
   <section class="spatial-hero">
-    <div class="spatial-hero-image" data-reveal aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="spatial-hero-image" data-reveal aria-hidden="true">
+      <img src="/template-previews/spatial-rise/facade-study.svg" alt="" />
+      <span></span><span></span><span></span>
+    </div>
     <div class="spatial-hero-copy" data-reveal>
       <p>A place designed to be felt</p>
       <h1>Architecture for the next chapter.</h1>
@@ -55,7 +67,10 @@ const spaces = [
   </section>
 
   <section class="spatial-chapter spatial-arrival" id="spatial-arrival">
-    <div class="spatial-chapter-media" data-reveal aria-hidden="true"></div>
+    <div class="spatial-chapter-media" data-reveal aria-hidden="true">
+      <img src="/template-previews/spatial-rise/lobby-arrival.svg" alt="" loading="lazy" />
+      <small>Lobby arrival / threshold sequence</small>
+    </div>
     <article data-reveal>
       <p>Chapter 01 / Arrival</p>
       <h2>The first impression is quiet, grounded and deliberate.</h2>
@@ -67,9 +82,15 @@ const spaces = [
     <article data-reveal>
       <p>Chapter 02 / Architecture</p>
       <h2>Materiality carries the story from exterior to interior.</h2>
-      <span>Use this sequence for facade logic, garden courts, hospitality moments, finishes, sustainability notes and spatial decisions that build confidence.</span>
+      <span>Facade logic, garden courts, hospitality moments, finishes and sustainability notes are staged as a calm architectural narrative.</span>
+      <div class="spatial-swatches" aria-label="Material swatches">
+        <i></i><i></i><i></i><i></i>
+      </div>
     </article>
-    <div class="spatial-chapter-media warm" data-reveal aria-hidden="true"></div>
+    <div class="spatial-chapter-media warm" data-reveal aria-hidden="true">
+      <img src="/template-previews/spatial-rise/material-study.svg" alt="" loading="lazy" />
+      <small>Material study / stone, brass, shade</small>
+    </div>
   </section>
 
   <section class="spatial-experience">
@@ -82,10 +103,15 @@ const spaces = [
       <article data-reveal><span>02</span><h3>Shared terrace</h3><p>An elevated gathering edge for work, hospitality and evening light.</p></article>
       <article data-reveal><span>03</span><h3>Ground floor life</h3><p>Retail, studio and welcome spaces keep the project active at street level.</p></article>
     </div>
+    <div class="spatial-plan" data-reveal aria-label="Illustrative spatial plan">
+      <img src="/template-previews/spatial-rise/spatial-plan.svg" alt="" loading="lazy" />
+      <p>Floorplate / public edge / private court / upper terrace</p>
+    </div>
   </section>
 
   <section class="spatial-location">
     <div class="spatial-map" data-reveal aria-label="Illustrative location map">
+      <img src="/template-previews/spatial-rise/location-map.svg" alt="" loading="lazy" />
       <i></i><i></i><i></i><b>Northline / civic edge</b>
     </div>
     <div class="spatial-travel" data-reveal>
@@ -121,8 +147,9 @@ const spaces = [
   </section>
 
   <section class="spatial-gallery" aria-label="Spatial gallery">
-    {['Lobby arrival', 'Garden court', 'Evening terrace', 'Material study'].map((item, index) => (
-      <button type="button" class={`spatial-gallery-item tone-${index + 1}`} data-lightbox-source data-title={item} data-tone={`tone-${index + 1}`} data-reveal>
+    {gallery.map(([item, tone, asset]) => (
+      <button type="button" class={`spatial-gallery-item ${tone}`} data-lightbox-source data-title={item} data-tone={tone} data-image={asset} data-reveal>
+        <img src={asset} alt="" loading="lazy" />
         <span>{item}</span>
       </button>
     ))}
@@ -130,7 +157,7 @@ const spaces = [
 
   <section class="spatial-info" data-reveal>
     <h2>Request the information pack.</h2>
-    <p>Use this CTA for brochures, venue tours, registration forms or private project enquiries.</p>
+    <p>Collect brochure requests, venue tours, registration interest and private enquiries in one calm conversion moment.</p>
     <button type="button" data-open-drawer="#spatialDrawer">Request information</button>
   </section>
 
@@ -142,7 +169,10 @@ const spaces = [
       <form onsubmit="return false">
         <label>Name<input type="text" name="name" /></label>
         <label>Email<input type="email" name="email" /></label>
+        <label>Phone<input type="tel" name="phone" /></label>
         <label>Interest<select name="interest"><option>Office</option><option>Residence</option><option>Suite</option><option>Studio</option></select></label>
+        <label>Visit preference<select name="visit"><option>Information pack first</option><option>Book a private tour</option><option>Request floorplate details</option></select></label>
+        <label>Notes<textarea name="notes" rows="4"></textarea></label>
         <button type="submit">Send enquiry</button>
       </form>
     </div>

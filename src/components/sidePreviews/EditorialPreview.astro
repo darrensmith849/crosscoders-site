@@ -13,12 +13,12 @@ const principles = [
 ];
 
 const services = [
-  ['Strategy', 'Positioning, discovery, product framing and decision support.'],
-  ['Design', 'Identity, digital systems, spaces, service design and communication.'],
-  ['Advisory', 'Senior guidance for teams navigating high-stakes change.'],
-  ['Delivery', 'Implementation support, documentation, supplier coordination and launch.'],
-  ['Audit', 'A clear assessment of what works, what is weak and what should change.'],
-  ['Support', 'Ongoing retainers, workshops and practical improvement cycles.'],
+  ['Strategy', 'Positioning, discovery and decision support.', 'The brief is complex, the path is unclear, or leadership needs a sharper frame.', 'Strategic brief, decision map and priority sequence.'],
+  ['Design', 'Identity, digital systems, spaces and communication.', 'The practice needs a clearer presence, service experience or client-facing system.', 'Direction deck, design system and launch-ready assets.'],
+  ['Advisory', 'Senior guidance for teams navigating high-stakes change.', 'A team needs external judgement without handing over the whole engagement.', 'Working sessions, written recommendations and decision notes.'],
+  ['Delivery', 'Implementation support, documentation and launch.', 'The strategy is agreed, but execution needs structure, taste and momentum.', 'Delivery plan, production oversight and handover pack.'],
+  ['Audit', 'A clear assessment of what works, what is weak and what should change.', 'There is existing work, but the risks, gaps and useful next moves are hard to see.', 'Evidence review, risk register and action plan.'],
+  ['Support', 'Ongoing retainers, workshops and practical improvement cycles.', 'The work needs senior continuity after launch or during organisational change.', 'Monthly advisory rhythm, workshop notes and improvement backlog.'],
 ];
 
 const cases = [
@@ -56,6 +56,7 @@ const journal = [
       </div>
     </div>
     <article class="editorial-featured" data-reveal>
+      <img src="/template-previews/editorial-practice/case-tearsheet.svg" alt="" />
       <p>Featured project</p>
       <h2>Northline advisory system</h2>
       <dl>
@@ -77,6 +78,7 @@ const journal = [
     </div>
     <article data-reveal>
       <p>This preview is built for firms that do not need noise to prove value: just a clear point of view, visible method, sharp case summaries and a serious consultation path.</p>
+      <blockquote>Good advisory work turns uncertainty into a frame a team can actually move through.</blockquote>
     </article>
   </section>
 
@@ -96,10 +98,17 @@ const journal = [
       <h2>Six ways the practice can help.</h2>
     </header>
     <div class="editorial-service-list">
-      {services.map(([title, text], index) => (
+      {services.map(([title, what, when, deliverable], index) => (
         <details data-reveal open={index === 0}>
           <summary>{title}</summary>
-          <p>{text}</p>
+          <div class="editorial-service-body">
+            <p>{what}</p>
+            <dl>
+              <div><dt>When it helps</dt><dd>{when}</dd></div>
+              <div><dt>Typical deliverable</dt><dd>{deliverable}</dd></div>
+            </dl>
+            <a href="#editorial-consult">Discuss this service</a>
+          </div>
         </details>
       ))}
     </div>
@@ -129,9 +138,15 @@ const journal = [
       <cite>Founder profile panel</cite>
     </blockquote>
     <aside>
+      <img src="/template-previews/editorial-practice/portrait-note.svg" alt="" loading="lazy" />
       <span>Profile</span>
       <h2>Senior judgement, visible process.</h2>
-      <p>Use this panel for a founder note, partner profile or practice story that makes expertise feel human and accountable.</p>
+      <p>A founder or partner note gives the practice a human centre: what the team believes, how it works, and why clients can trust the judgement behind the recommendations.</p>
+      <ul>
+        <li>Principal-led diagnosis</li>
+        <li>Evidence before recommendations</li>
+        <li>Clear handover, not dependency</li>
+      </ul>
     </aside>
   </section>
 
@@ -155,12 +170,14 @@ const journal = [
     <div>
       <p>Consultation</p>
       <h2>Start with a clear first conversation.</h2>
-      <span>Use this form for project fit, intake quality and next-step scheduling without making the page feel sales-heavy.</span>
+      <span>Capture project fit, intake quality and next-step scheduling without making the page feel sales-heavy.</span>
     </div>
     <form onsubmit="return false" aria-label="Request consultation">
       <label>Name<input type="text" name="name" /></label>
       <label>Email<input type="email" name="email" /></label>
+      <label>Company<input type="text" name="company" /></label>
       <label>Project type<input type="text" name="project-type" /></label>
+      <label>What needs clarity?<textarea name="clarity" rows="5"></textarea></label>
       <button type="submit">Request consultation</button>
     </form>
   </section>
