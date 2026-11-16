@@ -70,4 +70,4 @@ npx wrangler pages dev dist   # serves the static site AND the functions togethe
 - The webhook only trusts requests whose `x-paystack-signature` matches an HMAC-SHA512
   of the body keyed with your secret key — so it can't be spoofed.
 - To email the team on each gift, fill in the `charge.success` case in `webhook.js`
-  (the `/api/pledge.js` function shows the Brevo pattern already in use).
+  (the `/api/pledge.js` function shows the email pattern already in use (Cloudflare Email Sending via `lib/send-email.js`)).

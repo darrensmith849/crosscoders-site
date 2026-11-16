@@ -1,13 +1,15 @@
 // Cloudflare Pages Function — POST /api/pledge
 // Handles two intents from the queue: `pledge` (intent to give toward a named
-// build) and `follow` (email updates on a build). Emails the team via Brevo and
+// build) and `follow` (email updates on a build). Emails the team via Cloudflare Email Sending and
 // sends the supporter a confirmation. No money moves — Phase 0 register-interest.
+
+import { emailConfigured, sendEmail } from '../../lib/send-email.js';
 
 const DEFAULT_TO = 'darren@2ko.co.za';
 const DEFAULT_FROM = { name: 'CrossCoders Foundation', email: 'contact@2ko.co.za' };
 
 export async function onRequestPost({ request, env }) {
-  if (!env.BREVO_API_KEY) return json({ error: 'not_configured' }, 500);
+  if (!emailConfigured(env)) return json({ error: 'not_configured' }, 500);
 
   let f;
   try { f = await request.json(); } catch { return json({ error: 'bad_request' }, 400); }
@@ -45,21 +47,14 @@ export async function onRequestPost({ request, env }) {
   </div>`;
 
   try {
-    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: { 'api-key': env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
-      body: JSON.stringify({
-        sender,
-        to: [{ email: env.APPLY_TO || DEFAULT_TO }],
-        replyTo: { email, name: (f.name || '').toString().slice(0, 80) || email },
-        subject: `${intent === 'pledge' ? `Pledge${amount ? ' ' + amount : ''}` : 'Follow'} — ${churchName}`,
-        htmlContent: teamHtml,
-      }),
+    const r = await sendEmail(env, {
+      from: sender,
+      to: env.APPLY_TO || DEFAULT_TO,
+      replyTo: { email, name: (f.name || '').toString().slice(0, 80) || email },
+      subject: `${intent === 'pledge' ? `Pledge${amount ? ' ' + amount : ''}` : 'Follow'} — ${churchName}`,
+      html: teamHtml,
     });
-    if (!r.ok) {
-      const detail = (await r.text()).slice(0, 300);
-      return json({ error: 'send_failed', status: r.status, detail }, 502);
-    }
+    if (!r.ok) return json({ error: 'send_failed', status: r.status, detail: r.detail }, 502);
   } catch {
     return json({ error: 'send_failed' }, 502);
   }
@@ -80,15 +75,11 @@ export async function onRequestPost({ request, env }) {
       </div>`;
 
   try {
-    await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: { 'api-key': env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
-      body: JSON.stringify({
-        sender,
-        to: [{ email }],
-        subject: intent === 'pledge' ? `Your pledge to ${churchName}` : `You're following ${churchName}`,
-        htmlContent: confHtml,
-      }),
+    await sendEmail(env, {
+      from: sender,
+      to: email,
+      subject: intent === 'pledge' ? `Your pledge to ${churchName}` : `You're following ${churchName}`,
+      html: confHtml,
     });
   } catch { /* best-effort */ }
 

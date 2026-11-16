@@ -1,13 +1,15 @@
 // Cloudflare Pages Function — POST /api/apply
-// Emails a Foundation application to the team via Brevo. Key held in env.BREVO_API_KEY.
+// Emails a Foundation application to the team via Cloudflare Email Sending (lib/send-email.js).
 // Sender + recipient are overridable via env (APPLY_FROM / APPLY_TO).
+
+import { emailConfigured, sendEmail } from '../../lib/send-email.js';
 
 const DEFAULT_TO = 'daniel@crosscoders.co.za';
 const DEFAULT_CC = 'darren@crosscoders.co.za';
 const DEFAULT_FROM = { name: 'CrossCoders Foundation', email: 'contact@2ko.co.za' };
 
 export async function onRequestPost({ request, env }) {
-  if (!env.BREVO_API_KEY) return json({ error: 'not_configured' }, 500);
+  if (!emailConfigured(env)) return json({ error: 'not_configured' }, 500);
 
   let f;
   try { f = await request.json(); } catch { return json({ error: 'bad_request' }, 400); }
@@ -37,22 +39,15 @@ export async function onRequestPost({ request, env }) {
     : DEFAULT_FROM;
 
   try {
-    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: { 'api-key': env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
-      body: JSON.stringify({
-        sender,
-        to: [{ email: env.APPLY_TO || DEFAULT_TO }],
-        cc: [{ email: env.APPLY_CC || DEFAULT_CC }],
-        replyTo: { email, name },
-        subject: `New build application — ${String(f.org || name).slice(0, 80)}`,
-        htmlContent: html,
-      }),
+    const r = await sendEmail(env, {
+      from: sender,
+      to: env.APPLY_TO || DEFAULT_TO,
+      cc: env.APPLY_CC || DEFAULT_CC,
+      replyTo: { email, name },
+      subject: `New build application — ${String(f.org || name).slice(0, 80)}`,
+      html,
     });
-    if (!r.ok) {
-      const detail = (await r.text()).slice(0, 300);
-      return json({ error: 'send_failed', status: r.status, detail }, 502);
-    }
+    if (!r.ok) return json({ error: 'send_failed', status: r.status, detail: r.detail }, 502);
     return json({ ok: true });
   } catch {
     return json({ error: 'send_failed' }, 502);
