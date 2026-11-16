@@ -1,0 +1,21 @@
+{
+  // Private mailer for the CrossCoders Pages site. Pages Functions can't take a
+  // `send_email` binding, but they can take a service binding to a Worker that
+  // has one, so the site reaches Cloudflare Email Sending through this Worker
+  // with no API token anywhere.
+  //
+  // No public URL: workers_dev and preview_urls are off and there are no
+  // routes, so only the `MAILER` service binding on the `crosscoders` Pages
+  // project can call it.
+  //
+  // Deploy: cd mailer && npx wrangler deploy   (Node 22+)
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "crosscoders-mailer",
+  "main": "worker.js",
+  "compatibility_date": "2026-06-18",
+  "workers_dev": false,
+  "preview_urls": false,
+  "send_email": [
+    { "name": "EMAIL", "allowed_sender_addresses": ["contact@2ko.co.za"] }
+  ]
+}
