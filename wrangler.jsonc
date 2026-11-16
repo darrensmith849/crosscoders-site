@@ -3,6 +3,11 @@
   "name": "crosscoders",
   "pages_build_output_dir": "dist",
   "compatibility_date": "2026-06-18",
+  // Email goes out through the private crosscoders-mailer Worker (mailer/),
+  // which holds the send_email binding Pages can't. Deploy the mailer first.
+  "services": [
+    { "binding": "MAILER", "service": "crosscoders-mailer" }
+  ],
   "d1_databases": [
     {
       "binding": "DB",
