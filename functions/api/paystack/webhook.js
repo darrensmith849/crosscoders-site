@@ -8,6 +8,7 @@
 //     (replacing the old turkeyvisa.co.za/?callback=gravityformspaystack one)
 
 import { isProject } from './_lib.js';
+import { emailConfigured, sendEmail } from '../../../lib/send-email.js';
 
 export async function onRequestPost({ request, env }) {
   if (!env.PAYSTACK_SECRET_KEY) return new Response('not configured', { status: 500 });
@@ -47,8 +48,8 @@ export async function onRequestPost({ request, env }) {
           // Never fail the webhook on a DB hiccup — Paystack would retry indefinitely.
         }
       }
-      // Email the giver a thank-you + a 24h personalization link (best-effort, gated on Brevo).
-      if (d.reference && env.BREVO_API_KEY && d.customer && d.customer.email) {
+      // Email the giver a thank-you + a 24h personalization link (best-effort, gated on email being configured).
+      if (d.reference && emailConfigured(env) && d.customer && d.customer.email) {
         const origin = new URL(request.url).origin;
         const link = `${origin}/give/callback?reference=${encodeURIComponent(d.reference)}` +
                      (meta.alloc_token ? `&t=${encodeURIComponent(meta.alloc_token)}` : '');
@@ -79,7 +80,7 @@ function esc(s) {
   return (s == null ? '' : String(s)).replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])).slice(0, 200);
 }
 
-// Thank-you + 24h "personalize your gift" link. Mirrors the Brevo pattern in /api/pledge.
+// Thank-you + 24h "personalize your gift" link. Sends through lib/send-email.js, like /api/pledge.
 async function sendGiftEmail(env, { email, name, amountCents, link }) {
   const sender = { name: 'CrossCoders Foundation', email: env.APPLY_FROM || 'contact@2ko.co.za' };
   const first = (name || '').toString().trim().split(/\s+/)[0] || 'friend';
@@ -92,11 +93,7 @@ async function sendGiftEmail(env, { email, name, amountCents, link }) {
     <p style="color:#8A8472;font-size:13px">After 24 hours your gift simply joins the general fund, used at our discretion to fund the builds that need it most.</p>
     <p style="color:#8A8472;font-size:13px;border-top:1px solid #eee;padding-top:12px;margin-top:18px">CrossCoders · Kingdom Come Foundation — free software for the church.</p>
   </div>`;
-  return fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: { 'api-key': env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
-    body: JSON.stringify({ sender, to: [{ email }], subject: 'Thank you for your gift — personalize it within 24h', htmlContent: html }),
-  });
+  return sendEmail(env, { from: sender, to: email, subject: 'Thank you for your gift — personalize it within 24h', html });
 }
 
 // constant-time-ish comparison so we don't leak timing on the signature check
